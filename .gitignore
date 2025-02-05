@@ -1,4 +1,3 @@
-assets/*
 runtime/*
 web/assets/*
 config/*.local.php
