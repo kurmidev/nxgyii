@@ -26,13 +26,14 @@ class AppAsset extends AssetBundle
         'css/style.css',
     ];
     public $js = [
-        //"js/chart.umd.js",
-      //"js/chart.js",
-      //"js/color-modes.js",
-      "js/bundle.min.js",  
+      "js/bundle.min.js", 
+      "js/chart.umd.js",
+      "js/chartjs.js",
+      "js/color-modes.js",
       "js/simplebar.min.js",  
       "js/utils.js",  
       "js/main.js",  
+      "js/index.js",  
     ];
     public $depends = [
         'yii\web\YiiAsset',
