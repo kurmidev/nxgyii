@@ -1,6 +1,11 @@
-<footer class="footer px-4">
-    <div><a href="https://coreui.io">CoreUI </a><a
-            href="https://coreui.io/product/free-bootstrap-admin-template/">Bootstrap Admin Template</a> © 2024
-        creativeLabs.</div>
-    <div class="ms-auto">Powered by&nbsp;<a href="https://coreui.io/docs/">CoreUI UI Components</a></div>
-</footer>
+<div id="kt_app_footer" class="app-footer ">
+    <!--begin::Footer container-->
+    <div class="app-container  container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3 ">
+        <!--begin::Copyright-->
+        <div class="text-gray-900 order-2 order-md-1">
+            <span class="text-muted fw-semibold me-1">2025©</span>
+        </div>
+        <!--end::Copyright-->
+    </div>
+    <!--end::Footer container-->
+</div>

@@ -1,891 +1,1034 @@
-<div class="body flex-grow-1">
+<div class="row g-3 g-lg-12">
 
-    <div class="container-lg px-4">
-        <div class="row g-4 mb-4">
-            <div class="col-sm-6 col-xl-3">
-                <div class="card text-white bg-primary">
-                    <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="fs-4 fw-semibold">26K <span class="fs-6 fw-normal">(-12.4%
-                                    <svg class="icon">
-                                        <use xlink:href="/images/icons/avatars/free.svg#cil-arrow-bottom"></use>
-                                    </svg>)</span></div>
-                            <div>Users</div>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn btn-transparent text-white p-0" type="button"
-                                data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <svg class="icon">
-                                    <use xlink:href="/images/icons/avatars/free.svg#cil-options"></use>
-                                </svg>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Action</a><a
-                                    class="dropdown-item" href="#">Another action</a><a class="dropdown-item"
-                                    href="#">Something else here</a></div>
-                        </div>
-                    </div>
-                    <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                        <canvas class="chart" id="card-chart1" height="140"
-                            style="display: block; box-sizing: border-box; height: 70px; width: 182px;"
-                            width="365"></canvas>
-                    </div>
-                </div>
+    <div class="col-4">
+        <!--begin::Items-->
+        <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
+            <!--begin::Stats-->
+            <div class="m-0">
+                <!--begin::Number-->
+                <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">19.19MB</span>
+                <!--end::Number-->
+                <!--begin::Desc-->
+                <span class="text-gray-500 fw-semibold fs-6">Traffic Monitored</span>
+                <!--end::Desc-->
             </div>
-            <!-- /.col-->
-            <div class="col-sm-6 col-xl-3">
-                <div class="card text-white bg-info">
-                    <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="fs-4 fw-semibold">$6.200 <span class="fs-6 fw-normal">(40.9%
-                                    <svg class="icon">
-                                        <use xlink:href="/images/icons/avatars/free.svg#cil-arrow-top"></use>
-                                    </svg>)</span></div>
-                            <div>Income</div>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn btn-transparent text-white p-0" type="button"
-                                data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <svg class="icon">
-                                    <use xlink:href="/images/icons/avatars/free.svg#cil-options"></use>
-                                </svg>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Action</a><a
-                                    class="dropdown-item" href="#">Another action</a><a class="dropdown-item"
-                                    href="#">Something else here</a></div>
-                        </div>
-                    </div>
-                    <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                        <canvas class="chart" id="card-chart2" height="140"
-                            style="display: block; box-sizing: border-box; height: 70px; width: 182px;"
-                            width="365"></canvas>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col-->
-            <div class="col-sm-6 col-xl-3">
-                <div class="card text-white bg-warning">
-                    <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="fs-4 fw-semibold">2.49% <span class="fs-6 fw-normal">(84.7%
-                                    <svg class="icon">
-                                        <use xlink:href="/images/icons/avatars/free.svg#cil-arrow-top"></use>
-                                    </svg>)</span></div>
-                            <div>Conversion Rate</div>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn btn-transparent text-white p-0" type="button"
-                                data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <svg class="icon">
-                                    <use xlink:href="/images/icons/avatars/free.svg#cil-options"></use>
-                                </svg>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Action</a><a
-                                    class="dropdown-item" href="#">Another action</a><a class="dropdown-item"
-                                    href="#">Something else here</a></div>
-                        </div>
-                    </div>
-                    <div class="c-chart-wrapper mt-3" style="height:70px;">
-                        <canvas class="chart" id="card-chart3" height="140"
-                            style="display: block; box-sizing: border-box; height: 70px; width: 214px;"
-                            width="429"></canvas>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col-->
-            <div class="col-sm-6 col-xl-3">
-                <div class="card text-white bg-danger">
-                    <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                        <div>
-                            <div class="fs-4 fw-semibold">44K <span class="fs-6 fw-normal">(-23.6%
-                                    <svg class="icon">
-                                        <use xlink:href="/images/icons/avatars/free.svg#cil-arrow-bottom"></use>
-                                    </svg>)</span></div>
-                            <div>Sessions</div>
-                        </div>
-                        <div class="dropdown">
-                            <button class="btn btn-transparent text-white p-0" type="button"
-                                data-coreui-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <svg class="icon">
-                                    <use xlink:href="/images/icons/avatars/free.svg#cil-options"></use>
-                                </svg>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="#">Action</a><a
-                                    class="dropdown-item" href="#">Another action</a><a class="dropdown-item"
-                                    href="#">Something else here</a></div>
-                        </div>
-                    </div>
-                    <div class="c-chart-wrapper mt-3 mx-3" style="height:70px;">
-                        <canvas class="chart" id="card-chart4" height="140"
-                            style="display: block; box-sizing: border-box; height: 70px; width: 182px;"
-                            width="365"></canvas>
-                        <div class="chartjs-tooltip" style="opacity: 0; left: 21.6875px; top: 107.4px;">
-                            <table style="margin: 0px;">
-                                <thead class="chartjs-tooltip-header">
-                                    <tr style="border-width: 0px;" class="chartjs-tooltip-header-item">
-                                        <th style="border-width: 0px;">January</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="chartjs-tooltip-body">
-                                    <tr class="chartjs-tooltip-body-item">
-                                        <td style="border-width: 0px;"><span
-                                                style="background: rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.55); border-width: 2px; margin-right: 10px; height: 10px; width: 10px; display: inline-block;"></span>My
-                                            First dataset: 78</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col-->
+            <!--end::Stats-->
         </div>
-        <!-- /.row-->
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h4 class="card-title mb-0">Traffic</h4>
-                        <div class="small text-body-secondary">January - July 2023</div>
-                    </div>
-                    <div class="btn-toolbar d-none d-md-block" role="toolbar" aria-label="Toolbar with buttons">
-                        <div class="btn-group btn-group-toggle mx-3" data-coreui-toggle="buttons">
-                            <input class="btn-check" id="option1" type="radio" name="options" autocomplete="off">
-                            <label class="btn btn-outline-secondary"> Day</label>
-                            <input class="btn-check" id="option2" type="radio" name="options" autocomplete="off"
-                                checked="">
-                            <label class="btn btn-outline-secondary active"> Month</label>
-                            <input class="btn-check" id="option3" type="radio" name="options" autocomplete="off">
-                            <label class="btn btn-outline-secondary"> Year</label>
-                        </div>
-                        <button class="btn btn-primary" type="button">
-                            <svg class="icon">
-                                <use xlink:href="/images/icons/avatars/free.svg#cil-cloud-download"></use>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div class="c-chart-wrapper" style="height:300px;margin-top:40px;">
-                    <canvas class="chart" id="main-chart" height="600"
-                        style="display: block; box-sizing: border-box; height: 300px; width: 904px;"
-                        width="1808"></canvas>
-                </div>
-            </div>
-            <div class="card-footer">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 row-cols-xl-5 g-4 mb-2 text-center">
-                    <div class="col">
-                        <div class="text-body-secondary">Visits</div>
-                        <div class="fw-semibold text-truncate">29.703 Users (40%)</div>
-                        <div class="progress progress-thin mt-2">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 40%"
-                                aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="text-body-secondary">Unique</div>
-                        <div class="fw-semibold text-truncate">24.093 Users (20%)</div>
-                        <div class="progress progress-thin mt-2">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 20%" aria-valuenow="20"
-                                aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="text-body-secondary">Pageviews</div>
-                        <div class="fw-semibold text-truncate">78.706 Views (60%)</div>
-                        <div class="progress progress-thin mt-2">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 60%"
-                                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="text-body-secondary">New Users</div>
-                        <div class="fw-semibold text-truncate">22.123 Users (80%)</div>
-                        <div class="progress progress-thin mt-2">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 80%" aria-valuenow="80"
-                                aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="col d-none d-xl-block">
-                        <div class="text-body-secondary">Bounce Rate</div>
-                        <div class="fw-semibold text-truncate">40.15%</div>
-                        <div class="progress progress-thin mt-2">
-                            <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="40"
-                                aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.card-->
-        <div class="row g-4 mb-4">
-            <div class="col-sm-6 col-lg-4">
-                <div class="card" style="--cui-card-cap-bg: #3b5998">
-                    <div class="card-header position-relative d-flex justify-content-center align-items-center">
-                        <svg class="icon icon-3xl text-white my-4">
-                            <use xlink:href="/images/icons/brand.svg#cib-facebook-f"></use>
-                        </svg>
-                        <div class="chart-wrapper position-absolute top-0 start-0 w-100 h-100">
-                            <canvas id="social-box-chart-1" height="90"></canvas>
-                        </div>
-                    </div>
-                    <div class="card-body row text-center">
-                        <div class="col">
-                            <div class="fs-5 fw-semibold">89k</div>
-                            <div class="text-uppercase text-body-secondary small">friends</div>
-                        </div>
-                        <div class="vr"></div>
-                        <div class="col">
-                            <div class="fs-5 fw-semibold">459</div>
-                            <div class="text-uppercase text-body-secondary small">feeds</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col-->
-            <div class="col-sm-6 col-lg-4">
-                <div class="card" style="--cui-card-cap-bg: #00aced">
-                    <div class="card-header position-relative d-flex justify-content-center align-items-center">
-                        <svg class="icon icon-3xl text-white my-4">
-                            <use xlink:href="/images/icons/brand.svg#cib-twitter"></use>
-                        </svg>
-                        <div class="chart-wrapper position-absolute top-0 start-0 w-100 h-100">
-                            <canvas id="social-box-chart-2" height="90"></canvas>
-                        </div>
-                    </div>
-                    <div class="card-body row text-center">
-                        <div class="col">
-                            <div class="fs-5 fw-semibold">973k</div>
-                            <div class="text-uppercase text-body-secondary small">followers</div>
-                        </div>
-                        <div class="vr"></div>
-                        <div class="col">
-                            <div class="fs-5 fw-semibold">1.792</div>
-                            <div class="text-uppercase text-body-secondary small">tweets</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col-->
-            <div class="col-sm-6 col-lg-4">
-                <div class="card" style="--cui-card-cap-bg: #4875b4">
-                    <div class="card-header position-relative d-flex justify-content-center align-items-center">
-                        <svg class="icon icon-3xl text-white my-4">
-                            <use xlink:href="/images/icons/brand.svg#cib-linkedin"></use>
-                        </svg>
-                        <div class="chart-wrapper position-absolute top-0 start-0 w-100 h-100">
-                            <canvas id="social-box-chart-3" height="90"></canvas>
-                        </div>
-                    </div>
-                    <div class="card-body row text-center">
-                        <div class="col">
-                            <div class="fs-5 fw-semibold">500+</div>
-                            <div class="text-uppercase text-body-secondary small">contacts</div>
-                        </div>
-                        <div class="vr"></div>
-                        <div class="col">
-                            <div class="fs-5 fw-semibold">292</div>
-                            <div class="text-uppercase text-body-secondary small">feeds</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col-->
-        </div>
-        <!-- /.row-->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card mb-4">
-                    <div class="card-header">Traffic &amp; Sales</div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="border-start border-start-4 border-start-info px-3 mb-3">
-                                            <div class="small text-body-secondary text-truncate">New Clients</div>
-                                            <div class="fs-5 fw-semibold">9.123</div>
-                                        </div>
-                                    </div>
-                                    <!-- /.col-->
-                                    <div class="col-6">
-                                        <div class="border-start border-start-4 border-start-danger px-3 mb-3">
-                                            <div class="small text-body-secondary text-truncate">Recuring Clients</div>
-                                            <div class="fs-5 fw-semibold">22.643</div>
-                                        </div>
-                                    </div>
-                                    <!-- /.col-->
-                                </div>
-                                <!-- /.row-->
-                                <hr class="mt-0">
-                                <div class="progress-group mb-4">
-                                    <div class="progress-group-prepend"><span
-                                            class="text-body-secondary small">Monday</span></div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 34%"
-                                                aria-valuenow="34" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 78%"
-                                                aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progress-group mb-4">
-                                    <div class="progress-group-prepend"><span
-                                            class="text-body-secondary small">Tuesday</span></div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 56%"
-                                                aria-valuenow="56" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 94%"
-                                                aria-valuenow="94" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progress-group mb-4">
-                                    <div class="progress-group-prepend"><span
-                                            class="text-body-secondary small">Wednesday</span></div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 12%"
-                                                aria-valuenow="12" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 67%"
-                                                aria-valuenow="67" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progress-group mb-4">
-                                    <div class="progress-group-prepend"><span
-                                            class="text-body-secondary small">Thursday</span></div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 43%"
-                                                aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 91%"
-                                                aria-valuenow="91" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progress-group mb-4">
-                                    <div class="progress-group-prepend"><span
-                                            class="text-body-secondary small">Friday</span></div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 22%"
-                                                aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 73%"
-                                                aria-valuenow="73" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progress-group mb-4">
-                                    <div class="progress-group-prepend"><span
-                                            class="text-body-secondary small">Saturday</span></div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 53%"
-                                                aria-valuenow="53" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 82%"
-                                                aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progress-group mb-4">
-                                    <div class="progress-group-prepend"><span
-                                            class="text-body-secondary small">Sunday</span></div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-info" role="progressbar" style="width: 9%"
-                                                aria-valuenow="9" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-danger" role="progressbar" style="width: 69%"
-                                                aria-valuenow="69" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.col-->
-                            <div class="col-sm-6">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="border-start border-start-4 border-start-warning px-3 mb-3">
-                                            <div class="small text-body-secondary text-truncate">Pageviews</div>
-                                            <div class="fs-5 fw-semibold">78.623</div>
-                                        </div>
-                                    </div>
-                                    <!-- /.col-->
-                                    <div class="col-6">
-                                        <div class="border-start border-start-4 border-start-success px-3 mb-3">
-                                            <div class="small text-body-secondary text-truncate">Organic</div>
-                                            <div class="fs-5 fw-semibold">49.123</div>
-                                        </div>
-                                    </div>
-                                    <!-- /.col-->
-                                </div>
-                                <!-- /.row-->
-                                <hr class="mt-0">
-                                <div class="progress-group">
-                                    <div class="progress-group-header">
-                                        <svg class="icon icon-lg me-2">
-                                            <use xlink:href="/images/icons/avatars/free.svg#cil-user"></use>
-                                        </svg>
-                                        <div>Male</div>
-                                        <div class="ms-auto fw-semibold">43%</div>
-                                    </div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 43%"
-                                                aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progress-group mb-5">
-                                    <div class="progress-group-header">
-                                        <svg class="icon icon-lg me-2">
-                                            <use xlink:href="/images/icons/avatars/free.svg#cil-user-female"></use>
-                                        </svg>
-                                        <div>Female</div>
-                                        <div class="ms-auto fw-semibold">37%</div>
-                                    </div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-warning" role="progressbar" style="width: 43%"
-                                                aria-valuenow="43" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progress-group">
-                                    <div class="progress-group-header">
-                                        <svg class="icon icon-lg me-2">
-                                            <use xlink:href="/images/icons/brand.svg#cib-google"></use>
-                                        </svg>
-                                        <div>Organic Search</div>
-                                        <div class="ms-auto fw-semibold me-2">191.235</div>
-                                        <div class="text-body-secondary small">(56%)</div>
-                                    </div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 56%"
-                                                aria-valuenow="56" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progress-group">
-                                    <div class="progress-group-header">
-                                        <svg class="icon icon-lg me-2">
-                                            <use xlink:href="/images/icons/brand.svg#cib-facebook-f"></use>
-                                        </svg>
-                                        <div>Facebook</div>
-                                        <div class="ms-auto fw-semibold me-2">51.223</div>
-                                        <div class="text-body-secondary small">(15%)</div>
-                                    </div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 15%"
-                                                aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progress-group">
-                                    <div class="progress-group-header">
-                                        <svg class="icon icon-lg me-2">
-                                            <use xlink:href="/images/icons/brand.svg#cib-twitter"></use>
-                                        </svg>
-                                        <div>Twitter</div>
-                                        <div class="ms-auto fw-semibold me-2">37.564</div>
-                                        <div class="text-body-secondary small">(11%)</div>
-                                    </div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 11%"
-                                                aria-valuenow="11" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="progress-group">
-                                    <div class="progress-group-header">
-                                        <svg class="icon icon-lg me-2">
-                                            <use xlink:href="/images/icons/brand.svg#cib-linkedin"></use>
-                                        </svg>
-                                        <div>LinkedIn</div>
-                                        <div class="ms-auto fw-semibold me-2">27.319</div>
-                                        <div class="text-body-secondary small">(8%)</div>
-                                    </div>
-                                    <div class="progress-group-bars">
-                                        <div class="progress progress-thin">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 8%"
-                                                aria-valuenow="8" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.col-->
-                        </div>
-                        <!-- /.row--><br>
-                        <div class="table-responsive">
-                            <table class="table border mb-0">
-                                <thead class="fw-semibold text-nowrap">
-                                    <tr class="align-middle">
-                                        <th class="bg-body-secondary text-center">
-                                            <svg class="icon">
-                                                <use xlink:href="/images/icons/avatars/free.svg#cil-people"></use>
-                                            </svg>
-                                        </th>
-                                        <th class="bg-body-secondary">User</th>
-                                        <th class="bg-body-secondary text-center">Country</th>
-                                        <th class="bg-body-secondary">Usage</th>
-                                        <th class="bg-body-secondary text-center">Payment Method</th>
-                                        <th class="bg-body-secondary">Activity</th>
-                                        <th class="bg-body-secondary"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="align-middle">
-                                        <td class="text-center">
-                                            <div class="avatar avatar-md"><img class="avatar-img"
-                                                    src="/images/img/avatars/1.jpg" alt="user@email.com"><span
-                                                    class="avatar-status bg-success"></span></div>
-                                        </td>
-                                        <td>
-                                            <div class="text-nowrap">Yiorgos Avraamu</div>
-                                            <div class="small text-body-secondary text-nowrap"><span>New</span> |
-                                                Registered: Jan 1, 2023</div>
-                                        </td>
-                                        <td class="text-center">
-                                            <svg class="icon icon-xl">
-                                                <use xlink:href="/images/icons/avatars/flag.svg#cif-us"></use>
-                                            </svg>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-between align-items-baseline">
-                                                <div class="fw-semibold">50%</div>
-                                                <div class="text-nowrap small text-body-secondary ms-3">Jun 11, 2023 -
-                                                    Jul 10, 2023</div>
-                                            </div>
-                                            <div class="progress progress-thin">
-                                                <div class="progress-bar bg-success" role="progressbar"
-                                                    style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <svg class="icon icon-xl">
-                                                <use xlink:href="/images/icons/brand.svg#cib-cc-mastercard">
-                                                </use>
-                                            </svg>
-                                        </td>
-                                        <td>
-                                            <div class="small text-body-secondary">Last login</div>
-                                            <div class="fw-semibold text-nowrap">10 sec ago</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-transparent p-0" type="button"
-                                                    data-coreui-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    <svg class="icon">
-                                                        <use
-                                                            xlink:href="/images/icons/avatars/free.svg#cil-options">
-                                                        </use>
-                                                    </svg>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item"
-                                                        href="#">Info</a><a class="dropdown-item" href="#">Edit</a><a
-                                                        class="dropdown-item text-danger" href="#">Delete</a></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="align-middle">
-                                        <td class="text-center">
-                                            <div class="avatar avatar-md"><img class="avatar-img"
-                                                    src="/images/img/avatars/2.jpg" alt="user@email.com"><span
-                                                    class="avatar-status bg-danger"></span></div>
-                                        </td>
-                                        <td>
-                                            <div class="text-nowrap">Avram Tarasios</div>
-                                            <div class="small text-body-secondary text-nowrap"><span>Recurring</span> |
-                                                Registered: Jan 1, 2023</div>
-                                        </td>
-                                        <td class="text-center">
-                                            <svg class="icon icon-xl">
-                                                <use xlink:href="/images/icons/avatars/flag.svg#cif-br"></use>
-                                            </svg>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-between align-items-baseline">
-                                                <div class="fw-semibold">10%</div>
-                                                <div class="text-nowrap small text-body-secondary ms-3">Jun 11, 2023 -
-                                                    Jul 10, 2023</div>
-                                            </div>
-                                            <div class="progress progress-thin">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: 10%"
-                                                    aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <svg class="icon icon-xl">
-                                                <use xlink:href="/images/icons/brand.svg#cib-cc-visa"></use>
-                                            </svg>
-                                        </td>
-                                        <td>
-                                            <div class="small text-body-secondary">Last login</div>
-                                            <div class="fw-semibold text-nowrap">5 minutes ago</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-transparent p-0" type="button"
-                                                    data-coreui-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    <svg class="icon">
-                                                        <use
-                                                            xlink:href="/images/icons/avatars/free.svg#cil-options">
-                                                        </use>
-                                                    </svg>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item"
-                                                        href="#">Info</a><a class="dropdown-item" href="#">Edit</a><a
-                                                        class="dropdown-item text-danger" href="#">Delete</a></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="align-middle">
-                                        <td class="text-center">
-                                            <div class="avatar avatar-md"><img class="avatar-img"
-                                                    src="/images/img/avatars/3.jpg" alt="user@email.com"><span
-                                                    class="avatar-status bg-warning"></span></div>
-                                        </td>
-                                        <td>
-                                            <div class="text-nowrap">Quintin Ed</div>
-                                            <div class="small text-body-secondary text-nowrap"><span>New</span> |
-                                                Registered: Jan 1, 2023</div>
-                                        </td>
-                                        <td class="text-center">
-                                            <svg class="icon icon-xl">
-                                                <use xlink:href="/images/icons/avatars/flag.svg#cif-in"></use>
-                                            </svg>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-between align-items-baseline">
-                                                <div class="fw-semibold">74%</div>
-                                                <div class="text-nowrap small text-body-secondary ms-3">Jun 11, 2023 -
-                                                    Jul 10, 2023</div>
-                                            </div>
-                                            <div class="progress progress-thin">
-                                                <div class="progress-bar bg-warning" role="progressbar"
-                                                    style="width: 74%" aria-valuenow="74" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <svg class="icon icon-xl">
-                                                <use xlink:href="/images/icons/brand.svg#cib-cc-stripe">
-                                                </use>
-                                            </svg>
-                                        </td>
-                                        <td>
-                                            <div class="small text-body-secondary">Last login</div>
-                                            <div class="fw-semibold text-nowrap">1 hour ago</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-transparent p-0" type="button"
-                                                    data-coreui-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    <svg class="icon">
-                                                        <use
-                                                            xlink:href="/images/icons/avatars/free.svg#cil-options">
-                                                        </use>
-                                                    </svg>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item"
-                                                        href="#">Info</a><a class="dropdown-item" href="#">Edit</a><a
-                                                        class="dropdown-item text-danger" href="#">Delete</a></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="align-middle">
-                                        <td class="text-center">
-                                            <div class="avatar avatar-md"><img class="avatar-img"
-                                                    src="/images/img/avatars/4.jpg" alt="user@email.com"><span
-                                                    class="avatar-status bg-secondary"></span></div>
-                                        </td>
-                                        <td>
-                                            <div class="text-nowrap">Enéas Kwadwo</div>
-                                            <div class="small text-body-secondary text-nowrap"><span>New</span> |
-                                                Registered: Jan 1, 2023</div>
-                                        </td>
-                                        <td class="text-center">
-                                            <svg class="icon icon-xl">
-                                                <use xlink:href="/images/icons/avatars/flag.svg#cif-fr"></use>
-                                            </svg>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-between align-items-baseline">
-                                                <div class="fw-semibold">98%</div>
-                                                <div class="text-nowrap small text-body-secondary ms-3">Jun 11, 2023 -
-                                                    Jul 10, 2023</div>
-                                            </div>
-                                            <div class="progress progress-thin">
-                                                <div class="progress-bar bg-danger" role="progressbar"
-                                                    style="width: 98%" aria-valuenow="98" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <svg class="icon icon-xl">
-                                                <use xlink:href="/images/icons/brand.svg#cib-cc-paypal">
-                                                </use>
-                                            </svg>
-                                        </td>
-                                        <td>
-                                            <div class="small text-body-secondary">Last login</div>
-                                            <div class="fw-semibold text-nowrap">Last month</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-transparent p-0" type="button"
-                                                    data-coreui-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    <svg class="icon">
-                                                        <use
-                                                            xlink:href="/images/icons/avatars/free.svg#cil-options">
-                                                        </use>
-                                                    </svg>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item"
-                                                        href="#">Info</a><a class="dropdown-item" href="#">Edit</a><a
-                                                        class="dropdown-item text-danger" href="#">Delete</a></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="align-middle">
-                                        <td class="text-center">
-                                            <div class="avatar avatar-md"><img class="avatar-img"
-                                                    src="/images/img/avatars/5.jpg" alt="user@email.com"><span
-                                                    class="avatar-status bg-success"></span></div>
-                                        </td>
-                                        <td>
-                                            <div class="text-nowrap">Agapetus Tadeáš</div>
-                                            <div class="small text-body-secondary text-nowrap"><span>New</span> |
-                                                Registered: Jan 1, 2023</div>
-                                        </td>
-                                        <td class="text-center">
-                                            <svg class="icon icon-xl">
-                                                <use xlink:href="/images/icons/avatars/flag.svg#cif-es"></use>
-                                            </svg>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-between align-items-baseline">
-                                                <div class="fw-semibold">22%</div>
-                                                <div class="text-nowrap small text-body-secondary ms-3">Jun 11, 2023 -
-                                                    Jul 10, 2023</div>
-                                            </div>
-                                            <div class="progress progress-thin">
-                                                <div class="progress-bar bg-info" role="progressbar" style="width: 22%"
-                                                    aria-valuenow="22" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <svg class="icon icon-xl">
-                                                <use xlink:href="/images/icons/brand.svg#cib-cc-apple-pay">
-                                                </use>
-                                            </svg>
-                                        </td>
-                                        <td>
-                                            <div class="small text-body-secondary">Last login</div>
-                                            <div class="fw-semibold text-nowrap">Last week</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown dropup">
-                                                <button class="btn btn-transparent p-0" type="button"
-                                                    data-coreui-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    <svg class="icon">
-                                                        <use
-                                                            xlink:href="/images/icons/avatars/free.svg#cil-options">
-                                                        </use>
-                                                    </svg>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item"
-                                                        href="#">Info</a><a class="dropdown-item" href="#">Edit</a><a
-                                                        class="dropdown-item text-danger" href="#">Delete</a></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="align-middle">
-                                        <td class="text-center">
-                                            <div class="avatar avatar-md"><img class="avatar-img"
-                                                    src="/images/img/avatars/6.jpg" alt="user@email.com"><span
-                                                    class="avatar-status bg-danger"></span></div>
-                                        </td>
-                                        <td>
-                                            <div class="text-nowrap">Friderik Dávid</div>
-                                            <div class="small text-body-secondary text-nowrap"><span>New</span> |
-                                                Registered: Jan 1, 2023</div>
-                                        </td>
-                                        <td class="text-center">
-                                            <svg class="icon icon-xl">
-                                                <use xlink:href="/images/icons/avatars/flag.svg#cif-pl"></use>
-                                            </svg>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-between align-items-baseline">
-                                                <div class="fw-semibold">43%</div>
-                                                <div class="text-nowrap small text-body-secondary ms-3">Jun 11, 2023 -
-                                                    Jul 10, 2023</div>
-                                            </div>
-                                            <div class="progress progress-thin">
-                                                <div class="progress-bar bg-success" role="progressbar"
-                                                    style="width: 43%" aria-valuenow="43" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <svg class="icon icon-xl">
-                                                <use xlink:href="/images/icons/brand.svg#cib-cc-amex"></use>
-                                            </svg>
-                                        </td>
-                                        <td>
-                                            <div class="small text-body-secondary">Last login</div>
-                                            <div class="fw-semibold text-nowrap">Yesterday</div>
-                                        </td>
-                                        <td>
-                                            <div class="dropdown dropup">
-                                                <button class="btn btn-transparent p-0" type="button"
-                                                    data-coreui-toggle="dropdown" aria-haspopup="true"
-                                                    aria-expanded="false">
-                                                    <svg class="icon">
-                                                        <use
-                                                            xlink:href="/images/icons/avatars/free.svg#cil-options">
-                                                        </use>
-                                                    </svg>
-                                                </button>
-                                                <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item"
-                                                        href="#">Info</a><a class="dropdown-item" href="#">Edit</a><a
-                                                        class="dropdown-item text-danger" href="#">Delete</a></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.col-->
-        </div>
-        <!-- /.row-->
+        <!--end::Items-->
     </div>
+
+    <div class="col-4">
+        <!--begin::Items-->
+        <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
+            <!--begin::Stats-->
+            <div class="m-0">
+                <!--begin::Number-->
+                <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">1</span>
+                <!--end::Number-->
+                <!--begin::Desc-->
+                <span class="text-gray-500 fw-semibold fs-6">total Private Host</span>
+                <!--end::Desc-->
+            </div>
+            <!--end::Stats-->
+        </div>
+        <!--end::Items-->
+    </div>
+
+    <div class="col-4">
+        <!--begin::Items-->
+        <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
+            <!--begin::Stats-->
+            <div class="m-0">
+                <!--begin::Number-->
+                <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">2</span>
+                <!--end::Number-->
+                <!--begin::Desc-->
+                <span class="text-gray-500 fw-semibold fs-6">Cloud Security Threat Indication </span>
+                <!--end::Desc-->
+            </div>
+            <!--end::Stats-->
+        </div>
+        <!--end::Items-->
+    </div>
+
+    <div class="col-4">
+        <!--begin::Items-->
+        <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
+            <!--begin::Stats-->
+            <div class="m-0">
+                <!--begin::Number-->
+                <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">2</span>
+                <!--end::Number-->
+                <!--begin::Desc-->
+                <span class="text-gray-500 fw-semibold fs-6">Application</span>
+                <!--end::Desc-->
+            </div>
+            <!--end::Stats-->
+        </div>
+        <!--end::Items-->
+    </div>
+
+    <div class="col-4">
+        <!--begin::Items-->
+        <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
+            <!--begin::Stats-->
+            <div class="m-0">
+                <!--begin::Number-->
+                <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">2</span>
+                <!--end::Number-->
+                <!--begin::Desc-->
+                <span class="text-gray-500 fw-semibold fs-6">Hosted with active</span>
+                <!--end::Desc-->
+            </div>
+            <!--end::Stats-->
+        </div>
+        <!--end::Items-->
+    </div>
+
+
+    <div class="col-4">
+        <!--begin::Items-->
+        <div class="bg-gray-100 bg-opacity-70 rounded-2 px-6 py-5">
+            <!--begin::Stats-->
+            <div class="m-0">
+                <!--begin::Number-->
+                <span class="text-gray-700 fw-bolder d-block fs-2qx lh-1 ls-n1 mb-1">2</span>
+                <!--end::Number-->
+                <!--begin::Desc-->
+                <span class="text-gray-500 fw-semibold fs-6">Cloud Threat Origin Distribution</span>
+                <!--end::Desc-->
+            </div>
+            <!--end::Stats-->
+        </div>
+        <!--end::Items-->
+    </div>
+
+    <div class="col-sm-4 ">
+        <!--begin::List widget 2-->
+        <div class="card card-flush h-lg-100">
+            <!--begin::Header-->
+            <div class="card-header pt-5">
+                <!--begin::Title-->
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bold text-gray-900">Communicating Nations</span>
+                </h3>
+                <!--end::Title-->
+                <!--begin::Toolbar-->
+                <div class="card-toolbar">
+                    <!--begin::Menu-->
+                    <button class="btn btn-icon btn-color-gray-500 btn-active-color-primary justify-content-end"
+                        data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
+
+                        <i class="ki-duotone ki-dots-square fs-1"><span class="path1"></span><span
+                                class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+                    </button>
+                    <!--end::Menu-->
+                </div>
+                <!--end::Toolbar-->
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body pt-5">
+                <!--begin::Item-->
+                <div class="d-flex flex-stack">
+                    <!--begin::Title-->
+                    <a href="#" class="text-primary opacity-75-hover fs-6 fw-semibold">Ireland</a>
+                    <!--end::Title-->
+
+                    <!--begin::Action-->
+                    <button type="button"
+                        class="btn btn-icon btn-sm h-auto btn-color-gray-500 btn-active-color-primary justify-content-end">
+                        <i class="ki-duotone ki-exit-right-corner fs-2"><span class="path1"></span><span
+                                class="path2"></span></i> </button>
+                    <!--end::Action-->
+                </div>
+                <!--end::Item-->
+                <!--begin::Separator-->
+                <div class="separator separator-dashed my-3"></div>
+                <!--end::Separator-->
+                <!--begin::Item-->
+                <div class="d-flex flex-stack">
+                    <!--begin::Title-->
+                    <a href="#" class="text-primary opacity-75-hover fs-6 fw-semibold">India</a>
+                    <!--end::Title-->
+
+                    <!--begin::Action-->
+                    <button type="button"
+                        class="btn btn-icon btn-sm h-auto btn-color-gray-500 btn-active-color-primary justify-content-end">
+                        <i class="ki-duotone ki-exit-right-corner fs-2"><span class="path1"></span><span
+                                class="path2"></span></i> </button>
+                    <!--end::Action-->
+                </div>
+                <!--end::Item-->
+                <!--begin::Separator-->
+                <div class="separator separator-dashed my-3"></div>
+                <!--end::Separator-->
+                <!--begin::Item-->
+                <div class="d-flex flex-stack">
+                    <!--begin::Title-->
+                    <a href="#" class="text-primary opacity-75-hover fs-6 fw-semibold">Sweden</a>
+                    <!--end::Title-->
+                    <!--begin::Action-->
+                    <button type="button"
+                        class="btn btn-icon btn-sm h-auto btn-color-gray-500 btn-active-color-primary justify-content-end">
+                        <i class="ki-duotone ki-exit-right-corner fs-2"><span class="path1"></span><span
+                                class="path2"></span></i> </button>
+                    <!--end::Action-->
+                </div>
+                <!--end::Item-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::List widget 2-->
+    </div>
+
+   
+
+    <div class="col-6 mb-xl-5 mb-xxl-10">
+        <!--begin::Card widget 4-->
+        <div class="card card-flush h-xl-100">
+            <!--begin::Header-->
+            <div class="card-header">
+                <!--begin::Title-->
+                <div class="card-title d-flex flex-column">
+                    <!--begin::Info-->
+                    <div class="d-flex align-items-center">
+                        <!--begin::Amount-->
+                        <span class="fs-1hx fw-bold text-gray-900 me-2 lh-1 ls-n2">Threat Indicator Origin Distribution</span>
+                        <!--end::Amount-->
+                    </div>
+                    <!--end::Info-->
+                </div>
+                <!--end::Title-->
+            </div>
+            <!--end::Header-->
+
+            <!--begin::Card body-->
+            <div class="card-body pb-4 d-flex align-items-center">
+                <!--begin::Chart-->
+                <div class="d-flex flex-center">
+                    <div id="kt_card_widget_4_chart" style="min-width: 60px; min-height: 60px" data-kt-size="125"
+                        data-kt-line="18">
+                        <span></span>
+                    </div>
+                </div>
+                <!--end::Chart-->
+                <!--begin::Labels-->
+                <div class="d-flex flex-column content-justify-center w-100">
+                    <!--begin::Label-->
+                    <div class="d-flex fs-6 fw-semibold align-items-center">
+                        <!--begin::Bullet-->
+                        <div class="bullet w-8px h-6px rounded-2 bg-danger me-3"></div>
+                        <!--end::Bullet-->
+
+                        <!--begin::Label-->
+                        <div class="text-gray-500 flex-grow-1 me-4">Network</div>
+                        <!--end::Label-->
+
+                        <!--begin::Stats-->
+                        <div class="fw-bolder text-gray-700 text-xxl-end">24.1%</div>
+                        <!--end::Stats-->
+                    </div>
+                    <!--end::Label-->
+
+                    <!--begin::Label-->
+                    <div class="d-flex fs-6 fw-semibold align-items-center my-3">
+                        <!--begin::Bullet-->
+                        <div class="bullet w-8px h-6px rounded-2 bg-primary me-3"></div>
+                        <!--end::Bullet-->
+
+                        <!--begin::Label-->
+                        <div class="text-gray-500 flex-grow-1 me-4">Host</div>
+                        <!--end::Label-->
+
+                        <!--begin::Stats-->
+                        <div class="fw-bolder text-gray-700 text-xxl-end">75.7%</div>
+                        <!--end::Stats-->
+                    </div>
+                    <!--end::Label-->
+
+                    <!--begin::Label-->
+                    <div class="d-flex fs-6 fw-semibold align-items-center">
+                        <!--begin::Bullet-->
+                        <div class="bullet w-8px h-6px rounded-2 me-3" style="background-color: #E4E6EF"></div>
+                        <!--end::Bullet-->
+
+                        <!--begin::Label-->
+                        <div class="text-gray-500 flex-grow-1 me-4">Machine Learning</div>
+                        <!--end::Label-->
+
+                        <!--begin::Stats-->
+                        <div class=" fw-bolder text-gray-700 text-xxl-end">0.2%</div>
+                        <!--end::Stats-->
+                    </div>
+                    <!--end::Label-->
+                </div>
+                <!--end::Labels-->
+            </div>
+            <!--end::Card body-->
+        </div>
+        <!--end::Card widget 4-->
+    </div>
+
+    
+
+    <div class="col-sm-6 mb-5 mb-xl-10">
+        <!--begin::Chart widget 6-->
+        <div class="card card-flush h-lg-100">
+            <!--begin::Header-->
+            <div class="card-header py-7 mb-3">
+                <!--begin::Title-->
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bold text-gray-800">Top public site by data upload</span>
+                </h3>
+                <!--end::Title-->
+            </div>
+            <!--end::Header-->
+
+            <!--begin::Body-->
+            <div class="card-body py-0 ps-6 mt-n12">
+                <div id="kt_charts_widget_7" style="min-height: auto;" class="">
+                    <div id="apexchartslgm5gthaf" class="apexcharts-canvas apexchartslgm5gthaf apexcharts-theme-"
+                        style="width: auto; height: auto;"><svg id="SvgjsSvg1619" width="542" height="350"
+                            xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xmlns:svgjs="http://svgjs.dev" class="apexcharts-svg" xmlns:data="ApexChartsNS"
+                            transform="translate(0, 0)">
+                            <foreignObject x="0" y="0" width="200" height="350">
+                                <div class="apexcharts-legend" xmlns="http://www.w3.org/1999/xhtml"
+                                    style="max-height: 175px;"></div>
+                            </foreignObject>
+                            <g id="SvgjsG1621" class="apexcharts-inner apexcharts-graphical"
+                                transform="translate(105.10000610351562, 30)">
+                                <defs id="SvgjsDefs1620">
+                                    <linearGradient id="SvgjsLinearGradient1624" x1="0" y1="0" x2="0" y2="1">
+                                        <stop id="SvgjsStop1625" stop-opacity="0.4" stop-color="rgba(216,227,240,0.4)"
+                                            offset="0"></stop>
+                                        <stop id="SvgjsStop1626" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)"
+                                            offset="1"></stop>
+                                        <stop id="SvgjsStop1627" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)"
+                                            offset="1"></stop>
+                                    </linearGradient>
+                                    <clipPath id="gridRectMasklgm5gthaf">
+                                        <rect id="SvgjsRect1629" width="416.00832748413086" height="279.876" x="-2"
+                                            y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none"
+                                            stroke-dasharray="0" fill="#fff"></rect>
+                                    </clipPath>
+                                    <clipPath id="forecastMasklgm5gthaf"></clipPath>
+                                    <clipPath id="nonForecastMasklgm5gthaf"></clipPath>
+                                    <clipPath id="gridRectMarkerMasklgm5gthaf">
+                                        <rect id="SvgjsRect1630" width="416.00832748413086" height="279.876" x="-2"
+                                            y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none"
+                                            stroke-dasharray="0" fill="#fff"></rect>
+                                    </clipPath>
+                                </defs>
+                                <rect id="SvgjsRect1628" width="0" height="275.876" x="0" y="0" rx="0" ry="0"
+                                    opacity="1" stroke-width="0" stroke-dasharray="3"
+                                    fill="url(#SvgjsLinearGradient1624)" class="apexcharts-xcrosshairs" y2="275.876"
+                                    filter="none" fill-opacity="0.9"></rect>
+                                <line id="SvgjsLine1673" x1="0" y1="275.876" x2="0" y2="281.876" stroke="#e0e0e0"
+                                    stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1675" x1="51.50104093551636" y1="275.876" x2="51.50104093551636"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1677" x1="103.00208187103271" y1="275.876" x2="103.00208187103271"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1679" x1="154.50312280654907" y1="275.876" x2="154.50312280654907"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1681" x1="206.00416374206543" y1="275.876" x2="206.00416374206543"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1683" x1="257.5052046775818" y1="275.876" x2="257.5052046775818"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1685" x1="309.00624561309814" y1="275.876" x2="309.00624561309814"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1687" x1="360.5072865486145" y1="275.876" x2="360.5072865486145"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1689" x1="412.00832748413086" y1="275.876" x2="412.00832748413086"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <g id="SvgjsG1668" class="apexcharts-grid">
+                                    <g id="SvgjsG1669" class="apexcharts-gridlines-horizontal"></g>
+                                    <g id="SvgjsG1670" class="apexcharts-gridlines-vertical">
+                                        <line id="SvgjsLine1674" x1="51.50104093551636" y1="0" x2="51.50104093551636"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                        <line id="SvgjsLine1676" x1="103.00208187103271" y1="0" x2="103.00208187103271"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                        <line id="SvgjsLine1678" x1="154.50312280654907" y1="0" x2="154.50312280654907"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                        <line id="SvgjsLine1680" x1="206.00416374206543" y1="0" x2="206.00416374206543"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                        <line id="SvgjsLine1682" x1="257.5052046775818" y1="0" x2="257.5052046775818"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                        <line id="SvgjsLine1684" x1="309.00624561309814" y1="0" x2="309.00624561309814"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                        <line id="SvgjsLine1686" x1="360.5072865486145" y1="0" x2="360.5072865486145"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                    </g>
+                                    <line id="SvgjsLine1691" x1="0" y1="275.876" x2="412.00832748413086" y2="275.876"
+                                        stroke="transparent" stroke-dasharray="0" stroke-linecap="butt"></line>
+                                    <line id="SvgjsLine1690" x1="0" y1="1" x2="0" y2="275.876" stroke="transparent"
+                                        stroke-dasharray="0" stroke-linecap="butt"></line>
+                                </g>
+                                <g id="SvgjsG1671" class="apexcharts-grid-borders">
+                                    <line id="SvgjsLine1672" x1="0" y1="0" x2="0" y2="275.876" stroke="#eaeaea"
+                                        stroke-dasharray="4" stroke-linecap="butt" class="apexcharts-gridline"></line>
+                                    <line id="SvgjsLine1688" x1="412.00832748413086" y1="0" x2="412.00832748413086"
+                                        y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                        class="apexcharts-gridline"></line>
+                                </g>
+                                <g id="SvgjsG1633" class="apexcharts-bar-series apexcharts-plot-series">
+                                    <g id="SvgjsG1634" class="apexcharts-series" rel="1" seriesName="Sales"
+                                        data:realIndex="0">
+                                        <path id="SvgjsPath1639"
+                                            d="M 8.101 2.5875999999999983 L 378.3588070163727 2.5875999999999983 C 382.3588070163727 2.5875999999999983 386.3588070163727 6.587599999999998 386.3588070163727 10.587599999999998 L 386.3588070163727 44.587599999999995 C 386.3588070163727 48.587599999999995 382.3588070163727 52.587599999999995 378.3588070163727 52.587599999999995 L 8.101 52.587599999999995 C 4.101000000000001 52.587599999999995 0.101 48.587599999999995 0.101 44.587599999999995 L 0.101 10.587599999999998 C 0.101 6.587599999999998 4.101 2.5875999999999983 8.101 2.5875999999999983 Z "
+                                            fill="rgba(62,151,255,0.85)" fill-opacity="1" stroke-opacity="1"
+                                            stroke-linecap="round" stroke-width="0" stroke-dasharray="0"
+                                            class="apexcharts-bar-area" index="0"
+                                            clip-path="url(#gridRectMasklgm5gthaf)"
+                                            pathTo="M 8.101 2.5875999999999983 L 378.3588070163727 2.5875999999999983 C 382.3588070163727 2.5875999999999983 386.3588070163727 6.587599999999998 386.3588070163727 10.587599999999998 L 386.3588070163727 44.587599999999995 C 386.3588070163727 48.587599999999995 382.3588070163727 52.587599999999995 378.3588070163727 52.587599999999995 L 8.101 52.587599999999995 C 4.101000000000001 52.587599999999995 0.101 48.587599999999995 0.101 44.587599999999995 L 0.101 10.587599999999998 C 0.101 6.587599999999998 4.101 2.5875999999999983 8.101 2.5875999999999983 Z "
+                                            pathFrom="M 0.101 2.5875999999999983 L 0.101 2.5875999999999983 L 0.101 52.587599999999995 L 0.101 52.587599999999995 L 0.101 52.587599999999995 L 0.101 52.587599999999995 L 0.101 52.587599999999995 L 0.101 2.5875999999999983 Z"
+                                            cy="57.7628" cx="386.3578070163727" j="0" val="15" barHeight="50"
+                                            barWidth="386.2578070163727"></path>
+                                        <path id="SvgjsPath1645"
+                                            d="M 8.101 57.7628 L 301.10724561309814 57.7628 C 305.10724561309814 57.7628 309.10724561309814 61.7628 309.10724561309814 65.7628 L 309.10724561309814 99.7628 C 309.10724561309814 103.7628 305.10724561309814 107.7628 301.10724561309814 107.7628 L 8.101 107.7628 C 4.101000000000001 107.7628 0.101 103.7628 0.101 99.7628 L 0.101 65.7628 C 0.101 61.7628 4.101 57.7628 8.101 57.7628 Z "
+                                            fill="rgba(241,65,108,0.85)" fill-opacity="1" stroke-opacity="1"
+                                            stroke-linecap="round" stroke-width="0" stroke-dasharray="0"
+                                            class="apexcharts-bar-area" index="0"
+                                            clip-path="url(#gridRectMasklgm5gthaf)"
+                                            pathTo="M 8.101 57.7628 L 301.10724561309814 57.7628 C 305.10724561309814 57.7628 309.10724561309814 61.7628 309.10724561309814 65.7628 L 309.10724561309814 99.7628 C 309.10724561309814 103.7628 305.10724561309814 107.7628 301.10724561309814 107.7628 L 8.101 107.7628 C 4.101000000000001 107.7628 0.101 103.7628 0.101 99.7628 L 0.101 65.7628 C 0.101 61.7628 4.101 57.7628 8.101 57.7628 Z "
+                                            pathFrom="M 0.101 57.7628 L 0.101 57.7628 L 0.101 107.7628 L 0.101 107.7628 L 0.101 107.7628 L 0.101 107.7628 L 0.101 107.7628 L 0.101 57.7628 Z"
+                                            cy="112.93799999999999" cx="309.10624561309817" j="1" val="12"
+                                            barHeight="50" barWidth="309.00624561309814"></path>
+                                        <path id="SvgjsPath1651"
+                                            d="M 8.100999999999999 112.93799999999999 L 249.6062046775818 112.93799999999999 C 253.6062046775818 112.93799999999999 257.6062046775818 116.93799999999999 257.6062046775818 120.93799999999999 L 257.6062046775818 154.938 C 257.6062046775818 158.938 253.6062046775818 162.938 249.6062046775818 162.938 L 8.100999999999999 162.938 C 4.100999999999999 162.938 0.101 158.938 0.101 154.938 L 0.101 120.93799999999999 C 0.101 116.93799999999999 4.101 112.93799999999999 8.100999999999999 112.93799999999999 Z "
+                                            fill="rgba(80,205,137,0.85)" fill-opacity="1" stroke-opacity="1"
+                                            stroke-linecap="round" stroke-width="0" stroke-dasharray="0"
+                                            class="apexcharts-bar-area" index="0"
+                                            clip-path="url(#gridRectMasklgm5gthaf)"
+                                            pathTo="M 8.100999999999999 112.93799999999999 L 249.6062046775818 112.93799999999999 C 253.6062046775818 112.93799999999999 257.6062046775818 116.93799999999999 257.6062046775818 120.93799999999999 L 257.6062046775818 154.938 C 257.6062046775818 158.938 253.6062046775818 162.938 249.6062046775818 162.938 L 8.100999999999999 162.938 C 4.100999999999999 162.938 0.101 158.938 0.101 154.938 L 0.101 120.93799999999999 C 0.101 116.93799999999999 4.101 112.93799999999999 8.100999999999999 112.93799999999999 Z "
+                                            pathFrom="M 0.101 112.93799999999999 L 0.101 112.93799999999999 L 0.101 162.938 L 0.101 162.938 L 0.101 162.938 L 0.101 162.938 L 0.101 162.938 L 0.101 112.93799999999999 Z"
+                                            cy="168.11319999999998" cx="257.6052046775818" j="2" val="10" barHeight="50"
+                                            barWidth="257.5052046775818"></path>
+                                        <path id="SvgjsPath1657"
+                                            d="M 8.101 168.11319999999998 L 198.10516374206543 168.11319999999998 C 202.10516374206543 168.11319999999998 206.10516374206543 172.11319999999998 206.10516374206543 176.11319999999998 L 206.10516374206543 210.11319999999998 C 206.10516374206543 214.11319999999998 202.10516374206543 218.11319999999998 198.10516374206543 218.11319999999998 L 8.101 218.11319999999998 C 4.101000000000001 218.11319999999998 0.101 214.11319999999998 0.101 210.11319999999998 L 0.101 176.11319999999998 C 0.101 172.11319999999998 4.101 168.11319999999998 8.101 168.11319999999998 Z "
+                                            fill="rgba(255,199,0,0.85)" fill-opacity="1" stroke-opacity="1"
+                                            stroke-linecap="round" stroke-width="0" stroke-dasharray="0"
+                                            class="apexcharts-bar-area" index="0"
+                                            clip-path="url(#gridRectMasklgm5gthaf)"
+                                            pathTo="M 8.101 168.11319999999998 L 198.10516374206543 168.11319999999998 C 202.10516374206543 168.11319999999998 206.10516374206543 172.11319999999998 206.10516374206543 176.11319999999998 L 206.10516374206543 210.11319999999998 C 206.10516374206543 214.11319999999998 202.10516374206543 218.11319999999998 198.10516374206543 218.11319999999998 L 8.101 218.11319999999998 C 4.101000000000001 218.11319999999998 0.101 214.11319999999998 0.101 210.11319999999998 L 0.101 176.11319999999998 C 0.101 172.11319999999998 4.101 168.11319999999998 8.101 168.11319999999998 Z "
+                                            pathFrom="M 0.101 168.11319999999998 L 0.101 168.11319999999998 L 0.101 218.11319999999998 L 0.101 218.11319999999998 L 0.101 218.11319999999998 L 0.101 218.11319999999998 L 0.101 218.11319999999998 L 0.101 168.11319999999998 Z"
+                                            cy="223.28839999999997" cx="206.10416374206542" j="3" val="8" barHeight="50"
+                                            barWidth="206.00416374206543"></path>
+                                        <path id="SvgjsPath1663"
+                                            d="M 8.101 223.28839999999997 L 172.35464327430725 223.28839999999997 C 176.35464327430725 223.28839999999997 180.35464327430725 227.28839999999997 180.35464327430725 231.28839999999997 L 180.35464327430725 265.28839999999997 C 180.35464327430725 269.28839999999997 176.35464327430725 273.28839999999997 172.35464327430725 273.28839999999997 L 8.101 273.28839999999997 C 4.101000000000001 273.28839999999997 0.101 269.28839999999997 0.101 265.28839999999997 L 0.101 231.28839999999997 C 0.101 227.28839999999997 4.101 223.28839999999997 8.101 223.28839999999997 Z "
+                                            fill="rgba(114,57,234,0.85)" fill-opacity="1" stroke-opacity="1"
+                                            stroke-linecap="round" stroke-width="0" stroke-dasharray="0"
+                                            class="apexcharts-bar-area" index="0"
+                                            clip-path="url(#gridRectMasklgm5gthaf)"
+                                            pathTo="M 8.101 223.28839999999997 L 172.35464327430725 223.28839999999997 C 176.35464327430725 223.28839999999997 180.35464327430725 227.28839999999997 180.35464327430725 231.28839999999997 L 180.35464327430725 265.28839999999997 C 180.35464327430725 269.28839999999997 176.35464327430725 273.28839999999997 172.35464327430725 273.28839999999997 L 8.101 273.28839999999997 C 4.101000000000001 273.28839999999997 0.101 269.28839999999997 0.101 265.28839999999997 L 0.101 231.28839999999997 C 0.101 227.28839999999997 4.101 223.28839999999997 8.101 223.28839999999997 Z "
+                                            pathFrom="M 0.101 223.28839999999997 L 0.101 223.28839999999997 L 0.101 273.28839999999997 L 0.101 273.28839999999997 L 0.101 273.28839999999997 L 0.101 273.28839999999997 L 0.101 273.28839999999997 L 0.101 223.28839999999997 Z"
+                                            cy="278.4636" cx="180.35364327430725" j="4" val="7" barHeight="50"
+                                            barWidth="180.25364327430725"></path>
+                                        <g id="SvgjsG1636" class="apexcharts-bar-goals-markers">
+                                            <g id="SvgjsG1638" className="apexcharts-bar-goals-groups"
+                                                class="apexcharts-hidden-element-shown"
+                                                clip-path="url(#gridRectMarkerMasklgm5gthaf)"></g>
+                                            <g id="SvgjsG1644" className="apexcharts-bar-goals-groups"
+                                                class="apexcharts-hidden-element-shown"
+                                                clip-path="url(#gridRectMarkerMasklgm5gthaf)"></g>
+                                            <g id="SvgjsG1650" className="apexcharts-bar-goals-groups"
+                                                class="apexcharts-hidden-element-shown"
+                                                clip-path="url(#gridRectMarkerMasklgm5gthaf)"></g>
+                                            <g id="SvgjsG1656" className="apexcharts-bar-goals-groups"
+                                                class="apexcharts-hidden-element-shown"
+                                                clip-path="url(#gridRectMarkerMasklgm5gthaf)"></g>
+                                            <g id="SvgjsG1662" className="apexcharts-bar-goals-groups"
+                                                class="apexcharts-hidden-element-shown"
+                                                clip-path="url(#gridRectMarkerMasklgm5gthaf)"></g>
+                                        </g>
+                                        <g id="SvgjsG1637"
+                                            class="apexcharts-bar-shadows apexcharts-hidden-element-shown"></g>
+                                    </g>
+                                    <g id="SvgjsG1635" class="apexcharts-datalabels apexcharts-hidden-element-shown"
+                                        data:realIndex="0">
+                                        <g id="SvgjsG1641" class="apexcharts-data-labels" transform="rotate(0)"><text
+                                                id="SvgjsText1643" font-family="inherit" x="32.10000000000002"
+                                                y="33.5876" text-anchor="start" dominant-baseline="auto"
+                                                font-size="14px" font-weight="600" fill="#ffffff"
+                                                class="apexcharts-datalabel" style="font-family: inherit;"
+                                                cx="32.10000000000002" cy="33.5876">15,000</text></g>
+                                        <g id="SvgjsG1647" class="apexcharts-data-labels" transform="rotate(0)"><text
+                                                id="SvgjsText1649" font-family="inherit" x="32.10000000000002"
+                                                y="88.7628" text-anchor="start" dominant-baseline="auto"
+                                                font-size="14px" font-weight="600" fill="#ffffff"
+                                                class="apexcharts-datalabel" style="font-family: inherit;"
+                                                cx="32.10000000000002" cy="88.7628">12,000</text></g>
+                                        <g id="SvgjsG1653" class="apexcharts-data-labels" transform="rotate(0)"><text
+                                                id="SvgjsText1655" font-family="inherit" x="32.10000000000002"
+                                                y="143.938" text-anchor="start" dominant-baseline="auto"
+                                                font-size="14px" font-weight="600" fill="#ffffff"
+                                                class="apexcharts-datalabel" style="font-family: inherit;"
+                                                cx="32.10000000000002" cy="143.938">10,000</text></g>
+                                        <g id="SvgjsG1659" class="apexcharts-data-labels" transform="rotate(0)"><text
+                                                id="SvgjsText1661" font-family="inherit" x="29.099999999999994"
+                                                y="199.11319999999998" text-anchor="start" dominant-baseline="auto"
+                                                font-size="14px" font-weight="600" fill="#ffffff"
+                                                class="apexcharts-datalabel" style="font-family: inherit;"
+                                                cx="29.099999999999994" cy="199.11319999999998">8,000</text></g>
+                                        <g id="SvgjsG1665" class="apexcharts-data-labels" transform="rotate(0)"><text
+                                                id="SvgjsText1667" font-family="inherit" x="29.099999999999994"
+                                                y="254.28840000000002" text-anchor="start" dominant-baseline="auto"
+                                                font-size="14px" font-weight="600" fill="#ffffff"
+                                                class="apexcharts-datalabel" style="font-family: inherit;"
+                                                cx="29.099999999999994" cy="254.28840000000002">7,000</text></g>
+                                    </g>
+                                </g>
+                                <line id="SvgjsLine1692" x1="0" y1="0" x2="412.00832748413086" y2="0" stroke="#b6b6b6"
+                                    stroke-dasharray="0" stroke-width="1" stroke-linecap="butt"
+                                    class="apexcharts-ycrosshairs"></line>
+                                <line id="SvgjsLine1693" x1="0" y1="0" x2="412.00832748413086" y2="0"
+                                    stroke-dasharray="0" stroke-width="0" stroke-linecap="butt"
+                                    class="apexcharts-ycrosshairs-hidden"></line>
+                                <g id="SvgjsG1723" class="apexcharts-yaxis apexcharts-xaxis-inversed" rel="0">
+                                    <g id="SvgjsG1724"
+                                        class="apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g"
+                                        transform="translate(-83.5, 0)"><text id="SvgjsText1726" font-family="inherit"
+                                            x="0" y="32.095563636363636" text-anchor="start" dominant-baseline="auto"
+                                            font-size="14px" font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-yaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1727">ECR - 90%</tspan>
+                                            <title>ECR - 90%</title>
+                                        </text><text id="SvgjsText1729" font-family="inherit" x="0"
+                                            y="87.27076363636363" text-anchor="start" dominant-baseline="auto"
+                                            font-size="14px" font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-yaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1730">FGI - 82%</tspan>
+                                            <title>FGI - 82%</title>
+                                        </text><text id="SvgjsText1732" font-family="inherit" x="0"
+                                            y="142.44596363636362" text-anchor="start" dominant-baseline="auto"
+                                            font-size="14px" font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-yaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1733">EOQ - 75%</tspan>
+                                            <title>EOQ - 75%</title>
+                                        </text><text id="SvgjsText1735" font-family="inherit" x="0"
+                                            y="197.6211636363636" text-anchor="start" dominant-baseline="auto"
+                                            font-size="14px" font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-yaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1736">FMG - 60%</tspan>
+                                            <title>FMG - 60%</title>
+                                        </text><text id="SvgjsText1738" font-family="inherit" x="0"
+                                            y="252.7963636363636" text-anchor="start" dominant-baseline="auto"
+                                            font-size="14px" font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-yaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1739">PLG - 50%</tspan>
+                                            <title>PLG - 50%</title>
+                                        </text></g>
+                                </g>
+                                <g id="SvgjsG1694" class="apexcharts-xaxis apexcharts-yaxis-inversed">
+                                    <g id="SvgjsG1695" class="apexcharts-xaxis-texts-g"
+                                        transform="translate(0, -9.333333333333334)"><text id="SvgjsText1696"
+                                            font-family="inherit" x="412.00832748413086" y="305.876"
+                                            text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1698">16K</tspan>
+                                            <title>16K</title>
+                                        </text><text id="SvgjsText1699" font-family="inherit" x="360.4072865486145"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1701">14K</tspan>
+                                            <title>14K</title>
+                                        </text><text id="SvgjsText1702" font-family="inherit" x="308.8062456130981"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1704">12K</tspan>
+                                            <title>12K</title>
+                                        </text><text id="SvgjsText1705" font-family="inherit" x="257.2052046775818"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1707">10K</tspan>
+                                            <title>10K</title>
+                                        </text><text id="SvgjsText1708" font-family="inherit" x="205.60416374206542"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1710">8K</tspan>
+                                            <title>8K</title>
+                                        </text><text id="SvgjsText1711" font-family="inherit" x="154.00312280654907"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1713">6K</tspan>
+                                            <title>6K</title>
+                                        </text><text id="SvgjsText1714" font-family="inherit" x="102.40208187103269"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1716">4K</tspan>
+                                            <title>4K</title>
+                                        </text><text id="SvgjsText1717" font-family="inherit" x="50.80104093551631"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1719">2K</tspan>
+                                            <title>2K</title>
+                                        </text><text id="SvgjsText1720" font-family="inherit" x="-0.8000000000000682"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1722">0K</tspan>
+                                            <title>0K</title>
+                                        </text></g>
+                                </g>
+                                <g id="SvgjsG1740" class="apexcharts-yaxis-annotations"></g>
+                                <g id="SvgjsG1741" class="apexcharts-xaxis-annotations"></g>
+                                <g id="SvgjsG1742" class="apexcharts-point-annotations"></g>
+                            </g>
+                            <g id="SvgjsG1631" class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)">
+                            </g>
+                            <g id="SvgjsG1632" class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)">
+                            </g>
+                        </svg>
+                        <div class="apexcharts-tooltip apexcharts-theme-light">
+                            <div class="apexcharts-tooltip-title" style="font-family: inherit; font-size: 12px;"></div>
+                            <div class="apexcharts-tooltip-series-group" style="order: 1;"><span
+                                    class="apexcharts-tooltip-marker"
+                                    style="background-color: rgb(62, 151, 255);"></span>
+                                <div class="apexcharts-tooltip-text" style="font-family: inherit; font-size: 12px;">
+                                    <div class="apexcharts-tooltip-y-group"><span
+                                            class="apexcharts-tooltip-text-y-label"></span><span
+                                            class="apexcharts-tooltip-text-y-value"></span></div>
+                                    <div class="apexcharts-tooltip-goals-group"><span
+                                            class="apexcharts-tooltip-text-goals-label"></span><span
+                                            class="apexcharts-tooltip-text-goals-value"></span></div>
+                                    <div class="apexcharts-tooltip-z-group"><span
+                                            class="apexcharts-tooltip-text-z-label"></span><span
+                                            class="apexcharts-tooltip-text-z-value"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="apexcharts-yaxistooltip apexcharts-yaxistooltip-0 apexcharts-yaxistooltip-left apexcharts-theme-light">
+                            <div class="apexcharts-yaxistooltip-text"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Chart widget 6-->
+
+
+    </div>
+    <!---------------------------------------------------------------->
+
+    <div class="col-sm-6 mb-5 mb-xl-10">
+        <!--begin::Chart widget 6-->
+        <div class="card card-flush h-lg-100">
+            <!--begin::Header-->
+            <div class="card-header py-7 mb-3">
+                <!--begin::Title-->
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label fw-bold text-gray-800">Top public site by data upload</span>
+                </h3>
+                <!--end::Title-->
+            </div>
+            <!--end::Header-->
+
+            <!--begin::Body-->
+            <div class="card-body py-0 ps-6 mt-n12">
+                <div id="kt_charts_widget_7" style="min-height: auto;" class="">
+                    <div id="apexchartslgm5gthaf" class="apexcharts-canvas apexchartslgm5gthaf apexcharts-theme-"
+                        style="width: auto; height: auto;"><svg id="SvgjsSvg1619" width="542" height="350"
+                            xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            xmlns:svgjs="http://svgjs.dev" class="apexcharts-svg" xmlns:data="ApexChartsNS"
+                            transform="translate(0, 0)">
+                            <foreignObject x="0" y="0" width="200" height="350">
+                                <div class="apexcharts-legend" xmlns="http://www.w3.org/1999/xhtml"
+                                    style="max-height: 175px;"></div>
+                            </foreignObject>
+                            <g id="SvgjsG1621" class="apexcharts-inner apexcharts-graphical"
+                                transform="translate(105.10000610351562, 30)">
+                                <defs id="SvgjsDefs1620">
+                                    <linearGradient id="SvgjsLinearGradient1624" x1="0" y1="0" x2="0" y2="1">
+                                        <stop id="SvgjsStop1625" stop-opacity="0.4" stop-color="rgba(216,227,240,0.4)"
+                                            offset="0"></stop>
+                                        <stop id="SvgjsStop1626" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)"
+                                            offset="1"></stop>
+                                        <stop id="SvgjsStop1627" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)"
+                                            offset="1"></stop>
+                                    </linearGradient>
+                                    <clipPath id="gridRectMasklgm5gthaf">
+                                        <rect id="SvgjsRect1629" width="416.00832748413086" height="279.876" x="-2"
+                                            y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none"
+                                            stroke-dasharray="0" fill="#fff"></rect>
+                                    </clipPath>
+                                    <clipPath id="forecastMasklgm5gthaf"></clipPath>
+                                    <clipPath id="nonForecastMasklgm5gthaf"></clipPath>
+                                    <clipPath id="gridRectMarkerMasklgm5gthaf">
+                                        <rect id="SvgjsRect1630" width="416.00832748413086" height="279.876" x="-2"
+                                            y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none"
+                                            stroke-dasharray="0" fill="#fff"></rect>
+                                    </clipPath>
+                                </defs>
+                                <rect id="SvgjsRect1628" width="0" height="275.876" x="0" y="0" rx="0" ry="0"
+                                    opacity="1" stroke-width="0" stroke-dasharray="3"
+                                    fill="url(#SvgjsLinearGradient1624)" class="apexcharts-xcrosshairs" y2="275.876"
+                                    filter="none" fill-opacity="0.9"></rect>
+                                <line id="SvgjsLine1673" x1="0" y1="275.876" x2="0" y2="281.876" stroke="#e0e0e0"
+                                    stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1675" x1="51.50104093551636" y1="275.876" x2="51.50104093551636"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1677" x1="103.00208187103271" y1="275.876" x2="103.00208187103271"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1679" x1="154.50312280654907" y1="275.876" x2="154.50312280654907"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1681" x1="206.00416374206543" y1="275.876" x2="206.00416374206543"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1683" x1="257.5052046775818" y1="275.876" x2="257.5052046775818"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1685" x1="309.00624561309814" y1="275.876" x2="309.00624561309814"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1687" x1="360.5072865486145" y1="275.876" x2="360.5072865486145"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <line id="SvgjsLine1689" x1="412.00832748413086" y1="275.876" x2="412.00832748413086"
+                                    y2="281.876" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt"
+                                    class="apexcharts-xaxis-tick"></line>
+                                <g id="SvgjsG1668" class="apexcharts-grid">
+                                    <g id="SvgjsG1669" class="apexcharts-gridlines-horizontal"></g>
+                                    <g id="SvgjsG1670" class="apexcharts-gridlines-vertical">
+                                        <line id="SvgjsLine1674" x1="51.50104093551636" y1="0" x2="51.50104093551636"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                        <line id="SvgjsLine1676" x1="103.00208187103271" y1="0" x2="103.00208187103271"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                        <line id="SvgjsLine1678" x1="154.50312280654907" y1="0" x2="154.50312280654907"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                        <line id="SvgjsLine1680" x1="206.00416374206543" y1="0" x2="206.00416374206543"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                        <line id="SvgjsLine1682" x1="257.5052046775818" y1="0" x2="257.5052046775818"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                        <line id="SvgjsLine1684" x1="309.00624561309814" y1="0" x2="309.00624561309814"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                        <line id="SvgjsLine1686" x1="360.5072865486145" y1="0" x2="360.5072865486145"
+                                            y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                            class="apexcharts-gridline"></line>
+                                    </g>
+                                    <line id="SvgjsLine1691" x1="0" y1="275.876" x2="412.00832748413086" y2="275.876"
+                                        stroke="transparent" stroke-dasharray="0" stroke-linecap="butt"></line>
+                                    <line id="SvgjsLine1690" x1="0" y1="1" x2="0" y2="275.876" stroke="transparent"
+                                        stroke-dasharray="0" stroke-linecap="butt"></line>
+                                </g>
+                                <g id="SvgjsG1671" class="apexcharts-grid-borders">
+                                    <line id="SvgjsLine1672" x1="0" y1="0" x2="0" y2="275.876" stroke="#eaeaea"
+                                        stroke-dasharray="4" stroke-linecap="butt" class="apexcharts-gridline"></line>
+                                    <line id="SvgjsLine1688" x1="412.00832748413086" y1="0" x2="412.00832748413086"
+                                        y2="275.876" stroke="#eaeaea" stroke-dasharray="4" stroke-linecap="butt"
+                                        class="apexcharts-gridline"></line>
+                                </g>
+                                <g id="SvgjsG1633" class="apexcharts-bar-series apexcharts-plot-series">
+                                    <g id="SvgjsG1634" class="apexcharts-series" rel="1" seriesName="Sales"
+                                        data:realIndex="0">
+                                        <path id="SvgjsPath1639"
+                                            d="M 8.101 2.5875999999999983 L 378.3588070163727 2.5875999999999983 C 382.3588070163727 2.5875999999999983 386.3588070163727 6.587599999999998 386.3588070163727 10.587599999999998 L 386.3588070163727 44.587599999999995 C 386.3588070163727 48.587599999999995 382.3588070163727 52.587599999999995 378.3588070163727 52.587599999999995 L 8.101 52.587599999999995 C 4.101000000000001 52.587599999999995 0.101 48.587599999999995 0.101 44.587599999999995 L 0.101 10.587599999999998 C 0.101 6.587599999999998 4.101 2.5875999999999983 8.101 2.5875999999999983 Z "
+                                            fill="rgba(62,151,255,0.85)" fill-opacity="1" stroke-opacity="1"
+                                            stroke-linecap="round" stroke-width="0" stroke-dasharray="0"
+                                            class="apexcharts-bar-area" index="0"
+                                            clip-path="url(#gridRectMasklgm5gthaf)"
+                                            pathTo="M 8.101 2.5875999999999983 L 378.3588070163727 2.5875999999999983 C 382.3588070163727 2.5875999999999983 386.3588070163727 6.587599999999998 386.3588070163727 10.587599999999998 L 386.3588070163727 44.587599999999995 C 386.3588070163727 48.587599999999995 382.3588070163727 52.587599999999995 378.3588070163727 52.587599999999995 L 8.101 52.587599999999995 C 4.101000000000001 52.587599999999995 0.101 48.587599999999995 0.101 44.587599999999995 L 0.101 10.587599999999998 C 0.101 6.587599999999998 4.101 2.5875999999999983 8.101 2.5875999999999983 Z "
+                                            pathFrom="M 0.101 2.5875999999999983 L 0.101 2.5875999999999983 L 0.101 52.587599999999995 L 0.101 52.587599999999995 L 0.101 52.587599999999995 L 0.101 52.587599999999995 L 0.101 52.587599999999995 L 0.101 2.5875999999999983 Z"
+                                            cy="57.7628" cx="386.3578070163727" j="0" val="15" barHeight="50"
+                                            barWidth="386.2578070163727"></path>
+                                        <path id="SvgjsPath1645"
+                                            d="M 8.101 57.7628 L 301.10724561309814 57.7628 C 305.10724561309814 57.7628 309.10724561309814 61.7628 309.10724561309814 65.7628 L 309.10724561309814 99.7628 C 309.10724561309814 103.7628 305.10724561309814 107.7628 301.10724561309814 107.7628 L 8.101 107.7628 C 4.101000000000001 107.7628 0.101 103.7628 0.101 99.7628 L 0.101 65.7628 C 0.101 61.7628 4.101 57.7628 8.101 57.7628 Z "
+                                            fill="rgba(241,65,108,0.85)" fill-opacity="1" stroke-opacity="1"
+                                            stroke-linecap="round" stroke-width="0" stroke-dasharray="0"
+                                            class="apexcharts-bar-area" index="0"
+                                            clip-path="url(#gridRectMasklgm5gthaf)"
+                                            pathTo="M 8.101 57.7628 L 301.10724561309814 57.7628 C 305.10724561309814 57.7628 309.10724561309814 61.7628 309.10724561309814 65.7628 L 309.10724561309814 99.7628 C 309.10724561309814 103.7628 305.10724561309814 107.7628 301.10724561309814 107.7628 L 8.101 107.7628 C 4.101000000000001 107.7628 0.101 103.7628 0.101 99.7628 L 0.101 65.7628 C 0.101 61.7628 4.101 57.7628 8.101 57.7628 Z "
+                                            pathFrom="M 0.101 57.7628 L 0.101 57.7628 L 0.101 107.7628 L 0.101 107.7628 L 0.101 107.7628 L 0.101 107.7628 L 0.101 107.7628 L 0.101 57.7628 Z"
+                                            cy="112.93799999999999" cx="309.10624561309817" j="1" val="12"
+                                            barHeight="50" barWidth="309.00624561309814"></path>
+                                        <path id="SvgjsPath1651"
+                                            d="M 8.100999999999999 112.93799999999999 L 249.6062046775818 112.93799999999999 C 253.6062046775818 112.93799999999999 257.6062046775818 116.93799999999999 257.6062046775818 120.93799999999999 L 257.6062046775818 154.938 C 257.6062046775818 158.938 253.6062046775818 162.938 249.6062046775818 162.938 L 8.100999999999999 162.938 C 4.100999999999999 162.938 0.101 158.938 0.101 154.938 L 0.101 120.93799999999999 C 0.101 116.93799999999999 4.101 112.93799999999999 8.100999999999999 112.93799999999999 Z "
+                                            fill="rgba(80,205,137,0.85)" fill-opacity="1" stroke-opacity="1"
+                                            stroke-linecap="round" stroke-width="0" stroke-dasharray="0"
+                                            class="apexcharts-bar-area" index="0"
+                                            clip-path="url(#gridRectMasklgm5gthaf)"
+                                            pathTo="M 8.100999999999999 112.93799999999999 L 249.6062046775818 112.93799999999999 C 253.6062046775818 112.93799999999999 257.6062046775818 116.93799999999999 257.6062046775818 120.93799999999999 L 257.6062046775818 154.938 C 257.6062046775818 158.938 253.6062046775818 162.938 249.6062046775818 162.938 L 8.100999999999999 162.938 C 4.100999999999999 162.938 0.101 158.938 0.101 154.938 L 0.101 120.93799999999999 C 0.101 116.93799999999999 4.101 112.93799999999999 8.100999999999999 112.93799999999999 Z "
+                                            pathFrom="M 0.101 112.93799999999999 L 0.101 112.93799999999999 L 0.101 162.938 L 0.101 162.938 L 0.101 162.938 L 0.101 162.938 L 0.101 162.938 L 0.101 112.93799999999999 Z"
+                                            cy="168.11319999999998" cx="257.6052046775818" j="2" val="10" barHeight="50"
+                                            barWidth="257.5052046775818"></path>
+                                        <path id="SvgjsPath1657"
+                                            d="M 8.101 168.11319999999998 L 198.10516374206543 168.11319999999998 C 202.10516374206543 168.11319999999998 206.10516374206543 172.11319999999998 206.10516374206543 176.11319999999998 L 206.10516374206543 210.11319999999998 C 206.10516374206543 214.11319999999998 202.10516374206543 218.11319999999998 198.10516374206543 218.11319999999998 L 8.101 218.11319999999998 C 4.101000000000001 218.11319999999998 0.101 214.11319999999998 0.101 210.11319999999998 L 0.101 176.11319999999998 C 0.101 172.11319999999998 4.101 168.11319999999998 8.101 168.11319999999998 Z "
+                                            fill="rgba(255,199,0,0.85)" fill-opacity="1" stroke-opacity="1"
+                                            stroke-linecap="round" stroke-width="0" stroke-dasharray="0"
+                                            class="apexcharts-bar-area" index="0"
+                                            clip-path="url(#gridRectMasklgm5gthaf)"
+                                            pathTo="M 8.101 168.11319999999998 L 198.10516374206543 168.11319999999998 C 202.10516374206543 168.11319999999998 206.10516374206543 172.11319999999998 206.10516374206543 176.11319999999998 L 206.10516374206543 210.11319999999998 C 206.10516374206543 214.11319999999998 202.10516374206543 218.11319999999998 198.10516374206543 218.11319999999998 L 8.101 218.11319999999998 C 4.101000000000001 218.11319999999998 0.101 214.11319999999998 0.101 210.11319999999998 L 0.101 176.11319999999998 C 0.101 172.11319999999998 4.101 168.11319999999998 8.101 168.11319999999998 Z "
+                                            pathFrom="M 0.101 168.11319999999998 L 0.101 168.11319999999998 L 0.101 218.11319999999998 L 0.101 218.11319999999998 L 0.101 218.11319999999998 L 0.101 218.11319999999998 L 0.101 218.11319999999998 L 0.101 168.11319999999998 Z"
+                                            cy="223.28839999999997" cx="206.10416374206542" j="3" val="8" barHeight="50"
+                                            barWidth="206.00416374206543"></path>
+                                        <path id="SvgjsPath1663"
+                                            d="M 8.101 223.28839999999997 L 172.35464327430725 223.28839999999997 C 176.35464327430725 223.28839999999997 180.35464327430725 227.28839999999997 180.35464327430725 231.28839999999997 L 180.35464327430725 265.28839999999997 C 180.35464327430725 269.28839999999997 176.35464327430725 273.28839999999997 172.35464327430725 273.28839999999997 L 8.101 273.28839999999997 C 4.101000000000001 273.28839999999997 0.101 269.28839999999997 0.101 265.28839999999997 L 0.101 231.28839999999997 C 0.101 227.28839999999997 4.101 223.28839999999997 8.101 223.28839999999997 Z "
+                                            fill="rgba(114,57,234,0.85)" fill-opacity="1" stroke-opacity="1"
+                                            stroke-linecap="round" stroke-width="0" stroke-dasharray="0"
+                                            class="apexcharts-bar-area" index="0"
+                                            clip-path="url(#gridRectMasklgm5gthaf)"
+                                            pathTo="M 8.101 223.28839999999997 L 172.35464327430725 223.28839999999997 C 176.35464327430725 223.28839999999997 180.35464327430725 227.28839999999997 180.35464327430725 231.28839999999997 L 180.35464327430725 265.28839999999997 C 180.35464327430725 269.28839999999997 176.35464327430725 273.28839999999997 172.35464327430725 273.28839999999997 L 8.101 273.28839999999997 C 4.101000000000001 273.28839999999997 0.101 269.28839999999997 0.101 265.28839999999997 L 0.101 231.28839999999997 C 0.101 227.28839999999997 4.101 223.28839999999997 8.101 223.28839999999997 Z "
+                                            pathFrom="M 0.101 223.28839999999997 L 0.101 223.28839999999997 L 0.101 273.28839999999997 L 0.101 273.28839999999997 L 0.101 273.28839999999997 L 0.101 273.28839999999997 L 0.101 273.28839999999997 L 0.101 223.28839999999997 Z"
+                                            cy="278.4636" cx="180.35364327430725" j="4" val="7" barHeight="50"
+                                            barWidth="180.25364327430725"></path>
+                                        <g id="SvgjsG1636" class="apexcharts-bar-goals-markers">
+                                            <g id="SvgjsG1638" className="apexcharts-bar-goals-groups"
+                                                class="apexcharts-hidden-element-shown"
+                                                clip-path="url(#gridRectMarkerMasklgm5gthaf)"></g>
+                                            <g id="SvgjsG1644" className="apexcharts-bar-goals-groups"
+                                                class="apexcharts-hidden-element-shown"
+                                                clip-path="url(#gridRectMarkerMasklgm5gthaf)"></g>
+                                            <g id="SvgjsG1650" className="apexcharts-bar-goals-groups"
+                                                class="apexcharts-hidden-element-shown"
+                                                clip-path="url(#gridRectMarkerMasklgm5gthaf)"></g>
+                                            <g id="SvgjsG1656" className="apexcharts-bar-goals-groups"
+                                                class="apexcharts-hidden-element-shown"
+                                                clip-path="url(#gridRectMarkerMasklgm5gthaf)"></g>
+                                            <g id="SvgjsG1662" className="apexcharts-bar-goals-groups"
+                                                class="apexcharts-hidden-element-shown"
+                                                clip-path="url(#gridRectMarkerMasklgm5gthaf)"></g>
+                                        </g>
+                                        <g id="SvgjsG1637"
+                                            class="apexcharts-bar-shadows apexcharts-hidden-element-shown"></g>
+                                    </g>
+                                    <g id="SvgjsG1635" class="apexcharts-datalabels apexcharts-hidden-element-shown"
+                                        data:realIndex="0">
+                                        <g id="SvgjsG1641" class="apexcharts-data-labels" transform="rotate(0)"><text
+                                                id="SvgjsText1643" font-family="inherit" x="32.10000000000002"
+                                                y="33.5876" text-anchor="start" dominant-baseline="auto"
+                                                font-size="14px" font-weight="600" fill="#ffffff"
+                                                class="apexcharts-datalabel" style="font-family: inherit;"
+                                                cx="32.10000000000002" cy="33.5876">15,000</text></g>
+                                        <g id="SvgjsG1647" class="apexcharts-data-labels" transform="rotate(0)"><text
+                                                id="SvgjsText1649" font-family="inherit" x="32.10000000000002"
+                                                y="88.7628" text-anchor="start" dominant-baseline="auto"
+                                                font-size="14px" font-weight="600" fill="#ffffff"
+                                                class="apexcharts-datalabel" style="font-family: inherit;"
+                                                cx="32.10000000000002" cy="88.7628">12,000</text></g>
+                                        <g id="SvgjsG1653" class="apexcharts-data-labels" transform="rotate(0)"><text
+                                                id="SvgjsText1655" font-family="inherit" x="32.10000000000002"
+                                                y="143.938" text-anchor="start" dominant-baseline="auto"
+                                                font-size="14px" font-weight="600" fill="#ffffff"
+                                                class="apexcharts-datalabel" style="font-family: inherit;"
+                                                cx="32.10000000000002" cy="143.938">10,000</text></g>
+                                        <g id="SvgjsG1659" class="apexcharts-data-labels" transform="rotate(0)"><text
+                                                id="SvgjsText1661" font-family="inherit" x="29.099999999999994"
+                                                y="199.11319999999998" text-anchor="start" dominant-baseline="auto"
+                                                font-size="14px" font-weight="600" fill="#ffffff"
+                                                class="apexcharts-datalabel" style="font-family: inherit;"
+                                                cx="29.099999999999994" cy="199.11319999999998">8,000</text></g>
+                                        <g id="SvgjsG1665" class="apexcharts-data-labels" transform="rotate(0)"><text
+                                                id="SvgjsText1667" font-family="inherit" x="29.099999999999994"
+                                                y="254.28840000000002" text-anchor="start" dominant-baseline="auto"
+                                                font-size="14px" font-weight="600" fill="#ffffff"
+                                                class="apexcharts-datalabel" style="font-family: inherit;"
+                                                cx="29.099999999999994" cy="254.28840000000002">7,000</text></g>
+                                    </g>
+                                </g>
+                                <line id="SvgjsLine1692" x1="0" y1="0" x2="412.00832748413086" y2="0" stroke="#b6b6b6"
+                                    stroke-dasharray="0" stroke-width="1" stroke-linecap="butt"
+                                    class="apexcharts-ycrosshairs"></line>
+                                <line id="SvgjsLine1693" x1="0" y1="0" x2="412.00832748413086" y2="0"
+                                    stroke-dasharray="0" stroke-width="0" stroke-linecap="butt"
+                                    class="apexcharts-ycrosshairs-hidden"></line>
+                                <g id="SvgjsG1723" class="apexcharts-yaxis apexcharts-xaxis-inversed" rel="0">
+                                    <g id="SvgjsG1724"
+                                        class="apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g"
+                                        transform="translate(-83.5, 0)"><text id="SvgjsText1726" font-family="inherit"
+                                            x="0" y="32.095563636363636" text-anchor="start" dominant-baseline="auto"
+                                            font-size="14px" font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-yaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1727">ECR - 90%</tspan>
+                                            <title>ECR - 90%</title>
+                                        </text><text id="SvgjsText1729" font-family="inherit" x="0"
+                                            y="87.27076363636363" text-anchor="start" dominant-baseline="auto"
+                                            font-size="14px" font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-yaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1730">FGI - 82%</tspan>
+                                            <title>FGI - 82%</title>
+                                        </text><text id="SvgjsText1732" font-family="inherit" x="0"
+                                            y="142.44596363636362" text-anchor="start" dominant-baseline="auto"
+                                            font-size="14px" font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-yaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1733">EOQ - 75%</tspan>
+                                            <title>EOQ - 75%</title>
+                                        </text><text id="SvgjsText1735" font-family="inherit" x="0"
+                                            y="197.6211636363636" text-anchor="start" dominant-baseline="auto"
+                                            font-size="14px" font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-yaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1736">FMG - 60%</tspan>
+                                            <title>FMG - 60%</title>
+                                        </text><text id="SvgjsText1738" font-family="inherit" x="0"
+                                            y="252.7963636363636" text-anchor="start" dominant-baseline="auto"
+                                            font-size="14px" font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-yaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1739">PLG - 50%</tspan>
+                                            <title>PLG - 50%</title>
+                                        </text></g>
+                                </g>
+                                <g id="SvgjsG1694" class="apexcharts-xaxis apexcharts-yaxis-inversed">
+                                    <g id="SvgjsG1695" class="apexcharts-xaxis-texts-g"
+                                        transform="translate(0, -9.333333333333334)"><text id="SvgjsText1696"
+                                            font-family="inherit" x="412.00832748413086" y="305.876"
+                                            text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1698">16K</tspan>
+                                            <title>16K</title>
+                                        </text><text id="SvgjsText1699" font-family="inherit" x="360.4072865486145"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1701">14K</tspan>
+                                            <title>14K</title>
+                                        </text><text id="SvgjsText1702" font-family="inherit" x="308.8062456130981"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1704">12K</tspan>
+                                            <title>12K</title>
+                                        </text><text id="SvgjsText1705" font-family="inherit" x="257.2052046775818"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1707">10K</tspan>
+                                            <title>10K</title>
+                                        </text><text id="SvgjsText1708" font-family="inherit" x="205.60416374206542"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1710">8K</tspan>
+                                            <title>8K</title>
+                                        </text><text id="SvgjsText1711" font-family="inherit" x="154.00312280654907"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1713">6K</tspan>
+                                            <title>6K</title>
+                                        </text><text id="SvgjsText1714" font-family="inherit" x="102.40208187103269"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1716">4K</tspan>
+                                            <title>4K</title>
+                                        </text><text id="SvgjsText1717" font-family="inherit" x="50.80104093551631"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1719">2K</tspan>
+                                            <title>2K</title>
+                                        </text><text id="SvgjsText1720" font-family="inherit" x="-0.8000000000000682"
+                                            y="305.876" text-anchor="middle" dominant-baseline="auto" font-size="14px"
+                                            font-weight="600" fill="#403d38"
+                                            class="apexcharts-text apexcharts-xaxis-label "
+                                            style="font-family: inherit;">
+                                            <tspan id="SvgjsTspan1722">0K</tspan>
+                                            <title>0K</title>
+                                        </text></g>
+                                </g>
+                                <g id="SvgjsG1740" class="apexcharts-yaxis-annotations"></g>
+                                <g id="SvgjsG1741" class="apexcharts-xaxis-annotations"></g>
+                                <g id="SvgjsG1742" class="apexcharts-point-annotations"></g>
+                            </g>
+                            <g id="SvgjsG1631" class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)">
+                            </g>
+                            <g id="SvgjsG1632" class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)">
+                            </g>
+                        </svg>
+                        <div class="apexcharts-tooltip apexcharts-theme-light">
+                            <div class="apexcharts-tooltip-title" style="font-family: inherit; font-size: 12px;"></div>
+                            <div class="apexcharts-tooltip-series-group" style="order: 1;"><span
+                                    class="apexcharts-tooltip-marker"
+                                    style="background-color: rgb(62, 151, 255);"></span>
+                                <div class="apexcharts-tooltip-text" style="font-family: inherit; font-size: 12px;">
+                                    <div class="apexcharts-tooltip-y-group"><span
+                                            class="apexcharts-tooltip-text-y-label"></span><span
+                                            class="apexcharts-tooltip-text-y-value"></span></div>
+                                    <div class="apexcharts-tooltip-goals-group"><span
+                                            class="apexcharts-tooltip-text-goals-label"></span><span
+                                            class="apexcharts-tooltip-text-goals-value"></span></div>
+                                    <div class="apexcharts-tooltip-z-group"><span
+                                            class="apexcharts-tooltip-text-z-label"></span><span
+                                            class="apexcharts-tooltip-text-z-value"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="apexcharts-yaxistooltip apexcharts-yaxistooltip-0 apexcharts-yaxistooltip-left apexcharts-theme-light">
+                            <div class="apexcharts-yaxistooltip-text"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Chart widget 6-->
+
+
+    </div>
+
+
 
 </div>

@@ -1,255 +1,190 @@
 <?php
 
 use app\component\MenuHelper;
-use yii\widgets\Menu;
+use app\models\User;
+use yii\helpers\ArrayHelper;
 ?>
+<div id="kt_app_sidebar" class="app-sidebar flex-column" data-kt-drawer="true" data-kt-drawer-name="app-sidebar"
+  data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="250px"
+  data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle">
+  <!--begin::Logo-->
+  <div class="app-sidebar-logo d-none d-lg-flex flex-stack flex-shrink-0 px-8" id="kt_app_sidebar_logo">
+    <!--begin::Logo image-->
+    <a href="/good/index.html">
+      <img alt="Logo" src="/media/logos/default.png" class="theme-light-show h-50px">
+      <img alt="Logo" src="/media/logos/default.png" class="theme-dark-show h-50px">
+    </a>
+    <!--end::Logo image-->
 
-<div class="sidebar-header border-bottom">
-  <div class="sidebar-brand">
-    <svg class="sidebar-brand-full" width="88" height="32" alt="CoreUI Logo">
-      <use xlink:href="assets/brand/coreui.svg#full"></use>
-    </svg>
-    <svg class="sidebar-brand-narrow" width="32" height="32" alt="CoreUI Logo">
-      <use xlink:href="assets/brand/coreui.svg#signet"></use>
-    </svg>
+    <!--begin::Menu wrapper-->
+    <!--end::Menu wrapper-->
   </div>
-  <button class="btn-close d-lg-none" type="button" data-coreui-dismiss="offcanvas" data-coreui-theme="dark"
-    aria-label="Close"
-    onclick="coreui.Sidebar.getInstance(document.querySelector(&quot;#sidebar&quot;)).toggle()"></button>
-</div>
+  <!--end::Logo-->
 
-<?=
-  Menu::widget([
-    'options' => ['class' => 'sidebar-nav simplebar-scrollable-y'],
-    'items' => MenuHelper::renderMenu(),
-    'itemOptions' => ['class' => 'nav-item'],
-    'encodeLabels' => false,
-    'activateItems' => true,
-    'activateParents' => true,
-    'activeCssClass' => 'active',
-  ]);
-?>
+  <div class="separator d-none d-lg-block"></div>
+  <!--begin::Sidebar menu-->
+  <div class="app-sidebar-menu  hover-scroll-y my-5 my-lg-5 mx-3" id="kt_app_sidebar_menu_wrapper" data-kt-scroll="true"
+    data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_toolbar, #kt_app_sidebar_footer"
+    data-kt-scroll-offset="0" style="height: 868px;">
 
-<!--<ul class="sidebar-nav simplebar-scrollable-y" data-coreui="navigation" data-simplebar="init">
-  <div class="simplebar-wrapper" style="margin: -8px;">
-    <div class="simplebar-height-auto-observer-wrapper">
-      <div class="simplebar-height-auto-observer"></div>
+
+    <!--begin::Menu-->
+    <div class="
+            menu 
+            menu-column 
+            menu-sub-indention 
+            menu-active-bg 
+            fw-semibold" id="#kt_sidebar_menu" data-kt-menu="true">
+      <?php foreach (MenuHelper::$menu as $menu => $menuDetails) { ?>
+        <?php if (count($menuDetails['items']) > 1) { ?>
+          <div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
+            <!--begin:Menu link-->
+            <span class="menu-link">
+              <span class="menu-icon">
+                <i class="ki-duotone ki-chart-pie-3 fs-2">
+                  <span class="path1"></span>
+                  <span class="path2"></span>
+                  <span class="path3"></span>
+                </i>
+              </span>
+              <span class="menu-title"><?= ucwords($menu) ?></span>
+              <span class="menu-arrow"></span>
+            </span>
+            <!--end:Menu link-->
+            <!--begin:Menu sub-->
+            <div class="menu-sub menu-sub-accordion">
+              <?php foreach ($menuDetails['items'] as $k => $v) {
+                foreach ($v as $itemsName => $itemsData) {
+                  if ($itemsData['is_menu']) { ?>
+                    <div class="menu-item">
+                      <a class="menu-link"
+                        href="<?= Yii::$app->urlManager->createUrl(implode("/", [$itemsData['module'], $itemsData['controller'], $itemsData['action']])) ?>">
+                        <span class="menu-bullet">
+                          <span class="bullet bullet-dot"></span>
+                        </span>
+                        <span class="menu-title"><?= $itemsName ?></span>
+                      </a>
+                      <!--end:Menu link-->
+                    </div>
+                  <?php }
+                }
+              }
+              ?>
+            </div><!--end:Menu sub-->
+          </div><!--end:Menu item--><!--begin:Menu item-->
+        <?php } else {
+          foreach ($menuDetails['items'] as $m => $val) {
+            $itemsData = ArrayHelper::index($val, 'is_menu');
+            $itemsData = $itemsData[1];
+            ?>
+            <div class="menu-item here show menu-accordion">
+              <!--begin:Menu link-->
+              <span class="menu-link">
+                <span class="menu-icon">
+                  <i class="ki-solid <?=$itemsData["icon"]?> text-danger fs-2x">
+                  </i>
+                </span>
+                <span class="">
+                  <a class="menu-link"
+                    href="<?= Yii::$app->urlManager->createUrl(implode("/", [$itemsData['module'], $itemsData['controller'], $itemsData['action']])) ?>">
+                    <?= ucwords($menu) ?>
+                  </a>
+                </span>
+              </span>
+            </div>
+          <?php }
+        }
+      }
+      ?>
+
     </div>
-    <div class="simplebar-mask">
-      <div class="simplebar-offset" style="right: 0px; bottom: 0px;">
-        <div class="simplebar-content-wrapper" tabindex="0" role="region" aria-label="scrollable content"
-          style="height: 100%; overflow: hidden scroll;">
-          <div class="simplebar-content" style="padding: 8px;">
-            <li class="nav-item"><a class="nav-link" href="index.html">
-                <svg class="nav-icon">
-                  <use xlink:href="/images/icons/free.svg#cil-speedometer"></use>
-                </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span>
-              </a>
-              </li>
-            <li class="nav-title">Theme</li>
-            <li class="nav-item"><a class="nav-link" href="colors.html">
-                <svg class="nav-icon">
-                  <use xlink:href="/images/icons/free.svg#cil-drop"></use>
-                </svg> Colors</a></li>
-            <li class="nav-item"><a class="nav-link" href="typography.html">
-                <svg class="nav-icon">
-                  <use xlink:href="/images/icons/free.svg#cil-pencil"></use>
-                </svg> Typography</a></li>
-            <li class="nav-title">Components</li>
-            <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-                <svg class="nav-icon">
-                  <use xlink:href="/images/icons/free.svg#cil-puzzle"></use>
-                </svg> Base</a>
-              <ul class="nav-group-items compact">
-                <li class="nav-item"><a class="nav-link" href="base/accordion.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Accordion</a></li>
-                <li class="nav-item"><a class="nav-link" href="base/breadcrumb.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Breadcrumb</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://coreui.io/bootstrap/docs/components/calendar/"
-                    target="_blank"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Calendar
-                    <svg class="icon icon-sm ms-2">
-                      <use xlink:href="/images/icons/free.svg#cil-external-link"></use>
-                    </svg><span class="badge badge-sm bg-danger ms-auto">PRO</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="base/cards.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Cards</a></li>
-                <li class="nav-item"><a class="nav-link" href="base/carousel.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Carousel</a></li>
-                <li class="nav-item"><a class="nav-link" href="base/collapse.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Collapse</a></li>
-                <li class="nav-item"><a class="nav-link" href="base/list-group.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> List group</a></li>
-                <li class="nav-item"><a class="nav-link" href="base/navs-tabs.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Navs &amp; Tabs</a></li>
-                <li class="nav-item"><a class="nav-link" href="base/pagination.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Pagination</a></li>
-                <li class="nav-item"><a class="nav-link" href="base/placeholders.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Placeholders</a></li>
-                <li class="nav-item"><a class="nav-link" href="base/popovers.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Popovers</a></li>
-                <li class="nav-item"><a class="nav-link" href="base/progress.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Progress</a></li>
-                <li class="nav-item"><a class="nav-link" href="base/spinners.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Spinners</a></li>
-                <li class="nav-item"><a class="nav-link" href="base/tables.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Tables</a></li>
-                <li class="nav-item"><a class="nav-link" href="base/tooltips.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Tooltips</a></li>
-              </ul>
-            </li>
-            <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-                <svg class="nav-icon">
-                  <use xlink:href="/images/icons/free.svg#cil-cursor"></use>
-                </svg> Buttons</a>
-              <ul class="nav-group-items compact">
-                <li class="nav-item"><a class="nav-link" href="buttons/buttons.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Buttons</a></li>
-                <li class="nav-item"><a class="nav-link" href="buttons/button-group.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Buttons Group</a></li>
-                <li class="nav-item"><a class="nav-link" href="buttons/dropdowns.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Dropdowns</a></li>
-                <li class="nav-item"><a class="nav-link"
-                    href="https://coreui.io/bootstrap/docs/components/loading-buttons/" target="_blank"><span
-                      class="nav-icon"><span class="nav-icon-bullet"></span></span> Loading Buttons
-                    <svg class="icon icon-sm ms-2">
-                      <use xlink:href="/images/icons/free.svg#cil-external-link"></use>
-                    </svg><span class="badge badge-sm bg-danger ms-auto">PRO</span></a></li>
-              </ul>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="charts.html">
-                <svg class="nav-icon">
-                  <use xlink:href="/images/icons/free.svg#cil-chart-pie"></use>
-                </svg> Charts</a></li>
-            <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-                <svg class="nav-icon">
-                  <use xlink:href="/images/icons/free.svg#cil-notes"></use>
-                </svg> Forms</a>
-              <ul class="nav-group-items compact">
-                <li class="nav-item"><a class="nav-link" href="forms/form-control.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Form Control</a></li>
-                <li class="nav-item"><a class="nav-link" href="forms/select.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Select</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://coreui.io/bootstrap/docs/forms/multi-select/"
-                    target="_blank"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Multi Select
-                    <svg class="icon icon-sm ms-2">
-                      <use xlink:href="/images/icons/free.svg#cil-external-link"></use>
-                    </svg><span class="badge badge-sm bg-danger ms-auto">PRO</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="forms/checks-radios.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Checks and radios</a></li>
-                <li class="nav-item"><a class="nav-link" href="forms/range.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Range</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://coreui.io/bootstrap/docs/forms/range-slider/"
-                    target="_blank"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Range Slider
-                    <svg class="icon icon-sm ms-2">
-                      <use xlink:href="/images/icons/free.svg#cil-external-link"></use>
-                    </svg><span class="badge badge-sm bg-danger ms-auto">PRO</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="forms/input-group.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Input group</a></li>
-                <li class="nav-item"><a class="nav-link" href="forms/floating-labels.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Floating labels</a></li>
-                <li class="nav-item"><a class="nav-link" href="https://coreui.io/bootstrap/docs/forms/date-picker/"
-                    target="_blank"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Date Picker
-                    <svg class="icon icon-sm ms-2">
-                      <use xlink:href="/images/icons/free.svg#cil-external-link"></use>
-                    </svg><span class="badge badge-sm bg-danger ms-auto">PRO</span></a></li>
-                <li class="nav-item"><a class="nav-link"
-                    href="https://coreui.io/bootstrap/docs/forms/date-range-picker/" target="_blank"><span
-                      class="nav-icon"><span class="nav-icon-bullet"></span></span> Date Range Picker<span
-                      class="badge badge-sm bg-danger ms-auto">PRO</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="https://coreui.io/bootstrap/docs/forms/rating/"
-                    target="_blank"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Rating
-                    <svg class="icon icon-sm ms-2">
-                      <use xlink:href="/images/icons/free.svg#cil-external-link"></use>
-                    </svg><span class="badge badge-sm bg-danger ms-auto">PRO</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="https://coreui.io/bootstrap/docs/forms/time-picker/"
-                    target="_blank"><span class="nav-icon"><span class="nav-icon-bullet"></span></span> Time Picker
-                    <svg class="icon icon-sm ms-2">
-                      <use xlink:href="/images/icons/free.svg#cil-external-link"></use>
-                    </svg><span class="badge badge-sm bg-danger ms-auto">PRO</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="forms/layout.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Layout</a></li>
-                <li class="nav-item"><a class="nav-link" href="forms/validation.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Validation</a></li>
-              </ul>
-            </li>
-            <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-                <svg class="nav-icon">
-                  <use xlink:href="/images/icons/free.svg#cil-star"></use>
-                </svg> Icons</a>
-              <ul class="nav-group-items compact">
-                <li class="nav-item"><a class="nav-link" href="icons/coreui-icons-free.html"><span
-                      class="nav-icon"><span class="nav-icon-bullet"></span></span> CoreUI Icons<span
-                      class="badge badge-sm bg-success ms-auto">Free</span></a></li>
-                <li class="nav-item"><a class="nav-link" href="icons/coreui-icons-brand.html"><span
-                      class="nav-icon"><span class="nav-icon-bullet"></span></span> CoreUI Icons - Brand</a></li>
-                <li class="nav-item"><a class="nav-link" href="icons/coreui-icons-flag.html"><span
-                      class="nav-icon"><span class="nav-icon-bullet"></span></span> CoreUI Icons - Flag</a></li>
-              </ul>
-            </li>
-            <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-                <svg class="nav-icon">
-                  <use xlink:href="/images/icons/free.svg#cil-bell"></use>
-                </svg> Notifications</a>
-              <ul class="nav-group-items compact">
-                <li class="nav-item"><a class="nav-link" href="notifications/alerts.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Alerts</a></li>
-                <li class="nav-item"><a class="nav-link" href="notifications/badge.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Badge</a></li>
-                <li class="nav-item"><a class="nav-link" href="notifications/modals.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Modals</a></li>
-                <li class="nav-item"><a class="nav-link" href="notifications/toasts.html"><span class="nav-icon"><span
-                        class="nav-icon-bullet"></span></span> Toasts</a></li>
-              </ul>
-            </li>
-            <li class="nav-item"><a class="nav-link" href="widgets.html">
-                <svg class="nav-icon">
-                  <use xlink:href="/images/icons/free.svg#cil-calculator"></use>
-                </svg> Widgets<span class="badge badge-sm bg-info ms-auto">NEW</span></a></li>
-            <li class="nav-divider"></li>
-            <li class="nav-title">Extras</li>
-            <li class="nav-group"><a class="nav-link nav-group-toggle" href="#">
-                <svg class="nav-icon">
-                  <use xlink:href="/images/icons/free.svg#cil-star"></use>
-                </svg> Pages</a>
-              <ul class="nav-group-items compact">
-                <li class="nav-item"><a class="nav-link" href="login.html" target="_top">
-                    <svg class="nav-icon">
-                      <use xlink:href="/images/icons/free.svg#cil-account-logout"></use>
-                    </svg> Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="register.html" target="_top">
-                    <svg class="nav-icon">
-                      <use xlink:href="/images/icons/free.svg#cil-account-logout"></use>
-                    </svg> Register</a></li>
-                <li class="nav-item"><a class="nav-link" href="404.html" target="_top">
-                    <svg class="nav-icon">
-                      <use xlink:href="/images/icons/free.svg#cil-bug"></use>
-                    </svg> Error 404</a></li>
-                <li class="nav-item"><a class="nav-link" href="500.html" target="_top">
-                    <svg class="nav-icon">
-                      <use xlink:href="/images/icons/free.svg#cil-bug"></use>
-                    </svg> Error 500</a></li>
-              </ul>
-            </li>
-            <li class="nav-item mt-auto"><a class="nav-link" href="https://coreui.io/docs/templates/installation/"
-                target="_blank">
-                <svg class="nav-icon">
-                  <use xlink:href="/images/icons/free.svg#cil-description"></use>
-                </svg> Docs</a></li>
-            <li class="nav-item"><a class="nav-link text-primary fw-semibold"
-                href="https://coreui.io/product/bootstrap-dashboard-template/" target="_top">
-                <svg class="nav-icon text-primary">
-                  <use xlink:href="/images/icons/free.svg#cil-layers"></use>
-                </svg> Try CoreUI PRO</a></li>
-          </div>
+    <!--end::Menu-->
+  </div>
+  <!--end::Sidebar menu-->
+
+  <!--begin::User-->
+  <div class="app-sidebar-user d-flex flex-stack py-5 px-8">
+    <!--begin::User avatar-->
+    <div class="d-flex me-5">
+      <!--begin::Menu wrapper-->
+      <div class="me-5">
+        <!--begin::Symbol-->
+        <div class="symbol symbol-40px cursor-pointer" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
+          data-kt-menu-placement="bottom-start" data-kt-menu-overflow="true">
+
+          <img src="/media/avatars/300-1.jpg" alt="">
         </div>
+        <!--end::Symbol-->
+
+        <!--begin::User account menu-->
+        <div
+          class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px"
+          data-kt-menu="true">
+          <!--begin::Menu item-->
+          <div class="menu-item px-3">
+            <div class="menu-content d-flex align-items-center px-3">
+              <!--begin::Avatar-->
+              <div class="symbol symbol-50px me-5">
+                <img alt="Logo" src="/media/avatars/300-1.jpg">
+              </div>
+              <!--end::Avatar-->
+
+              <!--begin::Username-->
+              <div class="d-flex flex-column">
+                <div class="fw-bold d-flex align-items-center fs-5">
+                  <?=User::loggedInUserName()?> <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span>
+                </div>
+              </div>
+              <!--end::Username-->
+            </div>
+          </div>
+          <!--end::Menu item-->
+
+         
+       
+
+          <!--begin::Menu separator-->
+          <div class="separator my-2"></div>
+          <!--end::Menu separator-->
+
+          <!--begin::Menu item-->
+          <div class="menu-item px-5 my-1">
+            <a href="<?=Yii::$app->urlManager->createUrl("site/profile")?>" class="menu-link px-5">
+              Account Settings
+            </a>
+          </div>
+          <!--end::Menu item-->
+
+          <!--begin::Menu item-->
+          <div class="menu-item px-5">
+            <a href="<?=Yii::$app->urlManager->createUrl("site/logout")?>" class="menu-link px-5">
+              Sign Out
+            </a>
+          </div>
+          <!--end::Menu item-->
+        </div>
+        <!--end::User account menu-->
+
       </div>
+      <!--end::Menu wrapper-->
+
+      <!--begin::Info-->
+      <div class="me-2">
+        <!--begin::Username-->
+        <a href="#" class="app-sidebar-username text-gray-800 text-hover-primary fs-6 fw-semibold lh-0"><?=User::loggedInUserName()?></a>
+        <!--end::Username-->
+      </div>
+      <!--end::Info-->
     </div>
-    <div class="simplebar-placeholder" style="width: 255px; height: 823px;"></div>
+    <!--end::User avatar-->
+
+    <!--begin::Action-->
+    <a href="<?=Yii::$app->urlManager->createUrl("site/logout")?>"
+      class="btn btn-icon btn-active-color-primary btn-icon-custom-color me-n4" data-bs-toggle="tooltip"
+      aria-label="End session and singout" data-bs-original-title="End session and singout" data-kt-initialized="1">
+      <i class="ki-duotone ki-entrance-left fs-2 text-gray-500"><span class="path1"></span><span
+          class="path2"></span></i> </a>
+    <!--end::Action-->
   </div>
-  <div class="simplebar-track simplebar-horizontal" style="visibility: hidden;">
-    <div class="simplebar-scrollbar" style="width: 0px; display: none;"></div>
-  </div>
-  <div class="simplebar-track simplebar-vertical" style="visibility: visible;">
-    <div class="simplebar-scrollbar" style="height: 696px; transform: translate3d(0px, 0px, 0px); display: block;">
-    </div>
-  </div>
-</ul>-->
+  <!--end::User-->
+</div>

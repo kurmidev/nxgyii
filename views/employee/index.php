@@ -19,58 +19,60 @@ $this->params['links'] = [
 ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<?= $this->render('@app/views/layouts/_contentheader') ?>
-<?php Pjax::begin(); ?>
-<?=
+<div class="card card-flush">
+    <?= $this->render('@app/views/layouts/_contentheader') ?>
+    <?php Pjax::begin(); ?>
+    <?=
 
-    CtGridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'rowOptions' => function ($model, $index, $widget, $grid) {
-            if ($model->status == Constants::STATUS_INACTIVE) {
-                return ['style' => 'color:#a94442; background-color:#f2dede;'];
-            }
-        },
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-            'name',
-            'code',
-            'email',
-            "mobile_no",
-            "phone_no",
-            [
-                'attribute' => 'company_id',
-                'label' => 'Company',
-                'content' => function ($model) {
-                    return !empty($model->company) ? $model->company->name : '';
+        CtGridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'rowOptions' => function ($model, $index, $widget, $grid) {
+                    if ($model->status == Constants::STATUS_INACTIVE) {
+                        return ['style' => 'color:#a94442; background-color:#f2dede;'];
+                    }
                 },
-                'filter' => ArrayHelper::map(Company::find()->all(), "id", "name"),
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+                'name',
+                'code',
+                'email',
+                "mobile_no",
+                "phone_no",
+                [
+                    'attribute' => 'company_id',
+                    'label' => 'Company',
+                    'content' => function ($model) {
+                            return !empty($model->company) ? $model->company->name : '';
+                        },
+                    'filter' => ArrayHelper::map(Company::find()->all(), "id", "name"),
+                ],
+                [
+                    'attribute' => 'designation_id',
+                    'label' => 'Designation',
+                    'content' => function ($model) {
+                            return !empty($model->designation) ? $model->designation->name : '';
+                        },
+                    'filter' => ArrayHelper::map(Designation::find()->all(), "id", "name"),
+                ],
+                [
+                    'attribute' => 'status',
+                    'label' => 'Status',
+                    'content' => function ($model) {
+                            return Utils::getLabels(Constants::LABEL_STATUS, $model->status);
+                        },
+                    'filter' => Constants::LABEL_STATUS,
+                ],
+                'actionOn',
+                'actionBy',
+                [
+                    'label' => 'Action',
+                    'content' => function ($data) {
+                            return Html::a(Html::tag('i', ' <span class="path1"></span><span class="path2"></span><span class="path3"></span>', ['class' => 'ki-duotone ki-pencil fs-2 ']), \Yii::$app->urlManager->createUrl(['employee/update-employee', 'id' => $data['id']]), ['title' => 'Update ' . $data['name'], 'class' => 'btn btn-primary-alt']);
+                        }
+                ]
             ],
-            [
-                'attribute' => 'designation_id',
-                'label' => 'Designation',
-                'content' => function ($model) {
-                    return !empty($model->designation) ? $model->designation->name : '';
-                },
-                'filter' => ArrayHelper::map(Designation::find()->all(), "id", "name"),
-            ],
-            [
-                'attribute' => 'status',
-                'label' => 'Status',
-                'content' => function ($model) {
-                    return Utils::getLabels(Constants::LABEL_STATUS, $model->status);
-                },
-                'filter' => Constants::LABEL_STATUS,
-            ],
-            'actionOn',
-            'actionBy',
-            [
-                'label' => 'Action',
-                'content' => function ($data) {
-                    return Html::a(Html::tag('span', '', ['class' => 'fa fa-edit']), \Yii::$app->urlManager->createUrl(['designation/update-designation', 'id' => $data['id']]), ['title' => 'Update ' . $data['name'], 'class' => 'btn btn-primary-alt']);
-                }
-            ]
-        ],
-    ]);
-?>
-<?php Pjax::end(); ?>
+        ]);
+    ?>
+    <?php Pjax::end(); ?>
+</div>

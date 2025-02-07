@@ -16,6 +16,7 @@ $this->params['links'] = [
 ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="card card-flush">
 <?= $this->render('@app/views/layouts/_contentheader') ?>
 <?php Pjax::begin(); ?>
 <?=
@@ -47,10 +48,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Action',
                 'content' => function ($data) {
-                    return Html::a(Html::tag('span', '', ['class' => 'fa fa-edit']), \Yii::$app->urlManager->createUrl(['product/update-product', 'id' => $data['id']]), ['title' => 'Update ' . $data['name'], 'class' => 'btn btn-primary-alt']);
+                    return Html::a(Html::tag('i', ' <span class="path1"></span><span class="path2"></span><span class="path3"></span>', ['class' => 'ki-duotone ki-pencil fs-2 ']), \Yii::$app->urlManager->createUrl(['product/update-product', 'id' => $data['id']]), ['title' => 'Update ' . $data['name'], 'class' => 'btn btn-primary-alt']);
                 }
             ]
         ],
     ]);
 ?>
 <?php Pjax::end(); ?>
+</div>

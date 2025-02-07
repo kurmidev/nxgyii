@@ -20,20 +20,19 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/font-awesome.css',
-        'css/chartjs.css',
-        'css/simplebar.css',
-        'css/style.css',
+        'css/datatables.bundle.css',
+        'css/vis-timeline.bundle.css',
+        'css/plugins.bundle.css',
+        'css/style.bundle.css',
     ];
     public $js = [
-      "js/bundle.min.js", 
-      "js/chart.umd.js",
-      "js/chartjs.js",
-      "js/color-modes.js",
-      "js/simplebar.min.js",  
-      "js/utils.js",  
-      "js/main.js",  
-      "js/index.js",  
+      "js/plugins.bundle.js", 
+      "js/scripts.bundle.js",
+      "js/datatables.bundle.js",
+      "js/vis-timeline.bundle.js",
+      "js/widgets.bundle.js",  
+      "js/widgets.js",  
+      "js/chat.js",  
     ];
     public $depends = [
         'yii\web\YiiAsset',

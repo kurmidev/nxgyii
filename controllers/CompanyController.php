@@ -78,4 +78,16 @@ class CompanyController extends BaseController
         ]);
     }
 
+    public function actionViewCompany($id){
+        $model = Company::findOne($id);
+        if (!$model instanceof Company) {
+            \Yii::$app->getSession()->setFlash('e', 'No record found');
+            return $this->redirect(['company/company']);
+        }
+        return $this->render('view-company', [
+           'model' => $model,
+        ]);
+    }
+
+
 }
