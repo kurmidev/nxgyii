@@ -9,7 +9,7 @@ $conf = [
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
-        '@npm'   => '@vendor/npm-asset',
+        '@npm' => '@vendor/npm-asset',
     ],
     'components' => [
         'request' => [
@@ -44,9 +44,12 @@ $conf = [
             ],
         ],
         'urlManager' => [
-          //  'enablePrettyUrl' => true,
+            //  'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                // 'saml/login' => 'saml/login',
+                // 'saml/acs' => 'saml/acs',
+                // 'saml/logout' => 'saml/logout',
             ],
         ],
     ],

@@ -2,12 +2,15 @@
 
 namespace app\controllers;
 
+use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
-class BaseController extends \yii\web\Controller {
+class BaseController extends \yii\web\Controller
+{
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'access' => [
                 'class' => AccessControl::class,
@@ -37,5 +40,16 @@ class BaseController extends \yii\web\Controller {
             ],
         ];
     }
+
+    public function actionError()
+    {
+        print_r("nef");
+        $exception = Yii::$app->errorHandler->exception;
+        if ($exception !== null) {
+            //$this->layout = 'yourNewLayout';
+            return $this->render('error', ['exception' => $exception]);
+        }
+    }
+
 
 }
