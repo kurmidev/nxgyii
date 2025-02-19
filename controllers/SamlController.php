@@ -1,68 +1,60 @@
 <?php
+
 namespace app\controllers;
 
+use app\models\User;
 use Yii;
 use yii\web\Controller;
 use OneLogin\Saml2\Auth;
 use OneLogin\Saml2\Error;
+use OneLogin\Saml2\Utils;
 
 class SamlController extends BaseController
 {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return parent::behaviors();
-    }
-
-    private function getSAMLAuth()
-    {
-        $samlConfig = require Yii::getAlias('@app/config/saml.php');
-        return new Auth($samlConfig);
-    }
-
-    // SSO Login
+    public $enableCsrfValidation = false;
     public function actionLogin()
     {
-        $auth = $this->getSAMLAuth();
+        $auth = new Auth(require Yii::getAlias('@app/config/saml.php'));
         $auth->login();
     }
 
-    // Handle SAML Response (ACS)
     public function actionAcs()
     {
-        $auth = $this->getSAMLAuth();
+        $auth = new Auth(require Yii::getAlias('@app/config/saml.php'));
         $auth->processResponse();
 
-        if ($errors = $auth->getErrors()) {
-            Yii::error('SAML Errors: ' . implode(', ', $errors), __METHOD__);
-            return $this->redirect(['/site/error']);
+        if (!$auth->isAuthenticated()) {
+            Yii::$app->session->setFlash('error', 'SAML Authentication Failed');
+            return $this->redirect(['site/login']);
         }
 
         $attributes = $auth->getAttributes();
         $userEmail = $auth->getNameId();
 
-        // Find or Create User
-        $user = \app\models\User::findOne(['email' => $userEmail]);
-        if (!$user) {
-            $user = new \app\models\User([
-                'email' => $userEmail,
-                'username' => explode('@', $userEmail)[0],
-                'password' => Yii::$app->security->generateRandomString(), // Dummy password
-            ]);
-            $user->save();
-        }
+        $user = User::findOne(['email' => $userEmail]);
 
-        Yii::$app->user->login($user);
-        return $this->redirect(['/site/index']);
+        if($user instanceof User){
+            Yii::$app->user->login($user);
+            return $this->redirect(['site/index']);
+        }else{
+            Yii::$app->getSession()->setFlash('e', 'USer is not registered');
+            return $this->redirect(['site/login']);
+        }
+        
     }
 
-    // SSO Logout
+    public function actionMetadata()
+    {
+        $auth = new Auth(require Yii::getAlias('@app/config/saml.php'));
+        $settings = $auth->getSettings();
+        $metadata = $settings->getSPMetadata();
+        header('Content-Type: text/xml');
+        echo $metadata;
+    }
+
     public function actionLogout()
     {
-        $auth = $this->getSAMLAuth();
+        $auth = new Auth(require Yii::getAlias('@app/config/saml.php'));
         $auth->logout();
     }
 }

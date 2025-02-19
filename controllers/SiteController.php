@@ -7,6 +7,7 @@ use yii\web\Response;
 use app\models\LoginForm;
 use app\models\User;
 use app\component\Constants as C;
+use OneLogin\Saml2\Auth;
 
 class SiteController extends BaseController
 {
@@ -36,6 +37,7 @@ class SiteController extends BaseController
     public function actionLogin()
     {
         $this->layout = 'login';
+       
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -59,7 +61,8 @@ class SiteController extends BaseController
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
+        $auth = new Auth(require Yii::getAlias('@app/config/saml.php'));
+        $auth->logout(Yii::$app->urlManager->createUrl("site/login"));
         return $this->goHome();
     }
 

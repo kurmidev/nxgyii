@@ -16,7 +16,7 @@ class BaseController extends \yii\web\Controller
                 'class' => AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['login'],
+                        'actions' => ['login','metadata','acs'],
                         'allow' => true,
                     ],
                     [
