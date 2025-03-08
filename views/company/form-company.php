@@ -1,10 +1,11 @@
 <?php
 
 use app\component\Constants;
+use app\models\ProductMaster;
+use app\models\ProductUserMapping;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use common\models\Reason;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Area */
@@ -13,6 +14,7 @@ use common\models\Reason;
 $this->title = ($model->isNewRecord) ? 'Add new Company' : 'Update Company ' . $model->name . ' details.';
 $this->params['breadcrumbs'][] = ['label' => 'Company', 'url' => ['Company']];
 $this->params['breadcrumbs'][] = $this->title;
+$productLists = ArrayHelper::map(ProductMaster::find()->active()->all(),'id','name');
 ?>
 <?= $this->render('@app/views/layouts/_contentheader') ?>
 <?php $form = ActiveForm::begin(['id' => 'form-company', 'options' => ['enctype' => 'mutipart/form-data', 'class' => 'row g-3']]); ?>
@@ -99,6 +101,17 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <?= $form->field($model, 'status')->end() ?>
         </div>
+
+        <div class="col-md-6">
+            <?= $form->field($model, 'product_mappings', ['options' => ['class' => "form-group"]])->begin(); ?>
+            <?= Html::activeLabel($model, 'product_mappings', ['class' => ' control-label']) ?>
+            <div class="col-lg-6 col-sm-6 col-xs-6">
+                <?= Html::activeDropDownList($model, 'product_mappings', $productLists, ['class' => 'form-control','prompt'=>"Select one","multiple"=>"multiple","data-control"=>"select2","value"=>$model->getProduct_mappings()]) ?>
+                <?= Html::error($model, 'product_mappings', ['class' => 'error help-block']) ?>
+            </div>
+            <?= $form->field($model, 'product_mappings')->end() ?>
+        </div>
+
 
         <div class="row mt-5">
             <div class="col-lg-6 col-sm-6 col-xs-6 col-sm-offset-3">

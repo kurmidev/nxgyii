@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Company;
 use app\models\CompanySearch;
 use app\controllers\BaseController;
+use app\services\JumpCloudService;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -84,9 +85,14 @@ class CompanyController extends BaseController
             \Yii::$app->getSession()->setFlash('e', 'No record found');
             return $this->redirect(['company/company']);
         }
+        
+        $model = new JumpCloudService();
+        $users = $model->getUsers();
         return $this->render('view-company', [
-           'model' => $model,
-        ]);
+            'model' => $model,
+            'user'=>$users
+         ]);
+
     }
 
 

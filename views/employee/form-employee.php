@@ -3,6 +3,7 @@
 use app\component\Constants;
 use app\models\Company;
 use app\models\Designation;
+use app\models\ProductMaster;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -14,6 +15,7 @@ use yii\widgets\ActiveForm;
 $this->title = ($model->id) ? 'Add New Employee' : 'Update Employee ' . $model->name . ' details.';
 $this->params['breadcrumbs'][] = ['label' => 'Employee', 'url' => ['employee']];
 $this->params['breadcrumbs'][] = $this->title;
+$productLists = ArrayHelper::map(ProductMaster::find()->active()->all(),'id','name');
 ?>
 <?= $this->render('@app/views/layouts/_contentheader') ?>
 <?php $form = ActiveForm::begin(['id' => 'form-product', 'options' => ['enctype' => 'mutipart/form-data', 'class' => 'form-horizontal form-bordered']]); ?>
@@ -31,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-lg-6 col-sm-6 col-xs-6 mb-3">
                     <?= $form->field($model, 'status', ['options' => ['class' => 'form-group']])->begin() ?>
                     <?= Html::activeLabel($model, 'status', ['class' => 'control-label']); ?>
-                    <?= Html::activeDropDownList($model, 'status', Constants::LABEL_STATUS, ['class' => 'form-control','prompt'=>"Select one"]) ?>
+                    <?= Html::activeDropDownList($model, 'status', Constants::LABEL_STATUS, ['class' => 'form-control', 'prompt' => "Select one"]) ?>
                     <?= Html::error($model, 'status', ['class' => 'error help-block']) ?>
                     <?= $form->field($model, 'status')->end() ?>
                 </div>
@@ -52,32 +54,43 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-lg-6 col-sm-6 col-xs-6 mb-3">
                     <?= $form->field($model, 'mobile_no', ['options' => ['class' => 'form-group']])->begin() ?>
                     <?= Html::activeLabel($model, 'mobile_no', ['class' => 'control-label']); ?>
-                    <?= Html::activeTextInput($model, 'mobile_no', ['class' => 'form-control','maxlength'=>10]) ?>
+                    <?= Html::activeTextInput($model, 'mobile_no', ['class' => 'form-control', 'maxlength' => 10]) ?>
                     <?= Html::error($model, 'mobile_no', ['class' => 'error help-block']) ?>
                     <?= $form->field($model, 'mobile_no')->end() ?>
                 </div>
                 <div class="col-lg-6 col-sm-6 col-xs-6 mb-3">
                     <?= $form->field($model, 'phone_no', ['options' => ['class' => 'form-group']])->begin() ?>
                     <?= Html::activeLabel($model, 'phone_no', ['class' => 'control-label']); ?>
-                    <?= Html::activeTextInput($model, 'phone_no', ['class' => 'form-control','maxlength'=>10]) ?>
+                    <?= Html::activeTextInput($model, 'phone_no', ['class' => 'form-control', 'maxlength' => 10]) ?>
                     <?= Html::error($model, 'phone_no', ['class' => 'error help-block']) ?>
                     <?= $form->field($model, 'phone_no')->end() ?>
                 </div>
                 <div class="col-lg-6 col-sm-6 col-xs-6 mb-3">
                     <?= $form->field($model, 'company_id', ['options' => ['class' => 'form-group']])->begin() ?>
                     <?= Html::activeLabel($model, 'company_id', ['class' => 'control-label']); ?>
-                    <?= Html::activeDropDownList($model, "company_id", ArrayHelper::map(Company::find()->active()->all(),"id","name"), ['class' => 'form-control',"prompt"=>"Select one"]) ?>
+                    <?= Html::activeDropDownList($model, "company_id", ArrayHelper::map(Company::find()->active()->all(), "id", "name"), ['class' => 'form-control', "prompt" => "Select one"]) ?>
                     <?= Html::error($model, 'company_id', ['class' => 'error help-block']) ?>
                     <?= $form->field($model, 'company_id')->end() ?>
                 </div>
+
+                <div class="col-md-6">
+                    <?= $form->field($model, 'product_mappings', ['options' => ['class' => "form-group"]])->begin(); ?>
+                    <?= Html::activeLabel($model, 'product_mappings', ['class' => ' control-label']) ?>
+                    <div class="col-lg-6 col-sm-6 col-xs-6">
+                        <?= Html::activeDropDownList($model, 'product_mappings', $productLists, ['class' => 'form-control', 'prompt' => "Select one", "multiple" => "multiple", "data-control" => "select2", "value" => $model->getProduct_mappings()]) ?>
+                        <?= Html::error($model, 'product_mappings', ['class' => 'error help-block']) ?>
+                    </div>
+                    <?= $form->field($model, 'product_mappings')->end() ?>
+                </div>
+
                 <div class="col-lg-6 col-sm-6 col-xs-6 mb-3">
                     <?= $form->field($model, 'designation_id', ['options' => ['class' => 'form-group']])->begin() ?>
                     <?= Html::activeLabel($model, 'designation_id', ['class' => 'control-label']); ?>
-                <?= Html::activeDropDownList($model, "designation_id", ArrayHelper::map(Designation::find()->active()->all(),"id","name"), ['class' => 'form-control',"prompt"=>"Select one"]) ?>
+                    <?= Html::activeDropDownList($model, "designation_id", ArrayHelper::map(Designation::find()->active()->all(), "id", "name"), ['class' => 'form-control', "prompt" => "Select one"]) ?>
                     <?= Html::error($model, 'designation_id', ['class' => 'error help-block']) ?>
                     <?= $form->field($model, 'designation_id')->end() ?>
                 </div>
-              
+
                 <div class="col-lg-6 col-sm-6 col-xs-6 mb-3">
                     <?= $form->field($model, 'address', ['options' => ['class' => 'form-group']])->begin() ?>
                     <?= Html::activeLabel($model, 'address', ['class' => 'control-label']); ?>
@@ -88,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-lg-6 col-sm-6 col-xs-6 mb-3">
                     <?= $form->field($model, 'pincode', ['options' => ['class' => 'form-group']])->begin() ?>
                     <?= Html::activeLabel($model, 'pincode', ['class' => 'control-label']); ?>
-                    <?= Html::activeTextInput($model, 'pincode', ['class' => 'form-control','maxlength'=>6]) ?>
+                    <?= Html::activeTextInput($model, 'pincode', ['class' => 'form-control', 'maxlength' => 6]) ?>
                     <?= Html::error($model, 'pincode', ['class' => 'error help-block']) ?>
                     <?= $form->field($model, 'pincode')->end() ?>
                 </div>

@@ -3,11 +3,11 @@
 namespace app\models;
 
 /**
- * This is the ActiveQuery class for [[ProductMaster]].
+ * This is the ActiveQuery class for [[ProductUserMapping]].
  *
- * @see ProductMaster
+ * @see ProductUserMapping
  */
-class ProductMasterQuery extends BaseQuery
+class ProductUserMappingQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class ProductMasterQuery extends BaseQuery
 
     /**
      * {@inheritdoc}
-     * @return ProductMaster[]|array
+     * @return ProductUserMapping[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class ProductMasterQuery extends BaseQuery
 
     /**
      * {@inheritdoc}
-     * @return ProductMaster|array|null
+     * @return ProductUserMapping|array|null
      */
     public function one($db = null)
     {

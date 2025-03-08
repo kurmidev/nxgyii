@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\component\Constants;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "company".
@@ -27,6 +28,7 @@ use Yii;
  */
 class Company extends \app\models\BaseModel
 {
+    public $product_mappings;
     /**
      * {@inheritdoc}
      */
@@ -38,8 +40,8 @@ class Company extends \app\models\BaseModel
     public function scenarios()
     {
         return [
-            self::SCENARIO_CREATE => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status'],
-            self::SCENARIO_UPDATE => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status'],
+            self::SCENARIO_CREATE => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status','product_mappings'],
+            self::SCENARIO_UPDATE => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status','product_mappings'],
             self::SCENARIO_DEFAULT => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status', 'added_on', 'updated_on', 'added_by', 'updated_by'],
         ];
     }
@@ -49,7 +51,8 @@ class Company extends \app\models\BaseModel
     public function rules()
     {
         return [
-            [['name', 'mobile_no', 'billing_address'], 'required'],
+            [['name', 'mobile_no', 'billing_address','product_mappings'], 'required'],
+            ['product_mappings', 'each', 'rule' => ['integer']],
             [['status', 'added_by', 'updated_by'], 'integer'],
             [['added_on', 'updated_on'], 'safe'],
             [['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'billing_address', 'pincode', 'logo'], 'string', 'max' => 255],
@@ -97,6 +100,12 @@ class Company extends \app\models\BaseModel
         return parent::beforeSave($insert);
     }
 
+    public function afterSave($insert, $changedAttributes){
+        if(in_array($this->scenario, [self::SCENARIO_CREATE, self::SCENARIO_UPDATE])){
+            $this->addProductMappings($this->product_mappings);
+        }
+    }
+
     /**
      * @inheritdoc
      * @return CompanyQuery the active query used by this AR class.
@@ -106,5 +115,27 @@ class Company extends \app\models\BaseModel
         return new CompanyQuery(get_called_class());
     }
 
+    public function getProductMappings(){
+        return $this->hasMany(ProductUserMapping::class,['user_id'=>'id'])->andOnCondition(['user_type'=>ProductUserMapping::USER_TYPE_COMPANY]);
+    }
+
+    public function addProductMappings($product_mappings){
+        if(!empty($product_mappings)){
+            ProductUserMapping::deleteAll(["user_id"=>$this->id,'user_type'=>ProductUserMapping::USER_TYPE_COMPANY]);
+        }
+        foreach($product_mappings as $product_id){
+            $model = new ProductUserMapping(['scenario'=>ProductUserMapping::SCENARIO_CREATE]);
+            $model->product_id = $product_id;
+            $model->user_id = $this->id;
+            $model->user_type = ProductUserMapping::USER_TYPE_COMPANY;
+            if($model->validate() && $model->save()){
+                //do notthings
+            }
+        }
+    }
+
+    public function getProduct_mappings(){
+        return !empty($this->productMappings)?ArrayHelper::getColumn($this->productMappings,'product_id'):[];
+    }
 
 }

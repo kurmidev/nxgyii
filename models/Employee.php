@@ -5,6 +5,7 @@ namespace app\models;
 use app\component\Constants;
 use PHPUnit\TextUI\Configuration\Constant;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "employee".
@@ -30,6 +31,7 @@ use Yii;
  */
 class Employee extends \app\models\BaseModel
 {
+    public $product_mappings;
     public $password;
     /**
      * {@inheritdoc}
@@ -41,9 +43,9 @@ class Employee extends \app\models\BaseModel
 
     public function scenarios(){
         return [
-            self::SCENARIO_CREATE => ['name', 'code','mobile_no', 'address','password','phone_no','email','status','company_id','designation_id'],
-            self::SCENARIO_UPDATE => ['name', 'code','mobile_no', 'address','password','phone_no','email','status','company_id','designation_id'],
-            self::SCENARIO_DEFAULT => ['name', 'code','mobile_no', 'address','password','phone_no','email','status','company_id','designation_id'],
+            self::SCENARIO_CREATE => ['name', 'code','mobile_no', 'address','password','phone_no','email','status','company_id','designation_id','product_mappings','pincode'],
+            self::SCENARIO_UPDATE => ['name', 'code','mobile_no', 'address','password','phone_no','email','status','company_id','designation_id','product_mappings','pincode'],
+            self::SCENARIO_DEFAULT => ['name', 'code','mobile_no', 'address','password','phone_no','email','status','company_id','designation_id','product_mappings','pincode'],
         ];
     }
 
@@ -53,7 +55,7 @@ class Employee extends \app\models\BaseModel
     public function rules()
     {
         return [
-            [['name', 'mobile_no', 'address'], 'required'],
+            [['name', 'mobile_no', 'address','pincode'], 'required'],
             [['company_id', 'designation_id', 'status', 'added_by', 'updated_by'], 'integer'],
             [['added_on', 'updated_on'], 'safe'],
             [['name', 'code', 'mobile_no', 'phone_no', 'email', 'address', 'pincode','password'], 'string', 'max' => 255],
@@ -126,24 +128,32 @@ class Employee extends \app\models\BaseModel
 
     public function afterSave($insert, $changedAttributes){
         parent::afterSave($insert, $changedAttributes);
+        if(in_array($this->scenario, [self::SCENARIO_CREATE, self::SCENARIO_UPDATE])){
+            $this->addProductMappings($this->product_mappings);
+        }
         if($insert){
-            $user = new User(["scenario"=>User::SCENARIO_CREATE]);
-            $user->name = $this->name;
-            $user->mobile_no = $this->mobile_no;
-            $user->user_type = Constants::USERTYPE_CLIENT ;
-            $user->company_id = $this->company_id;
-            $user->client_id = $this->id;
-            $user->designation_id = $this->designation_id;
-            $user->status = $this->status;
-            $user->username = $user->email = $this->email;
-            $user->password = md5($this->password);
-            $user->password_hash = Yii::$app->security->generatePasswordHash($this->password);
-            $user->auth_key = Yii::$app->security->generateRandomString();
-            $user->setPassword('password');
-            $user->generateAuthKey();
-            if($user->validate() && $user->save()){
-                return true;
-            }
+        $this->createLoginCredential();
+        }
+        return false;
+    }
+
+    public function createLoginCredential(){
+        $user = new User(["scenario"=>User::SCENARIO_CREATE]);
+        $user->name = $this->name;
+        $user->mobile_no = $this->mobile_no;
+        $user->user_type = Constants::USERTYPE_CLIENT ;
+        $user->company_id = $this->company_id;
+        $user->client_id = $this->id;
+        $user->designation_id = $this->designation_id;
+        $user->status = $this->status;
+        $user->username = $user->email = $this->email;
+        $user->password = md5($this->password);
+        $user->password_hash = Yii::$app->security->generatePasswordHash($this->password);
+        $user->auth_key = Yii::$app->security->generateRandomString();
+        $user->setPassword('password');
+        $user->generateAuthKey();
+        if($user->validate() && $user->save()){
+            return true;
         }
         return false;
     }
@@ -157,6 +167,29 @@ class Employee extends \app\models\BaseModel
             $this->code = empty($this->code) ? $this->generateCode(Constants::PREFIX_DESIG) : $this->code;
         }
         return parent::beforeSave($insert);
+    }
+
+    public function getProductMappings(){
+        return $this->hasMany(ProductUserMapping::class,['user_id'=>'id'])->andOnCondition(['user_type'=>ProductUserMapping::USER_TYPE_EMPLOYEE]);
+    }
+
+    public function addProductMappings($product_mappings){
+        if(!empty($product_mappings)){
+            ProductUserMapping::deleteAll(["user_id"=>$this->id,'user_type'=>ProductUserMapping::USER_TYPE_EMPLOYEE]);
+        }
+        foreach($product_mappings as $product_id){
+            $model = new ProductUserMapping(['scenario'=>ProductUserMapping::SCENARIO_CREATE]);
+            $model->product_id = $product_id;
+            $model->user_id = $this->id;
+            $model->user_type = ProductUserMapping::USER_TYPE_EMPLOYEE;
+            if($model->validate() && $model->save()){
+                //do notthings
+            }
+        }
+    }
+
+    public function getProduct_mappings(){
+        return !empty($this->productMappings)?ArrayHelper::getColumn($this->productMappings,'product_id'):[];
     }
 
 }
