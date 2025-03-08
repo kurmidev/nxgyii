@@ -61,7 +61,7 @@ class Employee extends \app\models\BaseModel
             [['name', 'code', 'mobile_no', 'phone_no', 'email', 'address', 'pincode','password'], 'string', 'max' => 255],
             [['name'], 'unique'],
             [['code'], 'unique'],
-            [['email'], 'unique', 'targetClass' => User::class, 'targetAttribute' => ['email' => 'email']],
+            //[['email'], 'unique', 'targetClass' => User::class, 'targetAttribute' => ['email' => 'email']],
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::class, 'targetAttribute' => ['company_id' => 'id']],
             [['designation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Designation::class, 'targetAttribute' => ['designation_id' => 'id']],
         ];
