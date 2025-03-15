@@ -23,12 +23,12 @@ class JumpCloudService implements IDashborad
         $this->params = $params;
     }
     public static $endPoints = [
-        //"app\models\jumpcloud\ClientModel" => "/systemusers",
-        // "app\models\jumpcloud\DeviceModel" => "/systems",
-        // "app\models\jumpcloud\CertificateOffice365Model" => "/v2/office365s?limit=100",
-        // "app\models\jumpcloud\CertificateAppleDmsModel" => "/v2/applemdms?limit=100",
-        // "app\models\jumpcloud\CatalogModel" => "/v2/software/catalog?limit=100",
-        // "app\models\jumpcloud\UpTimeModel" => "/v2/systeminsights/uptime?limit=100",
+        "app\models\jumpcloud\ClientModel" => "/systemusers",
+        "app\models\jumpcloud\DeviceModel" => "/systems",
+        "app\models\jumpcloud\CertificateOffice365Model" => "/v2/office365s?limit=100",
+        "app\models\jumpcloud\CertificateAppleDmsModel" => "/v2/applemdms?limit=100",
+        "app\models\jumpcloud\CatalogModel" => "/v2/software/catalog?limit=100",
+        "app\models\jumpcloud\UpTimeModel" => "/v2/systeminsights/uptime?limit=100",
         "app\models\jumpcloud\OrganizationModel" => "/organizations"
     ];
 
