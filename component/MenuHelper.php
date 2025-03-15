@@ -46,7 +46,7 @@ class MenuHelper
                     ['module' => '', 'controller' => 'company', 'action' => 'company', 'label' => 'company', 'is_menu' => true, 'icon' => " ki-logistic"],
                     ['module' => '', 'controller' => 'company', 'action' => 'add-company', 'label' => 'Add company', 'is_menu' => false, 'icon' => " ki-logistic"],
                     ['module' => '', 'controller' => 'company', 'action' => 'update-company', 'label' => 'Update company', 'is_menu' => false, 'icon' => " ki-logistic"],
-                    ['module' => '', 'controller' => 'company', 'action' => 'view-company', 'label' => 'View company', 'is_menu' => false, 'icon' => " ki-logistic"],
+                    ['module' => '', 'controller' => 'company', 'action' => 'view-company', 'label' => 'Company Dashboard', 'is_menu' => false, 'icon' => " ki-logistic"],
                 ],
             ]
         ],

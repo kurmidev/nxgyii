@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             $products = ProductMaster::find()->where(['id' => $productIds])->all();
                                 foreach($products as $p){
                                     $cont.='<div class="menu-item px-3">
-                                            <a href="'.Yii::$app->urlManager->createUrl(['company/view-company', 'id' => $data['id']]).'" class="menu-link px-3" data-kt-inbox-listing-filter="show_all">
+                                            <a href="'.Yii::$app->urlManager->createUrl(['company/view-company', 'id' => $data['id'],"product_id"=>$p->id]).'" class="menu-link px-3" data-kt-inbox-listing-filter="show_all">
                                             '.$p->name.'
                                         </a>
                                     </div>';

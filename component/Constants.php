@@ -22,5 +22,17 @@ class Constants{
         self::STATUS_ACTIVE => 'Active',
     ];
 
+    const JUMPCLOUD = "JUMPCLOUD";
+    const SECEON = "SECEON";
+
+    const SERVICE_PROVIDER = [
+        self::JUMPCLOUD => self::JUMPCLOUD ,
+        self::SECEON => self::SECEON,
+    ];
+    const ATTRIB_FOR = [
+        "HEADER"=>"HEADER",
+        "BODY" => "BODY",
+        "ENCRPT_KEY"=> "ENCRPT_KEY"
+    ];
 
 }

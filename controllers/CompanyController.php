@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Company;
 use app\models\CompanySearch;
 use app\controllers\BaseController;
+use app\services\DashboardService;
 use app\services\JumpCloudService;
 use Yii;
 use yii\web\NotFoundHttpException;
@@ -79,18 +80,19 @@ class CompanyController extends BaseController
         ]);
     }
 
-    public function actionViewCompany($id){
+    public function actionViewCompany($id,$product_id){
         $model = Company::findOne($id);
         if (!$model instanceof Company) {
             \Yii::$app->getSession()->setFlash('e', 'No record found');
             return $this->redirect(['company/company']);
         }
         
-        $model = new JumpCloudService();
-        $users = $model->getUsers();
+        $service   = new DashboardService($product_id);
+        $counts = $service->getDashboardCounts();
+
         return $this->render('view-company', [
             'model' => $model,
-            'user'=>$users
+            'counts'=>$counts
          ]);
 
     }

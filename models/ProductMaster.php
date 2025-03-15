@@ -3,6 +3,8 @@
 namespace app\models;
 
 use app\component\Constants;
+use app\services\JumpCloudService;
+use app\services\SeceonService;
 use Yii;
 
 /**
@@ -115,6 +117,7 @@ class ProductMaster extends \app\models\BaseModel
         foreach($this->productAttributes as $key=>$value){
             $attributes[$key]["attr_type"] = $value->attr_type;
             $attributes[$key]["attr_value"] = $value->attr_value;
+            $attributes[$key]["attr_for"] = $value->attr_for;
         }
         return $attributes;
     }
@@ -126,7 +129,15 @@ class ProductMaster extends \app\models\BaseModel
             $productAttribute->product_id = $this->id;
             $productAttribute->attr_type = $attr["attr_type"];
             $productAttribute->attr_value = $attr["attr_value"];
+            $productAttribute->attr_for = $attr["attr_for"];
             $productAttribute->save();
         }
+    }
+
+    public static function getProductObjects(){
+        return [
+            "JUMPCLOUD"=> new  JumpCloudService(),
+            "SECEON" => new SeceonService(),
+        ];
     }
 }

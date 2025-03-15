@@ -9,6 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int|null $product_id
+ * @property string|null $attr_for
  * @property string|null $attr_value
  * @property string|null $attr_type
  * @property string $added_on
@@ -34,16 +35,16 @@ class ProductAttributes extends \app\models\BaseModel
         return [
             [['product_id', 'added_by', 'updated_by'], 'integer'],
             [['added_on', 'updated_on'], 'safe'],
-            [['attr_value', 'attr_type'], 'string', 'max' => 255],
+            [['attr_value', 'attr_type','attr_for'], 'string', 'max' => 255],
             [['product_id', 'attr_type'], 'unique', 'targetAttribute' => ['product_id', 'attr_type']],
         ];
     }
 
     public function scenarios(){
         return [
-            self::SCENARIO_CREATE => ['product_id', 'attr_value', 'attr_type'],
-            self::SCENARIO_UPDATE => ['product_id', 'attr_value', 'attr_type'],
-            self::SCENARIO_DEFAULT => ['product_id', 'attr_value', 'attr_type'],  // Default scenario for search, view, update, create etc.  // If no scenario is set, default is SCENARIO_DEFAULT.  // For example, you may want to disable some attributes in the search form based on the current scenario.
+            self::SCENARIO_CREATE => ['product_id', 'attr_value', 'attr_type','attr_for'],
+            self::SCENARIO_UPDATE => ['product_id', 'attr_value', 'attr_type','attr_for'],
+            self::SCENARIO_DEFAULT => ['product_id', 'attr_value', 'attr_type','attr_for'],  // Default scenario for search, view, update, create etc.  // If no scenario is set, default is SCENARIO_DEFAULT.  // For example, you may want to disable some attributes in the search form based on the current scenario.
         ];
     }
 
@@ -57,6 +58,7 @@ class ProductAttributes extends \app\models\BaseModel
             'product_id' => 'Product ID',
             'attr_value' => 'Attr Value',
             'attr_type' => 'Attr Type',
+            'attr_for' =>   'Attribute for',
             'added_on' => 'Added On',
             'updated_on' => 'Updated On',
             'added_by' => 'Added By',

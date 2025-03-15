@@ -1,7 +1,7 @@
 <?php
 
 $params = require __DIR__ . '/params.php';
-
+$params = require __DIR__ . '/params.dev.php';
 
 $config = [
     'id' => 'basic-console',

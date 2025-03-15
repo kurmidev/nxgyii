@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-lg-3 col-sm-3 col-xs-3">
                     <?= $form->field($model, 'service_provider', ['options' => ['class' => 'form-group']])->begin() ?>
                     <?= Html::activeLabel($model, 'service_provider', ['class' => 'control-label']); ?>
-                    <?= Html::activeTextInput($model, 'service_provider', ['class' => 'form-control']) ?>
+                    <?= Html::activeDropDownList($model, "service_provider", Constants::SERVICE_PROVIDER, ['class' => 'form-control',"prompt"=>"select one"]) ?>
                     <?= Html::error($model, 'service_provider', ['class' => 'error help-block']) ?>
                     <?= $form->field($model, 'service_provider')->end() ?>
                 </div>
@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="card-body row">
         <div class="col-lg-12 col-sm-12 col-xs-12 mb-5">
-            <h6 class="br-section-label p-4">Pool Details</h6>
+            <h6 class="br-section-label p-4">Product Parameters</h6>
             <?= $this->render('_product_attributes', ['model' => $model, 'form' => $form]) ?>
         </div>
     </div>
