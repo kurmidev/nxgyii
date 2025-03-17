@@ -4,7 +4,7 @@ namespace app\models;
 
 use app\component\Constants;
 use app\services\JumpCloudService;
-use app\services\SeceonService;
+//use app\services\SeceonService;
 use Yii;
 
 /**
@@ -137,7 +137,7 @@ class ProductMaster extends \app\models\BaseModel
     public static function getProductObjects(){
         return [
             "JUMPCLOUD"=> new  JumpCloudService(),
-            "SECEON" => new SeceonService(),
+           // "SECEON" => new SeceonService(),
         ];
     }
 }
