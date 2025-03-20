@@ -55,7 +55,7 @@ class JumpCloudController extends ConsoleController
     
         $data = $this->getData($endpoint, "GET", $headers);
         if (!isset($data["body"]["totalCount"]) && $skip == 0) {
-            $data["body"]["totalCount"] = 10000;// count($data["body"]);
+            $data["body"]["totalCount"] = 1000;// count($data["body"]);
         }
         if ($remaingCount == 0 && $data["body"]["totalCount"] > 0 && $skip == 0) {
             $remaingCount = $data["body"]["totalCount"];
@@ -68,6 +68,8 @@ class JumpCloudController extends ConsoleController
             unset($records['totalCount']);
             $savedCount = $this->saveData($records, $model, $isDelete,$remaingCount);
             $remaingCount = $remaingCount - $savedCount;
+        }else{
+            $remaingCount = 0;
         }
         return $remaingCount;
     }
@@ -82,11 +84,11 @@ class JumpCloudController extends ConsoleController
         }
         echo "Inserting new data to $modelClass" . PHP_EOL;  // for testing purpose, comment out this line before production.
         //print_r($data);
-        foreach ($data as $d) {
+        if(empty($data)){
+            return $remaingCount;
+        }
             
-            if(empty($d) || $remaingCount<0){
-                continue;
-            }
+        foreach ($data as $d) {
             $remaingCount--;
             $i++;
             try {

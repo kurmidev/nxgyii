@@ -12,22 +12,22 @@ class ClientModel extends ActiveRecord
         return 'jumpcloud_client';
     }
 
-    public function rules()
-    {
-        return [
-            [["account_locked", "activated", "addresses", "allow_public_key", "alternateEmail", "attributes", "company", "costCenter", "department", "description", "disableDeviceMaxLoginAttempts", "displayname", "email", "employeeIdentifier", "employeeType", "enable_managed_uid", "enable_user_portal_multifactor", "external_dn", "external_source_type", "externally_managed", "firstname", "jobTitle", "lastname", "ldap_binding_user", "location", "managedAppleId", "manager", "mfa", "middlename", "password_never_expires", "passwordless_sudo", "phoneNumbers", "restrictedFields", "samba_service_user", "ssh_keys", "state", "sudo", "suspended", "systemUsername", "unix_guid", "unix_uid", "username", "creationSource", "created", "organization", "password_date", "password_expired", "totp_enabled", "_id", "id", "mfaEnrollment"], 'safe']
-        ];
-    }
-    public function attributes()
-    {
-        return ["account_locked", "activated", "addresses", "allow_public_key", "alternateEmail", "attributes", "company", "costCenter", "department", "description", "disableDeviceMaxLoginAttempts", "displayname", "email", "employeeIdentifier", "employeeType", "enable_managed_uid", "enable_user_portal_multifactor", "external_dn", "external_source_type", "externally_managed", "firstname", "jobTitle", "lastname", "ldap_binding_user", "location", "managedAppleId", "manager", "mfa", "middlename", "password_never_expires", "passwordless_sudo", "phoneNumbers", "restrictedFields", "samba_service_user", "ssh_keys", "state", "sudo", "suspended", "systemUsername", "unix_guid", "unix_uid", "username", "creationSource", "created", "organization", "password_date", "password_expired", "totp_enabled", "_id", "id", "mfaEnrollment"];
-    }
+        public function rules()
+        {
+            return [
+                [["account_locked", "activated", "addresses", "allow_public_key", "alternateEmail", "attributes", "company", "costCenter", "department", "description", "disableDeviceMaxLoginAttempts", "displayname", "email", "employeeIdentifier", "employeeType", "enable_managed_uid", "enable_user_portal_multifactor", "external_dn", "external_source_type", "externally_managed", "firstname", "jobTitle", "lastname", "ldap_binding_user", "location", "managedAppleId", "manager", "mfa", "middlename", "password_never_expires", "passwordless_sudo", "phoneNumbers", "restrictedFields", "samba_service_user", "ssh_keys", "state", "sudo", "suspended", "systemUsername", "unix_guid", "unix_uid", "username", "creationSource", "created", "organization", "password_date", "password_expired", "totp_enabled", "_id", "id", "mfaEnrollment"], 'safe']
+            ];
+        }
+        public function attributes()
+        {
+            return ["account_locked", "activated", "addresses", "allow_public_key", "alternateEmail", "attributes", "company", "costCenter", "department", "description", "disableDeviceMaxLoginAttempts", "displayname", "email", "employeeIdentifier", "employeeType", "enable_managed_uid", "enable_user_portal_multifactor", "external_dn", "external_source_type", "externally_managed", "firstname", "jobTitle", "lastname", "ldap_binding_user", "location", "managedAppleId", "manager", "mfa", "middlename", "password_never_expires", "passwordless_sudo", "phoneNumbers", "restrictedFields", "samba_service_user", "ssh_keys", "state", "sudo", "suspended", "systemUsername", "unix_guid", "unix_uid", "username", "creationSource", "created", "organization", "password_date", "password_expired", "totp_enabled", "_id", "id", "mfaEnrollment"];
+        }
 
-    public static function find()
-    {
-        return new ClientQuery(get_called_class());
+        public static function find()
+        {
+            return new ClientQuery(get_called_class());
+        }
     }
-}
 
 class ClientQuery extends ActiveQuery
 {
