@@ -10,7 +10,7 @@ class CountWidget extends Widget
     public $count;
     public $title;
     public $type;
-
+    public $url;
     private $iconsList = [
         "ki-chart-pie-4",
         "ki-element-11",
@@ -30,7 +30,7 @@ class CountWidget extends Widget
     {
 
         $iconsImage = $this->iconsList[rand(0, count($this->iconsList) - 1)];
-        return '<i class="ki-duotone ' . $iconsImage . ' fs-4x text-primary mb-3">
+        return '<i class="ki-duotone ' . $iconsImage . ' fs-4x text-primary mb-3 pulse">
         <span class="path1"></span>
         <span class="path2"></span>
         <span class="path3"></span>
@@ -46,7 +46,10 @@ class CountWidget extends Widget
     function Circle()
     {
         $icons = $this->getIcons();
-
+        $cnt = $this->count;
+        if(!empty($this->url)){
+            $cnt = Html::tag("a",$this->count,["href"=>$this->url]);
+        }
         return Html::tag(
             'div',
             Html::tag(
@@ -56,7 +59,7 @@ class CountWidget extends Widget
                     "div",
                     Html::tag(
                         "div",
-                        Html::tag("div", $this->count, ["class" => "min-w-70px fw-semibold", "data-kt-countup" => "true", "data-kt-countup-value" => $this->count, "data-kt-countup-suffix" => "+"])
+                        Html::tag("div", $cnt, ["class" => "min-w-70px fw-semibold", "data-kt-countup" => "true", "data-kt-countup-value" => $this->count, "data-kt-countup-suffix" => "+"])
                         ,
                         ["class" => "fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex flex-center"]
                     ) .
@@ -76,18 +79,21 @@ class CountWidget extends Widget
     private function Square()
     {
         $icons = $this->getIcons();
-
+        $cnt = Html::tag(
+            "div",
+            Html::tag("div", $this->count, ["class" => "min-w-70px fw-semibold", "data-kt-countup" => "true", "data-kt-countup-value" => $this->count, "data-kt-countup-suffix" => "+"])
+            ,
+            ["class" => "fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex flex-center"]
+        );
+        if(!empty($this->url)){
+            $cnt = Html::tag("a",$cnt,["href"=>$this->url]);
+        }
         return  Html::tag(
             "div",
             Html::tag(
                 "div",
                 Html::tag("span", $icons, ["class" => "svg-icon fs-3 text-success me-2"]) .
-                Html::tag(
-                    "div",
-                    Html::tag("div", $this->count, ["class" => "min-w-70px fw-semibold", "data-kt-countup" => "true", "data-kt-countup-value" => $this->count, "data-kt-countup-suffix" => "+"])
-                    ,
-                    ["class" => "fs-lg-2hx fs-2x fw-bold text-gray-800 d-flex flex-center"]
-                )
+                $cnt
                 ,
                 ["class" => "d-flex align-items-center"]
             ) .

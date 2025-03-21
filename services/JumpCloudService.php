@@ -35,7 +35,7 @@ class JumpCloudService implements IDashborad
     public static $baseUrl = "https://console.jumpcloud.com/api";
 
 
-    public function getData(string $report, array $filter): array
+    public function getData($request): array
     {
         // TODO: Implement getData() method.
         return [];

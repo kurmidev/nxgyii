@@ -3,6 +3,7 @@
 namespace app\component;
 
 use DateTime;
+use Exception;
 use yii\helpers\Html;
 
 class Utils
@@ -47,4 +48,31 @@ class Utils
         $later = new DateTime(date("Y-m-d H:i:s",strtotime($endDate)));
         return $later->diff($earlier)->format("%r%a"); //3
     }
+
+    public static function prefixNumber($number) {
+        // If the number is greater than or equal to a lakh (100,000)
+        $number = str_replace(",", '',$number);
+        
+        try{
+            if ($number >= 100000) {
+                // Format to Lakhs (L) with two decimal points
+                return number_format($number / 100000, 1) . 'L';
+            }
+            // If the number is greater than or equal to a thousand (1000) but less than 100000
+            elseif ($number >= 1000) {
+                // Format to Thousands (K) with one decimal point
+                return number_format($number / 1000, 1) . 'K';
+            }
+            // If the number is less than 1000, return the number as is
+            else {
+                return $number;
+            }
+        }catch(Exception $ex){
+            print_r($number);
+            exit;
+        }
+       
+    }
+    
+    
 }

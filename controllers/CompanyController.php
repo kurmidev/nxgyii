@@ -43,7 +43,7 @@ class CompanyController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->getSession()->setFlash('s', "Company $model->name added successfully.");
             return $this->redirect(['company', 'id' => $model->id]);
-        }else if(!empty($model->errors)){
+        } else if (!empty($model->errors)) {
             echo "<pre>";
             print_r($model->errors);
             exit;
@@ -80,22 +80,45 @@ class CompanyController extends BaseController
         ]);
     }
 
-    public function actionViewCompany($id,$product_id){
+    public function actionViewCompany($id, $product_id)
+    {
         $model = Company::findOne($id);
         if (!$model instanceof Company) {
             \Yii::$app->getSession()->setFlash('e', 'No record found');
             return $this->redirect(['company/company']);
         }
-        
-        $service   = new DashboardService($product_id);
+
+        $service = new DashboardService($product_id);
         $counts = $service->getDashboardCounts();
 
         return $this->render('view-company', [
             'model' => $model,
-            'counts'=>$counts
-         ]);
+            'counts' => $counts,
+            "type" => $service->getDashboardTypes(),
+            "product_id" => $product_id
+        ]);
 
     }
 
+    public function actionDetailView($type, $tenant_id, $service)
+    {
+        $service = new DashboardService($service);
+        if ($service instanceof DashboardService) {
+            $req = [
+                "type" => $type,
+                "tenant_id" => base64_decode($tenant_id)
+            ];
+            $d = $service->getData($req);
+
+            return $this->render('detail-view', [
+                'type' => $type,
+                'dataProvider' => $d['dataProvider'],
+                "service" => $service,
+                "title"=> $d['title'],
+                "columns" => $d['columns']
+            ]);
+        }
+        throw new NotFoundHttpException('Invalid service');
+    }
 
 }

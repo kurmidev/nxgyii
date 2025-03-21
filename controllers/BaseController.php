@@ -43,7 +43,6 @@ class BaseController extends \yii\web\Controller
 
     public function actionError()
     {
-        print_r("nef");
         $exception = Yii::$app->errorHandler->exception;
         if ($exception !== null) {
             //$this->layout = 'yourNewLayout';

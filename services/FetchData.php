@@ -9,9 +9,9 @@ trait FetchData{
     public function getData($endpoint,$method="GET",$headers=[], $params = []){
         try{
             $client = new Client();
-            $request = new Request($method, $endpoint, $headers);
+            $params = !empty($params) ? json_encode($params) : "";
+            $request = new Request($method, $endpoint, $headers,$params);
             $response = $client->send($request);
-            
             if($response->getStatusCode() == 200){
                 return ["body" => json_decode($response->getBody()->getContents(),true)];
             }else{
