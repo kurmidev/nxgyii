@@ -41,11 +41,12 @@ class Employee extends \app\models\BaseModel
         return 'employee';
     }
 
-    public function scenarios(){
+    public function scenarios()
+    {
         return [
-            self::SCENARIO_CREATE => ['name', 'code','mobile_no', 'address','password','phone_no','email','status','company_id','designation_id','product_mappings','pincode'],
-            self::SCENARIO_UPDATE => ['name', 'code','mobile_no', 'address','password','phone_no','email','status','company_id','designation_id','product_mappings','pincode'],
-            self::SCENARIO_DEFAULT => ['name', 'code','mobile_no', 'address','password','phone_no','email','status','company_id','designation_id','product_mappings','pincode'],
+            self::SCENARIO_CREATE => ['name', 'code', 'mobile_no', 'address', 'password', 'phone_no', 'email', 'status', 'company_id', 'designation_id', 'product_mappings', 'pincode'],
+            self::SCENARIO_UPDATE => ['name', 'code', 'mobile_no', 'address', 'password', 'phone_no', 'email', 'status', 'company_id', 'designation_id', 'product_mappings', 'pincode'],
+            self::SCENARIO_DEFAULT => ['name', 'code', 'mobile_no', 'address', 'password', 'phone_no', 'email', 'status', 'company_id', 'designation_id', 'product_mappings', 'pincode'],
         ];
     }
 
@@ -55,15 +56,31 @@ class Employee extends \app\models\BaseModel
     public function rules()
     {
         return [
-            [['name', 'mobile_no', 'address','pincode'], 'required'],
+            [['name', 'mobile_no', 'address', 'pincode'], 'required'],
             [['company_id', 'designation_id', 'status', 'added_by', 'updated_by'], 'integer'],
             [['added_on', 'updated_on'], 'safe'],
-            [['name', 'code', 'mobile_no', 'phone_no', 'email', 'address', 'pincode','password'], 'string', 'max' => 255],
+            [['name', 'code', 'mobile_no', 'phone_no', 'email', 'address', 'pincode', 'password'], 'string', 'max' => 255],
             [['name'], 'unique'],
             [['code'], 'unique'],
             //[['email'], 'unique', 'targetClass' => User::class, 'targetAttribute' => ['email' => 'email']],
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::class, 'targetAttribute' => ['company_id' => 'id']],
             [['designation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Designation::class, 'targetAttribute' => ['designation_id' => 'id']],
+            [
+                [
+                    "product_mapping",
+                    function ($attribute, $params, $validator) {
+                        if (!empty($params['company_id'])) {
+                            $company = Company::findOne(['id' => $params['company_id']]);
+                            if (!empty($company)) {
+                                $arr = array_intersect($company->getProduct_mappings(), $params['product_mappings']);
+                                if(empty($arr)){
+                                    $this->addError($attribute, 'No product mapped with this company.');
+                                }
+                            }
+                        }
+                    }
+                ]
+            ]
         ];
     }
 
@@ -126,22 +143,24 @@ class Employee extends \app\models\BaseModel
         return new EmployeeQuery(get_called_class());
     }
 
-    public function afterSave($insert, $changedAttributes){
+    public function afterSave($insert, $changedAttributes)
+    {
         parent::afterSave($insert, $changedAttributes);
-        if(in_array($this->scenario, [self::SCENARIO_CREATE, self::SCENARIO_UPDATE])){
+        if (in_array($this->scenario, [self::SCENARIO_CREATE, self::SCENARIO_UPDATE])) {
             $this->addProductMappings($this->product_mappings);
         }
-        if($insert){
-        $this->createLoginCredential();
+        if ($insert) {
+            $this->createLoginCredential();
         }
         return false;
     }
 
-    public function createLoginCredential(){
-        $user = new User(["scenario"=>User::SCENARIO_CREATE]);
+    public function createLoginCredential()
+    {
+        $user = new User(["scenario" => User::SCENARIO_CREATE]);
         $user->name = $this->name;
         $user->mobile_no = $this->mobile_no;
-        $user->user_type = Constants::USERTYPE_CLIENT ;
+        $user->user_type = Constants::USERTYPE_CLIENT;
         $user->company_id = $this->company_id;
         $user->client_id = $this->id;
         $user->designation_id = $this->designation_id;
@@ -152,44 +171,48 @@ class Employee extends \app\models\BaseModel
         $user->auth_key = Yii::$app->security->generateRandomString();
         $user->setPassword('password');
         $user->generateAuthKey();
-        if($user->validate() && $user->save()){
+        if ($user->validate() && $user->save()) {
             return true;
         }
         return false;
     }
 
 
-     /**
+    /**
      * @inheritdoc
      */
-    public function beforeSave($insert) {
+    public function beforeSave($insert)
+    {
         if ($this->scenario == self::SCENARIO_CREATE) {
             $this->code = empty($this->code) ? $this->generateCode(Constants::PREFIX_DESIG) : $this->code;
         }
         return parent::beforeSave($insert);
     }
 
-    public function getProductMappings(){
-        return $this->hasMany(ProductUserMapping::class,['user_id'=>'id'])->andOnCondition(['user_type'=>ProductUserMapping::USER_TYPE_EMPLOYEE]);
+    public function getProductMappings()
+    {
+        return $this->hasMany(ProductUserMapping::class, ['user_id' => 'id'])->andOnCondition(['user_type' => ProductUserMapping::USER_TYPE_EMPLOYEE]);
     }
 
-    public function addProductMappings($product_mappings){
-        if(!empty($product_mappings)){
-            ProductUserMapping::deleteAll(["user_id"=>$this->id,'user_type'=>ProductUserMapping::USER_TYPE_EMPLOYEE]);
+    public function addProductMappings($product_mappings)
+    {
+        if (!empty($product_mappings)) {
+            ProductUserMapping::deleteAll(["user_id" => $this->id, 'user_type' => ProductUserMapping::USER_TYPE_EMPLOYEE]);
         }
-        foreach($product_mappings as $product_id){
-            $model = new ProductUserMapping(['scenario'=>ProductUserMapping::SCENARIO_CREATE]);
+        foreach ($product_mappings as $product_id) {
+            $model = new ProductUserMapping(['scenario' => ProductUserMapping::SCENARIO_CREATE]);
             $model->product_id = $product_id;
             $model->user_id = $this->id;
             $model->user_type = ProductUserMapping::USER_TYPE_EMPLOYEE;
-            if($model->validate() && $model->save()){
+            if ($model->validate() && $model->save()) {
                 //do notthings
             }
         }
     }
 
-    public function getProduct_mappings(){
-        return !empty($this->productMappings)?ArrayHelper::getColumn($this->productMappings,'product_id'):[];
+    public function getProduct_mappings()
+    {
+        return !empty($this->productMappings) ? ArrayHelper::getColumn($this->productMappings, 'product_id') : [];
     }
 
 }
