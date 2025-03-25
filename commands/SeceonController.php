@@ -28,7 +28,8 @@ class SeceonController extends ConsoleController
 
     private $tenant_mapping = [
         "DXN7889" => "apeMTokytLjmE2OC40MC4xMTEape",
-        "PFO2702" => "apeMToQ4tLjmExMy4zNS4xMDkape"
+        "PFO2702" => "apeMToQ4tLjmExMy4zNS4xMDkape",
+        "NXG2173"=>"apeMToQ4tLjmExMy4zNS4xMDkape"
     ];
     public static $baseUrl = "https://otmin.seceon.ai";
     public function __construct($id, $module, $config = [])
