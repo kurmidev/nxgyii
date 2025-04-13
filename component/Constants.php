@@ -14,9 +14,22 @@ class Constants{
     const STATUS_INACTIVE = 0;
     const STATUS_DELETED = -1;
 
+    const OPEN = 1;
+    const ON_HOLD = 2;
+    const CLOSED = 3;
+
+    const PRIORITY_LOW = 1;
+    const PRIORITY_MEDUIM = 2;
+    const PRIORITY_HIGH = 3;
+
     const PREFIX_DESIG = "DN";
     const PREFIX_COMPANY = "CMP";
     const PREFIX_PRODUCT = "PRD";
+
+    const PREFIX_TICKET = "NXGCM";
+
+    const CAT_TICKETS = 1;
+
     const LABEL_STATUS = [
         self::STATUS_INACTIVE => 'In Active',
         self::STATUS_ACTIVE => 'Active',
@@ -33,6 +46,22 @@ class Constants{
         "HEADER"=>"HEADER",
         "BODY" => "BODY",
         "ENCRPT_KEY"=> "ENCRPT_KEY"
+    ];
+
+    const LABEL_COMPLAINT_STATUS = [
+        self::OPEN => 'OPEN',
+        self::ON_HOLD => 'On Hold',
+        self::CLOSED => 'Closed',
+    ];
+
+    const LABEL_PRIORITY = [
+        self::PRIORITY_LOW => 'Low',
+        self::PRIORITY_MEDUIM => 'Medium',
+        self::PRIORITY_HIGH => 'High',
+    ];
+
+    const LABEL_CATEGORY_TYPE = [
+        self::CAT_TICKETS => 'Tickets',
     ];
 
 }

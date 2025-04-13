@@ -67,7 +67,7 @@ class MenuHelper
                 "complaint" => [
                     ['module' => '', 'controller' => 'complaint', 'action' => 'index', 'label' => 'Complaint', 'is_menu' => true, 'icon' => " ki-delivery-24"],
                     ['module' => '', 'controller' => 'complaint', 'action' => 'add-complaint', 'label' => 'Add New Complaint', 'is_menu' => false, 'icon' => " ki-delivery-24"],
-                    ['module' => '', 'controller' => 'complaint', 'action' => 'process-complaint', 'label' => 'Process Ticket', 'is_menu' => false, 'icon' => " ki-delivery-24"],
+                    ['module' => '', 'controller' => 'complaint', 'action' => 'process-complaint', 'label' => 'Reply Ticket', 'is_menu' => false, 'icon' => " ki-delivery-24"],
                     ['module' => '', 'controller' => 'complaint', 'action' => 'view-complaint', 'label' => 'Ticket Details', 'is_menu' => false, 'icon' => " ki-delivery-24"],
                 ]
             ]
@@ -75,16 +75,26 @@ class MenuHelper
         'plugin' => [
             "config" => ["class" => "menu-item-icon icon tx-18 fa fa-wifi"],
             "items" => [
+                'category' => [
+                    ['module' => '', 'controller' => 'plugin', 'action' => 'category', 'label' => 'Category', 'is_menu' => true, 'icon' => " ki-devices"],
+                    ['module' => '', 'controller' => 'plugin', 'action' => 'add-category', 'label' => 'Add Catgory', 'is_menu' => false, 'icon' => " ki-devices"],
+                    ['module' => '', 'controller' => 'plugin', 'action' => 'update-category', 'label' => 'Update Category', 'is_menu' => false, 'icon' => " ki-devices"],
+                ],
+                'sub-category' => [
+                    ['module' => '', 'controller' => 'plugin', 'action' => 'sub-category', 'label' => 'Sub Category', 'is_menu' => true, 'icon' => " ki-devices"],
+                    ['module' => '', 'controller' => 'plugin', 'action' => 'add-sub-category', 'label' => 'Add Sub Catgory', 'is_menu' => false, 'icon' => " ki-devices"],
+                    ['module' => '', 'controller' => 'plugin', 'action' => 'update-sub-category', 'label' => 'Update Sub Category', 'is_menu' => false, 'icon' => " ki-devices"],
+                ],
                 'plugin' => [
                     ['module' => '', 'controller' => 'plugin', 'action' => 'index', 'label' => 'Plugin', 'is_menu' => true, 'icon' => " ki-devices"],
                     ['module' => '', 'controller' => 'plugin', 'action' => 'add-sms', 'label' => 'SMS', 'is_menu' => false, 'icon' => " ki-devices"],
-                    ['module' => '', 'controller' => 'plugin Gateway', 'action' => 'add-pg', 'label' => 'Payment Gateway', 'is_menu' => false, 'icon' => " ki-devices"],
+                    ['module' => '', 'controller' => 'plugin', 'action' => 'add-pg', 'label' => 'Payment Gateway', 'is_menu' => false, 'icon' => " ki-devices"],
                 ]
             ]
         ],
     ];
 
-    public static function getDisplayMenu($menu = [], $is_submenu = false)
+    public static function getDisplayMenus($menu = [], $is_submenu = false)
     {
         $menu = empty($menu) ? self::$menu : $menu;
         $result = [];
@@ -92,62 +102,16 @@ class MenuHelper
             $menuItems = empty($mvalues['items']) ? $mvalues : $mvalues['items'];
             $menuConfig = empty($mvalues['config']) ? [] : $mvalues['config'];
             $is_submenu = count($menuItems) > 1 ? true : false;
+            print_r($menuItems);
             if (ArrayHelper::isAssociative($menuItems)) {
                 foreach ($menuItems as $k => $m) {
+                    echo "<pre>";
+                    print_r($k);
+                    print_r($m);
+                    exit();
                     if ($is_submenu) {
+                      
                         $label = self::styleMenuLabel($key, $menuConfig);
-                        /**
-                         * <div class="menu-item here show menu-accordion" data-kt-menu-trigger="click">
-                         * 
-        <!--begin:Menu link-->
-        <span class="menu-link">
-          <span class="menu-icon">
-            <i class=" ki-chart-pie-3 fs-2">
-              <span class="path1"></span>
-              <span class="path2"></span>
-              <span class="path3"></span>
-            </i>
-          </span>
-          <span class="menu-title">Dashboards</span>
-          <span class="menu-arrow"></span>
-        </span>
-        <!--end:Menu link-->
-        <!--begin:Menu sub-->
-        <div class="menu-sub menu-sub-accordion">
-          <!--begin:Menu item-->
-          <div class="menu-item">
-            <!--begin:Menu link-->
-            <a class="menu-link active" href="/good/index.html">
-              <span class="menu-bullet">
-                <span class="bullet bullet-dot"></span>
-              </span>
-              <span class="menu-title">Default</span>
-            </a>
-            <!--end:Menu link-->
-          </div>
-          <!--end:Menu item--><!--begin:Menu item-->
-          <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/good/dashboards/projects.html"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Projects</span></a><!--end:Menu link--></div>
-          <!--end:Menu item--><!--begin:Menu item-->
-          <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/good/dashboards/ecommerce.html"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">eCommerce</span></a><!--end:Menu link--></div>
-          <!--end:Menu item--><!--begin:Menu item-->
-          <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/good/dashboards/marketing.html"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Marketing</span></a><!--end:Menu link--></div>
-          <!--end:Menu item--><!--begin:Menu item-->
-          <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/good/dashboards/social.html"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Social</span></a><!--end:Menu link--></div><!--end:Menu item--><!--begin:Menu item-->
-          <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/good/dashboards/bidding.html"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Bidding</span></a><!--end:Menu link--></div>
-          <!--end:Menu item--><!--begin:Menu item-->
-          <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/good/dashboards/online-courses.html"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Online
-                Courses</span></a><!--end:Menu link--></div><!--end:Menu item--><!--begin:Menu item-->
-          <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/good/dashboards/logistics.html"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Logistics</span></a><!--end:Menu link--></div>
-          <!--end:Menu item--><!--begin:Menu item-->
-          <div class="menu-item"><!--begin:Menu link--><a class="menu-link" href="/good/landing.html"><span class="menu-bullet"><span class="bullet bullet-dot"></span></span><span class="menu-title">Landing</span></a><!--end:Menu link--></div><!--end:Menu item-->
-        </div><!--end:Menu sub-->
-      
-                         * </div>
-        
-                         * </div
-                         * 
-                         */
-
                         $result[$key] = [
                             'url' => "#",
                             'label' => $label,
@@ -166,7 +130,9 @@ class MenuHelper
                                             <span class="menu-title">{label}</span>
                                             <span class="menu-arrow"></span>
                                             </span>',
-                            'submenuTemplate' => '<div class="menu-sub menu-sub-accordion">{items}</div>',
+                            'submenuTemplate' => '<div class="menu-sub menu-sub-accordion" style="display: none; overflow: hidden;" kt-hidden-height="349">
+                                                    {items}
+                                                </div>',
                         ];
                     } else {
                    /*     <li class="nav-item"><a class="nav-link" href="index.html">
@@ -257,7 +223,7 @@ return  ' <div class="menu-item">
 
     public static function renderMenu()
     {
-        return MenuHelper::getDisplayMenu();
+        return MenuHelper::getDisplayMenus();
         // return Yii::$app->cache->getOrSet('menu', function () {
         //             return MenuHelper::getDisplayMenu();
         //         });

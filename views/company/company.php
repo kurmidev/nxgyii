@@ -55,26 +55,27 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'label' => 'Action',
                     'content' => function ($data) {
-                        $cont = "";
+                            $cont = "";
                             $productIds = $data['Product_mappings'];
                             $products = ProductMaster::find()->where(['id' => $productIds])->all();
-                                foreach($products as $p){
-                                    $cont.='<div class="menu-item px-3">
-                                            <a href="'.Yii::$app->urlManager->createUrl(['company/view-company', 'id' => $data['id'],"product_id"=>$p->id]).'" class="menu-link px-3" data-kt-inbox-listing-filter="show_all">
-                                            '.$p->name.'
-                                        </a>
-                                    </div>';
-                                }
-                            
-                        
-                            return Html::a(Html::tag('i', ' <span class="path1"></span><span class="path2"></span><span class="path3"></span>', ['class' => 'ki-duotone ki-pencil fs-2 ']), \Yii::$app->urlManager->createUrl(['company/update-company', 'id' => $data['id']]), ['title' => 'Update ' . $data['name'], 'class' => 'btn btn-primary-alt'])
-                                .'<div>
-                                    <a href="#" class="btn btn-sm btn-icon btn-light btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start">
-                                    <i class="ki-duotone ki-down fs-2"></i>        </a>
-                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                            '.$cont.'
-                                        </div>
-                                     </div>';
+                            $button = Html::a("Action" . Html::tag("i", "", ["class" => "ki-duotone ki-down fs-2"]), "#", $options = [
+                                "class" => "btn btn-sm btn-icon btn-light btn-active-light-primary",
+                                "data-kt-menu-trigger" => "click",
+                                "data-kt-menu-placement" => "bottom-start"
+                            ]);
+
+                            foreach ($products as $p) {
+                                $cont .= Html::tag(
+                                    "div",
+                                    Html::a($p->name, Yii::$app->urlManager->createUrl(['company/view-company', 'id' => $data['id'], "product_id" => $p->id]), ["class" => "menu-link px-3", "data-kt-inbox-listing-filter" => "show_all"])
+                                    ,
+                                    ["class" => "menu-item px-3"]
+                                );
+                            }
+
+                            $listWrapper = Html::tag('div', $cont, ['class' => 'menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4', "data-kt-menu" => "true"]);
+                            return Html::tag('div', $button . $listWrapper, ['class' => 'menu-item px-3']);
+
 
                         }
                 ]

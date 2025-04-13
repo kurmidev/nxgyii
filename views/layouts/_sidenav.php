@@ -37,7 +37,7 @@ use yii\helpers\ArrayHelper;
             fw-semibold" id="#kt_sidebar_menu" data-kt-menu="true">
       <?php foreach (MenuHelper::$menu as $menu => $menuDetails) { ?>
         <?php if (count($menuDetails['items']) > 1) { ?>
-          <div data-kt-menu-trigger="click" class="menu-item here show menu-accordion">
+          <div data-kt-menu-trigger="click" class="menu-item here menu-accordion">
             <!--begin:Menu link-->
             <span class="menu-link">
               <span class="menu-icon">
@@ -52,8 +52,9 @@ use yii\helpers\ArrayHelper;
             </span>
             <!--end:Menu link-->
             <!--begin:Menu sub-->
-            <div class="menu-sub menu-sub-accordion">
-              <?php foreach ($menuDetails['items'] as $k => $v) {
+            <div class="menu-sub menu-sub-accordion" style="display: none; overflow: hidden;" kt-hidden-height="349">
+              <?php
+              foreach ($menuDetails['items'] as $k => $v) {
                 foreach ($v as $itemsName => $itemsData) {
                   if ($itemsData['is_menu']) { ?>
                     <div class="menu-item">
@@ -62,7 +63,7 @@ use yii\helpers\ArrayHelper;
                         <span class="menu-bullet">
                           <span class="bullet bullet-dot"></span>
                         </span>
-                        <span class="menu-title"><?= $itemsName ?></span>
+                        <span class="menu-title"><?= $k ?></span>
                       </a>
                       <!--end:Menu link-->
                     </div>
