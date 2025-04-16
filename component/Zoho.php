@@ -24,7 +24,7 @@ class Zoho
 
     private function generateTokens()
     {
-        $cachedRefreshToken = Yii::$app->cache->get('zoho_refresh_token');
+        $cachedRefreshToken = !empty(ZOHO_REFRESH_TOKEN)?ZOHO_REFRESH_TOKEN:Yii::$app->cache->get('zoho_refresh_token');
         echo "Cached Refresh tokens....{$cachedRefreshToken}" . PHP_EOL;
 
         if (!empty($cachedRefreshToken)) {

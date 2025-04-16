@@ -85,8 +85,8 @@ class ZohoController extends ConsoleController
 
     public function actionZoho()
     {
-        //$this->registerNewComplaints();
-        //$this->addComments();
+        $this->registerNewComplaints();
+        $this->addComments();
         $this->closeTickets();
     }
 

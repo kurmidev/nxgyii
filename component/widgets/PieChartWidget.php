@@ -19,34 +19,43 @@ class PieChartWidget extends Widget
     public $listData;
 
     public $viewObj;
+    public $time;
 
     public function init()
     {
         parent::init();
+        
     }
 
     public function run()
     {
         if (!empty($this->data)) {
+            $this->time = rand(1,1000);
             $this->amCharts();
         }
         $table = "";
         if (!empty($this->listData)) {
             $i = 0;
-            $table = "<table class='table table-row-dashed align-middle gs-0 gy-4 my-0'>";
-            foreach ($this->listData as $k => $v) {
+            $table = "<table class='table align-middle gs-0 gy-4 my-0'>";
+            foreach ($this->listData as $key => $v) {
                 if ($i == 0) {
                     $headers = array_keys($v);
                     $h = "";
                     $table.="<theead>";
-                    $table.="<tr class='fs-7 fw-bold text-gray-500 border-bottom-0'>";
+                    $table.="<tr class='fw-bold fs-6 text-gray-800'>";
+                    if(!is_numeric($key)){
+                        $table.="<th class='pe-0 text-start min-w-10px'></th>";
+                    }
                     foreach ($headers as $header) {
-                        $table .="<th class='pe-0 text-end min-w-100px'>".$header."</th>";
+                        $table .="<th class='pe-0 text-end min-w-10px'>".$header."</th>";
                     }
                     $table.="</tr>";
                 }
                 $i++;
                 $table.="<tr>";
+                if(!is_numeric($key)){
+                    $table.="<td class='text-gray-800 fw-bold d-block fs-6 ps-0 text-end'>".$key."</td>";
+                }
                 foreach ($v as $k => $vs) {
                     $table.='<td><span class="text-gray-800 fw-bold d-block fs-6 ps-0 text-end">'.$vs.'</span></td>';
                 }
@@ -79,25 +88,26 @@ class PieChartWidget extends Widget
                     "div",
                     Html::tag(
                         "div",
-                        Html::tag("div", "", ["id" => "kt_card_widget_4_chart_2", "data-kt-line" => 10, "style" => "height: 200px;width:400px;"]),
+                        Html::tag("div", "", ["id" => "kt_card_widget_4_chart_2_".$this->time, "data-kt-line" => 10, "style" => "height: 200px;width:400px;"]),
                         ["class" => "d-flex flex-center me-5 pt-2"]
                     ),
-                    ["class" => "d-flex flex-center me-5 pt-2"]
+                    ["class" => "d-flex flex-center pt-2"]
                 ) : "") .
                 (!empty($table) ? Html::tag(
                     "div",
                     $table,
-                    ["class" => "d-flex flex-column content-justify-center w-100"]
+                    ["class" => "d-flex table-responsive my-5 flex-column content-justify-center"]
                 ) : ""),
                 ["class" => "card-body pt-2 pb-4 d-flex align-items-center"]
             ),
-            ["class" => "card card-flush h-md-50 mb-5 mb-xl-10"]
+            ["class" => "card mb-5"]
         );
     }
 
     public function amCharts()
     {
 
+        $time = time();
         $chartData = [];
         $colorHexArray = [];
         foreach ($this->data as $key => $value) {
@@ -114,7 +124,7 @@ class PieChartWidget extends Widget
         am5.ready(function () {
             // Create root element
             // https://www.amcharts.com/docs/v5/getting-started/#Root_element
-            var root = am5.Root.new("kt_card_widget_4_chart_2");
+            var root = am5.Root.new("kt_card_widget_4_chart_2_{$this->time}");
             // Set themes
             // https://www.amcharts.com/docs/v5/concepts/themes/
             root.setThemes([

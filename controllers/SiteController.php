@@ -7,7 +7,13 @@ use yii\web\Response;
 use app\models\LoginForm;
 use app\models\User;
 use app\component\Constants as C;
+use app\component\Constants;
+use app\models\Categories;
+use app\models\Company;
+use app\models\Tickets;
 use OneLogin\Saml2\Auth;
+use PHPUnit\TextUI\Configuration\Constant;
+use yii\helpers\ArrayHelper;
 
 class SiteController extends BaseController
 {
@@ -26,7 +32,14 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $userType = User::loggedInUserType();
+        if ($userType == C::USERTYPE_CLIENT) {
+
+        } elseif ($userType == C::USERTYPE_ADMIN) {
+            return $this->render('admin-index', [
+                "complaint" => $this->getComplaintDashboardData()
+            ]);
+        }
     }
 
     /**
@@ -37,7 +50,7 @@ class SiteController extends BaseController
     public function actionLogin()
     {
         $this->layout = 'login';
-       
+
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -168,6 +181,37 @@ class SiteController extends BaseController
     public function actionAccessdenied()
     {
         return $this->render('accessdenied');
+    }
+
+    private function getComplaintDashboardData()
+    {
+        $complaint = Tickets::find()->groupBy(["status", "company_id", "sub_category_id"])->select(["status", "company_id", "sub_category_id", "count" => "count(id)"])->asArray()->all();
+        $compayWise = $generalWise = $subCategoryWise = [];
+        $category = ArrayHelper::map(Categories::find()->onlyChild()->all(), "id", "name");
+        $company = ArrayHelper::map(Company::find()->all(), "id", "name");
+        foreach ($complaint as $c) {
+            
+            $compayWise[$company[$c["company_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] = 
+            !empty($compayWise[$company[$c["company_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]])?
+            $compayWise[$company[$c["company_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] + $c["count"]:
+            $c["count"];
+
+
+            $generalWise[Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] =
+            !empty($generalWise[Constants::LABEL_COMPLAINT_STATUS[$c["status"]]])?
+            $generalWise[Constants::LABEL_COMPLAINT_STATUS[$c["status"]]]+ $c["count"]: $c["count"];
+
+            $subCategoryWise[$category[$c["sub_category_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] =
+            !empty($subCategoryWise[$category[$c["sub_category_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]])?
+            $subCategoryWise[$category[$c["sub_category_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] + $c["count"]:
+            $c["count"];
+        }
+
+        return [
+            "compayWise" => $compayWise,
+            "generalWise" => $generalWise,
+            "subCategoryWise" => $subCategoryWise,
+        ];
     }
 
 }
