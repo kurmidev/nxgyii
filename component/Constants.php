@@ -2,7 +2,8 @@
 
 namespace app\component;
 
-class Constants{
+class Constants
+{
     const DESIGNATION_SADMIN = -1;
     const CONSOLE_ID = -1;
     const USERTYPE_CONSOLE = -2;
@@ -39,13 +40,13 @@ class Constants{
     const SECEON = "SECEON";
 
     const SERVICE_PROVIDER = [
-        self::JUMPCLOUD => self::JUMPCLOUD ,
+        self::JUMPCLOUD => self::JUMPCLOUD,
         self::SECEON => self::SECEON,
     ];
     const ATTRIB_FOR = [
-        "HEADER"=>"HEADER",
+        "HEADER" => "HEADER",
         "BODY" => "BODY",
-        "ENCRPT_KEY"=> "ENCRPT_KEY"
+        "ENCRPT_KEY" => "ENCRPT_KEY"
     ];
 
     const LABEL_COMPLAINT_STATUS = [
@@ -62,6 +63,18 @@ class Constants{
 
     const LABEL_CATEGORY_TYPE = [
         self::CAT_TICKETS => 'Tickets',
+    ];
+
+    const SHOW_MINE_IMAGES = [
+        "pdf" => "pdf.svg",
+        "html" => "folder-document.svg",
+        "xlsx" => "doc.svg",
+        "xls" => "doc.svg",
+        "jpeg" => "tif.svg",
+        "png" => "tif.svg",
+        "gif" => "tif.svg",
+        "zip" => "folder-document.svg",
+
     ];
 
 }

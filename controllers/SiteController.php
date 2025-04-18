@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\TicketComments;
 use Yii;
 use yii\web\Response;
 use app\models\LoginForm;
@@ -190,21 +191,21 @@ class SiteController extends BaseController
         $category = ArrayHelper::map(Categories::find()->onlyChild()->all(), "id", "name");
         $company = ArrayHelper::map(Company::find()->all(), "id", "name");
         foreach ($complaint as $c) {
-            
-            $compayWise[$company[$c["company_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] = 
-            !empty($compayWise[$company[$c["company_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]])?
-            $compayWise[$company[$c["company_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] + $c["count"]:
-            $c["count"];
+
+            $compayWise[$company[$c["company_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] =
+                !empty($compayWise[$company[$c["company_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]]) ?
+                $compayWise[$company[$c["company_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] + $c["count"] :
+                $c["count"];
 
 
             $generalWise[Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] =
-            !empty($generalWise[Constants::LABEL_COMPLAINT_STATUS[$c["status"]]])?
-            $generalWise[Constants::LABEL_COMPLAINT_STATUS[$c["status"]]]+ $c["count"]: $c["count"];
+                !empty($generalWise[Constants::LABEL_COMPLAINT_STATUS[$c["status"]]]) ?
+                $generalWise[Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] + $c["count"] : $c["count"];
 
             $subCategoryWise[$category[$c["sub_category_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] =
-            !empty($subCategoryWise[$category[$c["sub_category_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]])?
-            $subCategoryWise[$category[$c["sub_category_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] + $c["count"]:
-            $c["count"];
+                !empty($subCategoryWise[$category[$c["sub_category_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]]) ?
+                $subCategoryWise[$category[$c["sub_category_id"]]][Constants::LABEL_COMPLAINT_STATUS[$c["status"]]] + $c["count"] :
+                $c["count"];
         }
 
         return [
@@ -213,5 +214,28 @@ class SiteController extends BaseController
             "subCategoryWise" => $subCategoryWise,
         ];
     }
+
+    public function actionDownloadFile($id)
+    {
+        $model = TicketComments::findOne($id); // assuming you have a Document model
+
+        if (!$model) {
+            throw new \yii\web\NotFoundHttpException("File not found.");
+        }
+
+        // Assuming you store base64 content and file metadata in DB
+        $base64Data = $model->attachment["fileContent"]; // base64 string
+        $fileName = $model->attachment["name"];   // e.g., "document.pdf"
+        $mimeType = $model->attachment["type"];   // e.g., "application/pdf"
+
+        $decoded = base64_decode($base64Data);
+
+        return Yii::$app->response->sendContentAsFile(
+            $decoded,
+            $fileName,
+            ['mimeType' => $mimeType]
+        );
+    }
+
 
 }
