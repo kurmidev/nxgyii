@@ -92,6 +92,17 @@ class MenuHelper
                 ]
             ]
         ],
+        "reports"=>[
+            "config" => ["class" => "menu-item-icon icon tx-18 fa fa-file-text-o"],
+            "items" => [
+                "complaint" => [
+                    ['module' => '', 'controller' => 'reports', 'action' => 'complaint', 'label' => 'Complaint', 'is_menu' => true, 'icon' => " ki-delivery-24"],
+                ],
+                "engg_performance"=>[
+                    ['module' => '', 'controller' => 'reports', 'action' => 'engg-performance', 'label' => 'Engineer Performance', 'is_menu' => true, 'icon' => " ki-delivery-24"],
+                ]
+            ],
+        ]
     ];
 
     public static function getDisplayMenus($menu = [], $is_submenu = false)

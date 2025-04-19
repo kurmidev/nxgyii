@@ -147,5 +147,8 @@ class Utils
         return $parts ? implode(', ', $parts) . ' ago' : 'just now';
     }
 
+    public static function getEndDate($date) {
+        return date("Y-m-d 23:59:59", strtotime($date));
+    }
 
 }
