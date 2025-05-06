@@ -21,7 +21,8 @@
         "yiisoft/yii2-redis": "^2.0",
         "yiisoft/yii2-queue": "^2.3",
         "onelogin/php-saml": "^4.2",
-        "guzzlehttp/guzzle": "^7.9"
+        "guzzlehttp/guzzle": "^7.9",
+        "yiisoft/yii2-mongodb": "^3.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

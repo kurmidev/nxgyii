@@ -62,24 +62,21 @@ class Employee extends \app\models\BaseModel
             [['name', 'code', 'mobile_no', 'phone_no', 'email', 'address', 'pincode', 'password'], 'string', 'max' => 255],
             [['name'], 'unique'],
             [['code'], 'unique'],
-            //[['email'], 'unique', 'targetClass' => User::class, 'targetAttribute' => ['email' => 'email']],
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::class, 'targetAttribute' => ['company_id' => 'id']],
             [['designation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Designation::class, 'targetAttribute' => ['designation_id' => 'id']],
             [
-                [
-                    "product_mapping",
-                    function ($attribute, $params, $validator) {
-                        if (!empty($params['company_id'])) {
-                            $company = Company::findOne(['id' => $params['company_id']]);
-                            if (!empty($company)) {
-                                $arr = array_intersect($company->getProduct_mappings(), $params['product_mappings']);
-                                if(empty($arr)){
-                                    $this->addError($attribute, 'No product mapped with this company.');
-                                }
+                ["product_mapping"],
+                function ($attribute, $params, $validator) {
+                    if (!empty($params['company_id'])) {
+                        $company = Company::findOne(['id' => $params['company_id']]);
+                        if (!empty($company)) {
+                            $arr = array_intersect($company->getProduct_mappings(), $params['product_mappings']);
+                            if (empty($arr)) {
+                                $this->addError($attribute, 'No product mapped with this company.');
                             }
                         }
                     }
-                ]
+                }
             ]
         ];
     }

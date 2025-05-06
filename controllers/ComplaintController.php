@@ -69,7 +69,7 @@ class ComplaintController extends BaseController{
 
         $model->scenario = Tickets::SCENARIO_UPDATE;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->getSession()->setFlash('s', "Ticket $model->code closed successfully.");
+            Yii::$app->getSession()->setFlash('s', "Ticket $model->code status updated successfully.");
             return $this->redirect(['complaint/index']);
         }
 

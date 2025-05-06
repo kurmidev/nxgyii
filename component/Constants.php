@@ -35,9 +35,21 @@ class Constants
         self::STATUS_INACTIVE => 'In Active',
         self::STATUS_ACTIVE => 'Active',
     ];
+    const LABEL_YESNO = [
+        self::STATUS_ACTIVE => 'Yes',
+        self::STATUS_INACTIVE => 'No',
+    ];
+
 
     const JUMPCLOUD = "JUMPCLOUD";
     const SECEON = "SECEON";
+
+    const AUTH_TYPE_TOKEN = 1;
+    const AUTH_TYPE_LOGIN = 2;
+
+    const METHOD_POST = "POST";
+    const METHOD_GET = "GET";
+    const METHOD_PUT = "PUT";
 
     const SERVICE_PROVIDER = [
         self::JUMPCLOUD => self::JUMPCLOUD,
@@ -77,4 +89,14 @@ class Constants
 
     ];
 
+    const LABEL_AUTH_TYPE = [
+        self::AUTH_TYPE_TOKEN => 'Token Based',
+        self::AUTH_TYPE_LOGIN => 'Username & Password',
+    ];
+
+    const LABEL_METHOD_TYPE = [
+        self::METHOD_POST => "POST",
+        self::METHOD_GET => "GET",
+        self::METHOD_PUT => "PUT",
+    ];
 }

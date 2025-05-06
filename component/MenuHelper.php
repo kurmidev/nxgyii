@@ -19,13 +19,27 @@ class MenuHelper
                 ]
             ]
         ],
+        // 'product' => [
+        //     "config" => ["class" => "menu-item-icon icon tx-18 fa fa-wrench"],
+        //     "items" => [
+        //         'product' => [
+        //             ['module' => '', 'controller' => 'product', 'action' => 'product', 'label' => 'product', 'is_menu' => true, 'icon' => " ki-basket-ok"],
+        //             ['module' => '', 'controller' => 'product', 'action' => 'add-product', 'label' => 'Add product', 'is_menu' => false, 'icon' => " ki-basket-ok"],
+        //             ['module' => '', 'controller' => 'product', 'action' => 'update-product', 'label' => 'Update product', 'is_menu' => false, 'icon' => " ki-basket-ok"],
+        //         ],
+        //     ]
+        // ],
         'product' => [
             "config" => ["class" => "menu-item-icon icon tx-18 fa fa-wrench"],
             "items" => [
                 'product' => [
-                    ['module' => '', 'controller' => 'product', 'action' => 'product', 'label' => 'product', 'is_menu' => true, 'icon' => " ki-basket-ok"],
-                    ['module' => '', 'controller' => 'product', 'action' => 'add-product', 'label' => 'Add product', 'is_menu' => false, 'icon' => " ki-basket-ok"],
-                    ['module' => '', 'controller' => 'product', 'action' => 'update-product', 'label' => 'Update product', 'is_menu' => false, 'icon' => " ki-basket-ok"],
+                    ['module' => '', 'controller' => 'product', 'action' => 'newproduct', 'label' => 'product', 'is_menu' => true, 'icon' => " ki-basket-ok"],
+                    ['module' => '', 'controller' => 'product', 'action' => 'add-new-product', 'label' => 'Add product', 'is_menu' => false, 'icon' => " ki-basket-ok"],
+                    ['module' => '', 'controller' => 'product', 'action' => 'update-new-product', 'label' => 'Update product', 'is_menu' => false, 'icon' => " ki-basket-ok"],
+                    ['module' => '', 'controller' => 'product', 'action' => 'api-list', 'label' => 'Add APIs', 'is_menu' => false, 'icon' => " ki-basket-ok"],
+                    ['module' => '', 'controller' => 'product', 'action' => 'api-fetch-data', 'label' => 'API Data', 'is_menu' => false, 'icon' => " ki-basket-ok"],
+                    ['module' => '', 'controller' => 'product', 'action' => 'add-new-api', 'label' => 'Add New APIs', 'is_menu' => false, 'icon' => " ki-basket-ok"],
+                    ['module' => '', 'controller' => 'product', 'action' => 'update-api', 'label' => 'Update APIs', 'is_menu' => false, 'icon' => " ki-basket-ok"],
                 ],
             ]
         ],
@@ -48,6 +62,7 @@ class MenuHelper
                     ['module' => '', 'controller' => 'company', 'action' => 'update-company', 'label' => 'Update company', 'is_menu' => false, 'icon' => " ki-logistic"],
                     ['module' => '', 'controller' => 'company', 'action' => 'view-company', 'label' => 'Company Dashboard', 'is_menu' => false, 'icon' => " ki-logistic"],
                     ['module' => '', 'controller' => 'company', 'action' => 'detail-view', 'label' => 'Dashboard Details', 'is_menu' => false, 'icon' => " ki-logistic"],
+                    ['module' => '', 'controller' => 'company', 'action' => 'map-product', 'label' => 'Product Company Mapping', 'is_menu' => false, 'icon' => " ki-basket-ok"],
                 ],
             ]
         ],
@@ -98,7 +113,7 @@ class MenuHelper
                 "complaint" => [
                     ['module' => '', 'controller' => 'reports', 'action' => 'complaint', 'label' => 'Complaint', 'is_menu' => true, 'icon' => " ki-delivery-24"],
                 ],
-                "engg_performance"=>[
+                "engg performance"=>[
                     ['module' => '', 'controller' => 'reports', 'action' => 'engg-performance', 'label' => 'Engineer Performance', 'is_menu' => true, 'icon' => " ki-delivery-24"],
                 ]
             ],

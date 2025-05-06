@@ -1,3 +1,11 @@
+<?php
+
+use app\component\MenuHelper;
+use yii\helpers\Html;
+
+$titleData = MenuHelper::renderPageTitle(Yii::$app->controller->id, Yii::$app->controller->action->id);
+
+?>
 <div id="kt_app_header" class="app-header ">
 
   <!--begin::Header container-->
@@ -15,7 +23,7 @@
     <!--begin::Mobile logo-->
     <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
       <a href="/good/index.html" class="d-lg-none">
-        <img alt="Logo" src="/media/logos/default.svg" class="h-25px">
+        <img alt="Logo" src="/media/logos/default.png" class="h-25px">
       </a>
     </div>
     <!--end::Mobile logo-->
@@ -30,6 +38,7 @@
         class="page-title d-flex flex-column justify-content-center flex-wrap me-3 mb-5 mb-lg-0">
         <!--begin::Title-->
         <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">
+          <?= !empty($this->title) ? $this->title : $titleData["title"]  ?>
         </h1>
         <!--end::Title-->
 
@@ -39,6 +48,7 @@
       <div class="app-navbar align-items-center flex-shrink-0">
         <!--begin::Search-->
         <div class="app-navbar-item ms-2 ms-lg-4">
+
         </div>
         <!--end::Search-->
 

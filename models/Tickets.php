@@ -145,7 +145,6 @@ class Tickets extends \app\models\BaseModel
 
     public function beforeSave($insert){
         if($this->scenario == self::SCENARIO_UPDATE && !empty($this->resolution)){
-            $this->status = Constants::CLOSED;
             $this->end_date = date("Y-m-d");
         }
         return parent::beforeSave($insert);

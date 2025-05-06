@@ -16,7 +16,6 @@ use yii\helpers\ArrayHelper;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $this->title = 'Employee';
 $this->params['links'] = [
-    ['title' => 'Add New Employee', 'url' => \Yii::$app->urlManager->createUrl('employee/add-employee'), 'class' => 'fa fa-plus'],
 ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

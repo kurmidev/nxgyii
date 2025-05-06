@@ -33,6 +33,7 @@ class AppAsset extends AssetBundle
       "js/widgets.bundle.js",  
       "js/widgets.js",  
       "js/chat.js",  
+      "js/script.js"
     ];
     public $depends = [
         'yii\web\YiiAsset',

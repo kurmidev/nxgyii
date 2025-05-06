@@ -4,6 +4,7 @@ use app\component\Constants;
 use app\models\Company;
 use app\models\Designation;
 use app\models\ProductMaster;
+use app\models\ProductUserMapping;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -12,10 +13,17 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\Area */
 /* @var $form yii\widgets\ActiveForm */
 
+$companyId = Yii::$app->request->get('company_id');
+$assignedProduct = [];
+if(!empty($companyId)){
+ $assignedProduct  = ProductUserMapping::find()->where(['user_id'=>$companyId,"user_type"=>ProductUserMapping::USER_TYPE_COMPANY])->indexBy("product_id")->all();
+}
+
 $this->title = ($model->id) ? 'Add New Employee' : 'Update Employee ' . $model->name . ' details.';
 $this->params['breadcrumbs'][] = ['label' => 'Employee', 'url' => ['employee']];
 $this->params['breadcrumbs'][] = $this->title;
-$productLists = ArrayHelper::map(ProductMaster::find()->active()->all(),'id','name');
+$productLists = ArrayHelper::map(ProductMaster::find()->andFilterWhere(["id"=>array_keys($assignedProduct)])->active()->all(),'id','name');
+
 ?>
 <?= $this->render('@app/views/layouts/_contentheader') ?>
 <?php $form = ActiveForm::begin(['id' => 'form-product', 'options' => ['enctype' => 'mutipart/form-data', 'class' => 'form-horizontal form-bordered']]); ?>

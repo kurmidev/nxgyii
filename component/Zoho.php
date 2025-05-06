@@ -24,8 +24,6 @@ class Zoho
 
     private function generateTokens()
     {
-        $this->generateAuthToken();
-        exit;
         $cachedRefreshToken = !empty(ZOHO_REFRESH_TOKEN)?ZOHO_REFRESH_TOKEN:Yii::$app->cache->get('zoho_refresh_token');
         echo "Cached Refresh tokens....{$cachedRefreshToken}" . PHP_EOL;
 
@@ -46,10 +44,11 @@ class Zoho
             'client_secret' => Yii::$app->params['zoho']["CLIENT_SECRET"],
         ];
         print_r($refreshToken);
-        $endPoint = "https://accounts.zoho.com/oauth/v2/token?refresh_token=$refreshToken&client_id=" . Yii::$app->params['zoho']["CLIENT_ID"] . "&client_secret=" . Yii::$app->params['zoho']["CLIENT_SECRET"] . "&scope=ZohoSupport.tickets.ALL&grant_type=refresh_token";
+        $endPoint = "https://accounts.zoho.in/oauth/v2/token?refresh_token=$refreshToken&client_id=" . Yii::$app->params['zoho']["CLIENT_ID"] . "&client_secret=" . Yii::$app->params['zoho']["CLIENT_SECRET"] . "&scope=ZohoSupport.tickets.ALL&grant_type=refresh_token";
         echo $endPoint . PHP_EOL;
         $response = $this->getData($endPoint, "POST", []);
         echo "generating refresh token...." . PHP_EOL;
+        print_r($response);
         if ($response["body"]['access_token']) {
             $this->token = $response["body"]['access_token'];
             $this->headers = [

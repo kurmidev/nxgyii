@@ -11,6 +11,9 @@ $this->params['breadcrumbs'][] = "Dashoard";
 
 $this->registerCssFile('@web/css/dashboard.css'); // optional external stylesheet
 
+$open_ticket = !empty($complaint["generalWise"][Constants::LABEL_COMPLAINT_STATUS[Constants::OPEN]])?
+    $complaint["generalWise"][Constants::LABEL_COMPLAINT_STATUS[Constants::OPEN]]:0;
+
 $globalComplaintView = [];
 if (!empty($complaint["generalWise"])) {
     foreach (Constants::LABEL_COMPLAINT_STATUS as $key => $value) {
@@ -58,7 +61,7 @@ if (!empty($complaint["compayWise"])) {
 
                 <div class="top-stats">
                     <div class="stat-box">
-                        <h2><?= $complaint["generalWise"][Constants::LABEL_COMPLAINT_STATUS[Constants::OPEN]] ?></h2>
+                        <h2><?= $open_ticket ?></h2>
                         <p>Open Tickets</p>
                     </div>
                     <div class="stat-box">
