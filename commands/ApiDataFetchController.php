@@ -16,7 +16,7 @@ class ApiDataFetchController extends ConsoleController
 
     public function actionRun()
     {
-        $model = ProductCompanyMapping::find()->where(["id" => 2])->active()->all();
+        $model = ProductCompanyMapping::find()->active()->all();
         foreach ($model as $product) {
             $apiList = $this->getApiConfigs($product->product_id);
             if (!empty($apiList)) {
