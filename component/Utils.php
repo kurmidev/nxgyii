@@ -147,8 +147,30 @@ class Utils
         return $parts ? implode(', ', $parts) . ' ago' : 'just now';
     }
 
-    public static function getEndDate($date) {
+    public static function getEndDate($date)
+    {
         return date("Y-m-d 23:59:59", strtotime($date));
     }
+
+    public static function allValuesAreNumbersOrDates(array $values): bool
+    {
+        foreach ($values as $value) {
+            if(!empty($value)){
+                continue;
+            }
+            // Check if value is numeric
+            if (is_numeric($value)) {
+                continue;
+            }
+            // Check if value is a valid date (try parsing with strtotime)
+            if (!empty($value) && strtotime($value) !== false) {
+                continue;
+            }
+            // If it's neither, return false
+            return false;
+        }
+        return true;
+    }
+
 
 }

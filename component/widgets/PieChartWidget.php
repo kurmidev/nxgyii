@@ -41,7 +41,7 @@ class PieChartWidget extends Widget
                 if ($i == 0) {
                     $headers = array_keys($v);
                     $h = "";
-                    $table.="<theead>";
+                    $table.="<thead>";
                     $table.="<tr class='fw-bold fs-6 text-gray-800'>";
                     if(!is_numeric($key)){
                         $table.="<th class='pe-0 text-start min-w-10px'></th>";
@@ -50,6 +50,7 @@ class PieChartWidget extends Widget
                         $table .="<th class='pe-0 text-end min-w-10px'>".$header."</th>";
                     }
                     $table.="</tr>";
+                    $table.="</thead>";
                 }
                 $i++;
                 $table.="<tr>";

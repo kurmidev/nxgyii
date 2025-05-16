@@ -13,6 +13,7 @@ class ProductCompanyForm extends Model
     public $product;
     public $credentials;
     public $headers;
+    public $allowed_api;
 
     public function setAttributes($values, $safeOnly = true)
     {
@@ -22,7 +23,7 @@ class ProductCompanyForm extends Model
     public function rules()
     {
         return [
-            [['company_id', 'credentials'], 'required'],
+            [['company_id', 'credentials','allowed_api'], 'required'],
             [["headers"],"safe"],
             [['company_id'], 'integer'],
             [['credentials'], 'validateMultipleData']
@@ -32,8 +33,8 @@ class ProductCompanyForm extends Model
     public function scenarios()
     {
         return [
-            'create' => ['company_id', 'credentials','headers'],
-            'update' => ['company_id', 'credentials','headers']
+            'create' => ['company_id', 'credentials','headers','allowed_api'],
+            'update' => ['company_id', 'credentials','headers','allowed_api']
         ];
     }
 
@@ -77,6 +78,7 @@ class ProductCompanyForm extends Model
                     $cred->status = Constants::STATUS_ACTIVE;
                 }
                 $cred->headers = !empty($this->headers[$product_id]) ? $this->headers[$product_id] : [];
+                $cred->allowed_api = !empty($this->allowed_api[$product_id]) ? array_values($this->allowed_api[$product_id]) : [];
                 $cred->credentials = $credential;
                 if ($cred->validate() && $cred->save()) {
                     continue;

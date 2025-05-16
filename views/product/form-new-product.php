@@ -8,7 +8,7 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\Area */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = ($model->id) ? 'Add New Product' : 'Update Product ' . $model->name . ' details.';
+$this->title = empty($model->id) ? 'Add New Product' : 'Update Product ' . $model->name . ' details.';
 $this->params['breadcrumbs'][] = ['label' => 'Product', 'url' => ['product']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

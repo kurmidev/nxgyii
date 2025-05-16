@@ -201,7 +201,7 @@ class ApiDataFetchController extends ConsoleController
     {
         $remaingCount = $remaingCount == 0 ? $skip * self::DEFAULT_PAGE_SIZE : $remaingCount;
         $endpoint = $url;
-        $endpoint .= (str_contains($url, "?") ? "&" : "?") . "skip=" . $skip;
+    $endpoint .= (str_contains($url, "?") ? "&" : "?") . "skip=" . $skip;
         
         $data = $this->getData($endpoint, $method, $headers);
         print_r([

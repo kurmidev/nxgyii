@@ -57,7 +57,7 @@ class ListingWidget extends Widget
 
         return Html::tag(
             "div",
-            $header.$content,
+            $header.$body,
             ["class" => "card card-flush h-xl-100 mx-auto "]
         );
     }

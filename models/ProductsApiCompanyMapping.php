@@ -52,6 +52,14 @@ class ProductsApiCompanyMapping extends \app\models\BaseModel
         ];
     }
 
+    public function scenarios(){
+        return [
+            ProductsApiCompanyMapping::SCENARIO_CREATE => ['product_id','company_id','api_id','report_name','display_type','filters','display_columns','on_main_dashboard','status'],
+            ProductsApiCompanyMapping::SCENARIO_UPDATE => ['product_id','company_id','api_id','report_name','display_type','filters','display_columns','on_main_dashboard','status'],
+            ProductsApiCompanyMapping::SCENARIO_DEFAULT=> ['product_id','company_id','api_id','report_name','display_type','filters','display_columns','on_main_dashboard','status'],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */

@@ -138,4 +138,16 @@ class Company extends \app\models\BaseModel
         return !empty($this->productMappings)?ArrayHelper::getColumn($this->productMappings,'product_id'):[];
     }
 
+    public function getAssignedApiList(){
+        $m = ProductCompanyMapping::find()->where(['company_id'=>$this->id])->asArray()->all();
+        if(!empty($m)){
+            $api_list = [];
+            foreach($m as $item){
+                $api_list = array_merge($api_list,json_decode($item['allowed_api'],true));
+            }
+            return $api_list;
+        }
+        return [];
+    }
+
 }

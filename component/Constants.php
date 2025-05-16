@@ -99,4 +99,30 @@ class Constants
         self::METHOD_GET => "GET",
         self::METHOD_PUT => "PUT",
     ];
+
+    const LABEL_RATING = [
+        1 => "Unacceptable",
+        2 => "Needs Improvement",
+        3 => "Meets Expectations",
+        4 => "Exceeds Expectations",
+        5 => "Outstanding"
+    ];
+
+    const DISPLAY_TYPE_TABLE = 1;
+    const DISPLAY_TYPE_PIE_CHART = 2;
+    const DISPLAY_TYPE_BAR_CHART = 3;
+    const DISPLAY_TYPE_CARD = 4;
+    const DISPLAY_TYPE_LINE_CHART = 5;
+
+    const DISPLAY_TYPE_XY_BUBBLE_CHART = 6;
+
+    const DISPLAY_LABEL = [
+        self::DISPLAY_TYPE_TABLE => "Table",
+        self::DISPLAY_TYPE_PIE_CHART => "Pie Chart",
+        self::DISPLAY_TYPE_BAR_CHART => "Bar Chart",
+        self::DISPLAY_TYPE_CARD => "Card",
+        self::DISPLAY_TYPE_LINE_CHART => "Inline Chart",
+        self::DISPLAY_TYPE_XY_BUBBLE_CHART => "Bubble Chart",
+
+    ];
 }

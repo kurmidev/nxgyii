@@ -78,4 +78,22 @@ class ComplaintController extends BaseController{
         ]);
 
     }
+
+    public function actionRating($id){
+        $model = Tickets::findOne($id);
+        if (!$model instanceof Tickets) {
+            \Yii::$app->getSession()->setFlash('e', 'No record found');
+            return $this->redirect(['complaint/index']);
+        }
+
+        $model->scenario = Tickets::SCENARIO_UPDATE;
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->getSession()->setFlash('s', "Ticket $model->code rating updated successfully.");
+            return $this->redirect(['complaint/index']);
+        }
+
+        return $this->render('process-complaint', [
+            'model' => $model,
+        ]);
+    }
 }

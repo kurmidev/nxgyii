@@ -2,17 +2,22 @@
 
 namespace app\controllers;
 
+use app\component\GraphRenderer;
+use app\component\Utils;
 use app\models\Company;
 use app\models\CompanySearch;
 use app\controllers\BaseController;
 use app\form\ProductCompanyForm;
+use app\models\ComponentModel;
 use app\models\ProductCompanyMapping;
 use app\models\Products;
+use app\models\ProductsApiCompanyMapping;
+use app\models\ProductsApiCompanyMappingSearch;
+use app\models\ProductsApiList;
 use app\services\DashboardService;
-use app\services\JumpCloudService;
 use Yii;
+use yii\mongodb\Query;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * CompanyController implements the CRUD actions for Company model.
@@ -46,11 +51,7 @@ class CompanyController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->getSession()->setFlash('s', "Company $model->name added successfully.");
             return $this->redirect(['company', 'id' => $model->id]);
-        } else if (!empty($model->errors)) {
-            echo "<pre>";
-            print_r($model->errors);
-            exit;
-        }
+        } 
         return $this->render('form-company', [
             'model' => $model,
         ]);
@@ -83,7 +84,7 @@ class CompanyController extends BaseController
         ]);
     }
 
-    public function actionViewCompany($id)
+    public function actionViewCompany($id, $dash = null)
     {
         $model = Company::findOne($id);
         if (!$model instanceof Company) {
@@ -91,8 +92,15 @@ class CompanyController extends BaseController
             return $this->redirect(['company/company']);
         }
 
+        $searchModel = new ProductsApiCompanyMappingSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('view-company', [
             'model' => $model,
+            "dash" => $dash,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            "graph"=> (new GraphRenderer($model->id,$dash,$dash==0?true:false))->render(),
         ]);
     }
 
@@ -100,7 +108,7 @@ class CompanyController extends BaseController
     {
         $model = Company::findOne($id);
         if (!$model instanceof Company) {
-            \Yii::$app->getSession()->setFlash('e', 'No record found');
+            Yii::$app->getSession()->setFlash('e', 'No record found');
             return $this->redirect(['company/company']);
         }
 
@@ -144,9 +152,9 @@ class CompanyController extends BaseController
             \Yii::$app->getSession()->setFlash('e', 'No record found');
             return $this->redirect(['company/company']);
         }
-        
+
         $productList = Products::find()->where(['id' => $company->getProduct_mappings()])->all();
-        $model  = new ProductCompanyForm(["scenario"=>"create"]);
+        $model = new ProductCompanyForm(["scenario" => "create"]);
         $model->company_id = $company->id;
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
@@ -155,20 +163,75 @@ class CompanyController extends BaseController
         }
 
         $productMap = ProductCompanyMapping::find()->where(['company_id' => $company->id])->all();
-        if(!empty($productMap)){
-          foreach($productMap as $product){
-            $model->credentials[$product->product_id] = $product->credentials;
-            $model->headers[$product->product_id] = $product->headers;
-          }
+        if (!empty($productMap)) {
+            foreach ($productMap as $product) {
+                $model->credentials[$product->product_id] = $product->credentials;
+                $model->headers[$product->product_id] = $product->headers;
+                $model->allowed_api[$product->product_id] = $product->allowed_api;
+            }
         }
-        
+
         return $this->render('map-product', [
             'company' => $company,
             "products" => $productList,
-            "model" =>  $model
+            "model" => $model
         ]);
 
     }
+
+    public function actionGetApiData($id)
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $this->layout = false;
+
+        if (empty($id)) {
+            return [];
+        }
+        $response = $this->getApiResponseData($id);
+        return $response;
+    }
+
+    private function getApiResponseData($id)
+    {
+
+        $productApi = ProductsApiList::findOne($id);
+        if (!$productApi) {
+            return [];
+        }
+
+        $response = [];
+        $collection = $productApi->getCollectionName();
+        $result = (new Query())->from($collection)->limit(1)->one();
+
+        if (!$result) {
+            return [];
+        }
+
+        // Filter out unwanted fields and arrays
+        $excludedKeys = ['_id', 'fetched_at', 'company_id', 'id', 'tenant_id'];
+        $res = array_keys(array_filter($result, function ($value, $key) use ($excludedKeys) {
+            return !is_array($value) && !in_array($key, $excludedKeys);
+        }, ARRAY_FILTER_USE_BOTH));
+
+        $collection = (new Query())->from($collection);
+        foreach ($res as $field) {
+            $distinctValues = $collection->distinct($field);
+            if (!Utils::allValuesAreNumbersOrDates($distinctValues)) {
+                $response[] = [
+                    "key" => $field,
+                    "values" => $distinctValues
+                ];
+            } else {
+                $response[] = [
+                    "key" => $field,
+                    "values" => ""
+                ];
+            }
+        }
+
+        return $response;
+    }
+
 
 
     public function actionAddComponent($id)
@@ -179,6 +242,53 @@ class CompanyController extends BaseController
             return $this->redirect(['company/company']);
         }
 
+        $model = new ComponentModel(["scenario" => "create"]);
+        $model->company_id = $company->id;
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
+            \Yii::$app->getSession()->setFlash('s', "Component added successfully.");
+            return $this->redirect(['company/view-company', "dash" => -1, 'id' => $id]);
+        }
+
+        return $this->render('form-component', [
+            'company' => $company,
+            "products" => $id,
+            "model" => $model
+        ]);
+    }
+
+    public function actionUpdateComponentList($company_id, $id)
+    {
+        $company = Company::findOne($company_id);
+        if (!$company instanceof Company) {
+            \Yii::$app->getSession()->setFlash('e', 'No record found');
+            return $this->redirect(['company/company']);
+        }
+
+        $component = ProductsApiCompanyMapping::findOne(['id' => $id]);
+        if (!$component instanceof ProductsApiCompanyMapping) {
+            \Yii::$app->getSession()->setFlash('e', 'No record found');
+            return $this->redirect(['company/view-company', "dash" => -1, 'id' => $company->id]);
+        }
+
+        $model = new ComponentModel(["scenario" => "update"]);
+        $model->company_id = $company->id;
+        $model->api_id = $component->api_id;
+        $model->id = $component->id;
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
+            \Yii::$app->getSession()->setFlash('s', "Component updated successfully.");
+            return $this->redirect(['company/view-company', "dash" => -1, 'id' => $company->id]);
+        }
+
+        $model->load($component->attributes, "");
+        $apiData = $this->getApiResponseData($model->api_id);
+        
+        return $this->render('form-component-update', [
+            'company' => $company,
+            "products" => $id,
+            "model" => $model,
+            "apiData" => $apiData,
+        ]);
     }
 
 }

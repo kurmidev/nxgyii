@@ -1,10 +1,6 @@
 <?php
 
 use app\component\Constants;
-use app\models\Categories;
-use app\models\Company;
-use app\models\User;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 

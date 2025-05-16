@@ -56,8 +56,8 @@ class Tickets extends \app\models\BaseModel
     {
         return [
             self::SCENARIO_CREATE => ['subject', 'description', 'priority', 'category_id', 'sub_category_id', 'start_date', 'company_id','code'],
-            self::SCENARIO_UPDATE => ['subject', 'description', 'priority', 'category_id', 'sub_category_id', 'start_date', 'company_id', 'assign_to', 'status', 'resolution','code'],
-            self::SCENARIO_DEFAULT => ['subject', 'description', 'priority', 'category_id', 'sub_category_id', 'start_date', 'company_id', 'assign_to', 'status', 'resolution','code'],
+            self::SCENARIO_UPDATE => ['subject', 'description', 'priority', 'category_id', 'sub_category_id', 'start_date', 'company_id', 'assign_to', 'status', 'resolution','code','rating'],
+            self::SCENARIO_DEFAULT => ['subject', 'description', 'priority', 'category_id', 'sub_category_id', 'start_date', 'company_id', 'assign_to', 'status', 'resolution','code','rating'],
         ];
     }
 

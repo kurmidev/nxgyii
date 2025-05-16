@@ -65,6 +65,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     'filter' => Constants::LABEL_PRIORITY,
                 ],
                 [
+                    'attribute' => 'rating',
+                    'label' => 'rating',
+                    'content' => function ($model) {
+                            return $this->render('@app/views/complaint/rating-display', ['model' => $model]);
+                        },
+                    'filter' => Constants::LABEL_RATING,
+                ],
+                [
                     'label' => 'Action',
                     'content' => function ($data) {
                             $content = [
@@ -72,6 +80,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             ];
                             if ($data->status != Constants::CLOSED) {
                                 $content[] = ["name" => "Close", "url" => \Yii::$app->urlManager->createUrl(['complaint/close-complaint', "id" => $data->id])];
+                            }
+                            if(empty($data->rating) && $data->status == Constants::CLOSED) {
+                                $content[] = ["name" => "Rating", "url" => \Yii::$app->urlManager->createUrl(['complaint/rating', "id" => $data->id])];
                             }
                             return Utils::getDropDownButton($content);
                         }

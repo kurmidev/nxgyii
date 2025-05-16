@@ -63,6 +63,8 @@ class MenuHelper
                     ['module' => '', 'controller' => 'company', 'action' => 'view-company', 'label' => 'Company Dashboard', 'is_menu' => false, 'icon' => " ki-logistic"],
                     ['module' => '', 'controller' => 'company', 'action' => 'detail-view', 'label' => 'Dashboard Details', 'is_menu' => false, 'icon' => " ki-logistic"],
                     ['module' => '', 'controller' => 'company', 'action' => 'map-product', 'label' => 'Product Company Mapping', 'is_menu' => false, 'icon' => " ki-basket-ok"],
+                    ['module' => '', 'controller' => 'company', 'action' => 'add-component', 'label' => 'Create Dashboard Component', 'is_menu' => false, 'icon' => " ki-basket-ok"],
+                    ['module' => '', 'controller' => 'company', 'action' => 'update-component', 'label' => 'Update Dashboard Component', 'is_menu' => false, 'icon' => " ki-basket-ok"],
                 ],
             ]
         ],
@@ -84,6 +86,8 @@ class MenuHelper
                     ['module' => '', 'controller' => 'complaint', 'action' => 'add-complaint', 'label' => 'Add New Complaint', 'is_menu' => false, 'icon' => " ki-delivery-24"],
                     ['module' => '', 'controller' => 'complaint', 'action' => 'process-complaint', 'label' => 'Reply Ticket', 'is_menu' => false, 'icon' => " ki-delivery-24"],
                     ['module' => '', 'controller' => 'complaint', 'action' => 'view-complaint', 'label' => 'Ticket Details', 'is_menu' => false, 'icon' => " ki-delivery-24"],
+                    ['module' => '', 'controller' => 'complaint', 'action' => 'rating', 'label' => 'Ticket Rating', 'is_menu' => false, 'icon' => " ki-delivery-24"],
+                    ['module' => '', 'controller' => 'complaint', 'action' => 'close-complaint', 'label' => 'Close Complaint', 'is_menu' => false, 'icon' => " ki-delivery-24"],
                 ]
             ]
         ],

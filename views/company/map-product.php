@@ -1,11 +1,15 @@
 <?php
 use app\component\Constants;
+use app\models\ProductsApiList;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 $this->title = "Product Company Mapping";
 $this->params['breadcrumbs'][] = ['label' => 'Company', 'url' => ['Company']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$apiList = ArrayHelper::index(ProductsApiList::find()->active()->asArray()->all(),'id','product_id');
 
 ?>
 <?= $this->render('@app/views/layouts/_contentheader') ?>
@@ -46,8 +50,22 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?= $form->field($model, 'credentials[' . $product->id . '][token]')->end() ?>
                                 </div>
                         <?php } ?>
+
+                        <div class="col-lg-6 col-sm-6 col-xs-6">
+                            <?= $form->field($model, 'allowed_api[' . $product->id . ']', ['options' => ['class' => 'input-group mb-5']])->begin() ?>
+                            <?= Html::activeLabel($model, 'allowed_api[' . $product->id . ']', ['class' => ' input-group-text', 'label' => 'Allowed APIs']); ?>
+                            <div class="col-lg-6 col-sm-6 col-xs-6">
+                            <?= Html::activeDropDownList($model, 'allowed_api[' . $product->id . ']',
+                            ArrayHelper::map($apiList[$product->id],'id','api_name') 
+                            ,['class' => 'form-control form-select-solid', 'prompt' => "Select one", "multiple" => "multiple", "data-control" => "select2","style"=>"width:auto;"]) ?>
+                            </div>
+                            <?= Html::error($model, 'allowed_api[' . $product->id . ']', ['class' => 'error help-block text-danger col-lg-12 col-sm-12 col-xs-12 mb-2 mt-2']) ?>
+                            <?= $form->field($model, 'allowed_api[' . $product->id . ']')->end() ?>
+                        </div>
+
+
                         <h6 class="br-section-label p-4">Login Headers</h6>
-                        <?= $this->render("_attributes", ['model' => $model, 'form' => $form,"product_id"=>$product->id, "labelfor" => "headers"]) ?>
+                        <?= $this->render("_attributes", ['model' => $model, 'form' => $form, "product_id" => $product->id, "labelfor" => "headers"]) ?>
                     </div>
                 <?php } ?>
             </div>

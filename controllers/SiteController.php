@@ -208,10 +208,33 @@ class SiteController extends BaseController
                 $c["count"];
         }
 
+        $rating = Tickets::find()->select("avg(rating) as rating")->asArray()->one();
+
+        $query = "SELECT COUNT(t.id) AS total_tickets, MIN(TIMESTAMPDIFF(MINUTE, t.added_on, tc.first_comment_time)) AS first_response_time_minutes,
+    AVG(first_response_minutes) AS avg_response_time_minutes, AVG(TIMESTAMPDIFF(HOUR, t.added_on, t.end_date)) AS avg_resolution_time_hours,
+    ROUND(100 * COUNT(DISTINCT tc.ticket_id) / COUNT(t.id)) AS response_coverage_percentage,
+    ROUND(100 * COUNT(t.end_date) / COUNT(t.id)) AS resolution_coverage_percentage FROM tickets t
+LEFT JOIN (
+    SELECT 
+        ticket_id,
+        MIN(tc.added_on) AS first_comment_time,
+        TIMESTAMPDIFF(MINUTE, MIN(tk.added_on), MIN(tc.added_on)) AS first_response_minutes
+    FROM ticket_comments tc
+    JOIN tickets tk ON tk.id = tc.ticket_id
+    GROUP BY ticket_id
+) AS tc ON t.id = tc.ticket_id;";
+
+        $reponseDetails = Yii::$app->db->createCommand($query)->queryAll();
         return [
             "compayWise" => $compayWise,
             "generalWise" => $generalWise,
             "subCategoryWise" => $subCategoryWise,
+            "rating" => !empty($rating["rating"]) ? $rating["rating"] : 0,
+            "reponsetime" => !empty($reponseDetails[0]) ? $reponseDetails[0] : [
+                "first_response_time_minutes" => 0,
+                "avg_response_time_minutes" => 0,
+                "avg_resolution_time_hours" => 0
+            ]
         ];
     }
 

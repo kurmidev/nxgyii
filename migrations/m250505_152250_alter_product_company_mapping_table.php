@@ -13,6 +13,7 @@ class m250505_152250_alter_product_company_mapping_table extends Migration
     public function safeUp()
     {
         $this->addColumn("product_company_mapping", "headers", $this->json());
+        $this->addColumn("product_company_mapping", "allowed_api", $this->json());
     }
 
     /**
@@ -22,6 +23,7 @@ class m250505_152250_alter_product_company_mapping_table extends Migration
     {
         echo "m250505_152250_alter_product_company_mapping_table cannot be reverted.\n";
         $this->dropColumn("product_company_mapping", "headers");
+        $this->dropColumn("product_company_mapping", "allowed_api");
         return true;
     }
 

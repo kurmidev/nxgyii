@@ -122,12 +122,7 @@ class ProductController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
             Yii::$app->getSession()->setFlash('s', "Product $model->name updated successfully.");
             return $this->redirect(['product/newproduct']);
-        } else {
-            if (!empty($model->errors)) {
-                print_r($model->errors);
-                //    exit;
-            }
-        }
+        } 
 
         return $this->render('form-new-product', [
             'model' => $model,

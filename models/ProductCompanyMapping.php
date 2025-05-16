@@ -12,6 +12,7 @@ use Yii;
  * @property int $company_id
  * @property string|null $credentials
  * @property string|null $headers
+ * @property string|null $allowed_api
  * @property int $status
  * @property string|null $added_on
  * @property string|null $updated_on
@@ -31,9 +32,9 @@ class ProductCompanyMapping extends \app\models\BaseModel
     public function scenarios()
     {
         return [
-            self::SCENARIO_CREATE => ['product_id', 'company_id', 'credentials', 'status', 'headers'],
-            self::SCENARIO_UPDATE => ['product_id', 'company_id', 'credentials', 'status', 'headers'],
-            self::SCENARIO_DEFAULT => ['product_id', 'company_id', 'credentials', 'status', 'headers'],
+            self::SCENARIO_CREATE => ['product_id', 'company_id', 'credentials', 'status', 'headers','allowed_api'],
+            self::SCENARIO_UPDATE => ['product_id', 'company_id', 'credentials', 'status', 'headers','allowed_api'],
+            self::SCENARIO_DEFAULT => ['product_id', 'company_id', 'credentials', 'status', 'headers','allowed_api'],
         ];
     }
 
@@ -43,9 +44,9 @@ class ProductCompanyMapping extends \app\models\BaseModel
     public function rules()
     {
         return [
-            [['product_id', 'company_id', 'status', 'credentials'], 'required'],
+            [['product_id', 'company_id', 'status', 'credentials','allowed_api'], 'required'],
             [['product_id', 'company_id', 'status', 'added_by', 'updated_by'], 'integer'],
-            [['credentials', 'added_on', 'updated_on', 'headers'], 'safe'],
+            [['credentials', 'added_on', 'updated_on', 'headers','allowed_api'], 'safe'],
             [['product_id', 'company_id'], 'unique', 'targetAttribute' => ['product_id', 'company_id']],
         ];
     }
@@ -61,6 +62,7 @@ class ProductCompanyMapping extends \app\models\BaseModel
             'company_id' => 'Company',
             'credentials' => 'Credentials',
             'headers' => 'Headers',
+            'allowed_api'=>"Allowed APIs",
             'status' => 'Status',
             'added_on' => 'Added On',
             'updated_on' => 'Updated On',

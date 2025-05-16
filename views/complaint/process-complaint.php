@@ -52,6 +52,16 @@ use app\models\TicketComments;
                             <?= $this->render("form-complaint-closed", ["model" => $model]) ?>
                         </div>
                     <?php } ?>
+                    <?php if ($model->status == Constants::CLOSED && empty($model->rating)) { ?>
+                        <div class="row mb-7">
+                            <?= $this->render("form-complaint-rating", ["model" => $model]) ?>
+                        </div>
+                    <?php } ?>
+                    <?php if ($model->status == Constants::CLOSED && !empty($model->rating)) { ?>
+                        <div class="row mb-7">
+                            <?= $this->render("rating-display", ["model" => $model]) ?>
+                        </div>
+                    <?php } ?>
                     <div class="mb-15">
                         <?php foreach ($model->complaintReply as $k => $v) { ?>
                             <?= $this->render("complaint-reply", [
