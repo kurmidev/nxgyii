@@ -190,8 +190,9 @@ class ProductController extends BaseController
         $fetchedAt = null;
         $dataProvider = new ActiveDataProvider([
             'query' => Yii::$app->mongodb->getCollection($collectionName)
-            ->andWhere([">",'fetched_at',date("YmdHi",strtotime("-5 minutes"))])
-            ->orderBy('fetched_at DESC'),
+            ->find([
+                "fetched_at"=>['$gt'=>date("YmdHi",strtotime("-5 minutes"))]
+            ])
         ]);
 
         $data = $dataProvider->getModels();
