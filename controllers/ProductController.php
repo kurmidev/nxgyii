@@ -122,7 +122,7 @@ class ProductController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
             Yii::$app->getSession()->setFlash('s', "Product $model->name updated successfully.");
             return $this->redirect(['product/newproduct']);
-        } 
+        }
 
         return $this->render('form-new-product', [
             'model' => $model,
@@ -149,7 +149,7 @@ class ProductController extends BaseController
         if ($model->load($this->request->post()) && $model->save()) {
             Yii::$app->getSession()->setFlash('s', "Product Api $model->api_name added successfully.");
             return $this->redirect(['product/api-list', 'id' => $product_id]);
-        }else{
+        } else {
             if (!empty($model->errors)) {
                 print_r($model->errors);
                 exit;
@@ -171,14 +171,15 @@ class ProductController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
             Yii::$app->getSession()->setFlash('s', "Product Api $model->api_name updated successfully.");
             return $this->redirect(['product/api-list', 'id' => $product_id]);
-        } 
+        }
 
         return $this->render('form-new-api', [
             'model' => $model,
         ]);
     }
 
-    public function actionApiFetchData($product_id,$id){
+    public function actionApiFetchData($product_id, $id)
+    {
         $model = ProductsApiList::findOne(['id' => $id, 'product_id' => $product_id]);
         if (!$model instanceof ProductsApiList) {
             Yii::$app->getSession()->setFlash('e', 'No record found');
@@ -190,16 +191,19 @@ class ProductController extends BaseController
         $fetchedAt = null;
         $dataProvider = new ActiveDataProvider([
             'query' => (new Query())->from($collectionName)
-            ->andWhere([">",'fetched_at',date("YmdHi",strtotime("-5 minutes"))])
-            ->orderBy('fetched_at DESC'),
+                ->andWhere([">", 'fetched_at', date("YmdHi", strtotime("-5 minutes"))])
+                ->sort(['fetched_at' => 1]),
+            'pagination' => [
+                'pageSize' => 10,
+            ]
         ]);
 
         $data = $dataProvider->getModels();
         $columns = [];
-        if(!empty($data[0])){
-            foreach($data[0] as $key => $value){
-                if(!is_array($value) && !in_array($key,['_id','id',"company_id","fetched_at"])){
-                    $columns[] = "$key:text:".ucwords($key);
+        if (!empty($data[0])) {
+            foreach ($data[0] as $key => $value) {
+                if (!is_array($value) && !in_array($key, ['_id', 'id', "company_id", "fetched_at"])) {
+                    $columns[] = "$key:text:" . ucwords($key);
                 }
             }
         }
@@ -207,8 +211,8 @@ class ProductController extends BaseController
 
         return $this->render('collection-list', [
             'dataProvider' => $dataProvider,
-            "columns"=> $columns,
-            "product_id"=>$product_id,
+            "columns" => $columns,
+            "product_id" => $product_id,
             "title" => $model->api_name
         ]);
 
