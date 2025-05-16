@@ -38,8 +38,8 @@ class ApiDataFetchController extends ConsoleController
                     $token = $loginDetails['data']['token'];
                     $config = [
                         'headers' => array_merge(
-                            $this->mergeKeyValue($product->products->auth_headers,'', $token),
-                            $this->mergeKeyValue($product->headers, '',$token)
+                            !empty($product->products->auth_headers)?$this->mergeKeyValue($product->products->auth_headers,'', $token):[],
+                            !empty($product->headers)?$this->mergeKeyValue($product->headers, '',$token):[]
                         ),
                         'token' => $token,
                         "base_uri" => rtrim($product->products->base_url, '/'),
