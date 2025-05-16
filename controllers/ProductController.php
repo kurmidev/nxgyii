@@ -192,7 +192,7 @@ class ProductController extends BaseController
         $dataProvider = new ActiveDataProvider([
             'query' => (new Query())->from($collectionName)
                 ->andWhere([">", 'fetched_at', date("YmdHi", strtotime("-5 minutes"))])
-                ->sort(['fetched_at' => 1]),
+                ,
             'pagination' => [
                 'pageSize' => 10,
             ]
