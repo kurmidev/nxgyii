@@ -54,9 +54,9 @@ class ApiDataFetchController extends ConsoleController
     private function mergeKeyValue($dataSets, $type = "", $token = "")
     {
         if (empty($dataSets)) {
-            return null;
+            return [];
         }
-        $resp = null;
+        $resp = [];
         switch ($type) {
             case "url":
                 $r = [];
