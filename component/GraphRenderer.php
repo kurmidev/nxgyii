@@ -161,10 +161,8 @@ class GraphRenderer
 
     function generateTableData($filters, $display_columns, $collectionName)
     {
-        $match = [];
-        $group = ['_id' => null];
-        $project = [];
         $collection = Yii::$app->mongodb->getCollection($collectionName);
+
         $filter = [];
         $options = [];
 
@@ -179,35 +177,44 @@ class GraphRenderer
                     'eq' => '$eq',
                     default => '$eq'
                 };
-                if (isset($filter[$field])) {
-                    $filter[$field][$op] = $condition['val'];
-                } else {
-                    $filter[$field] = [$op => $condition['val']];
+
+                // Support multiple conditions on same field
+                if (!isset($filter[$field])) {
+                    $filter[$field] = [];
+                }
+
+                $filter[$field][$op] = $condition['val'];
+            }
+        }
+
+        // Setup projection (i.e., select fields to return)
+        $columns = is_array($display_columns['values'])
+            ? $display_columns['values']
+            : [$display_columns['values']];
+
+
+        // DEBUG: print filter and projection
+        // echo "<pre>Filter:\n" . print_r($filter, true) . "\nProjection:\n" . print_r($options, true) . "</pre>";
+
+        // Execute the query
+        $cursor = $collection->find($filter, $options);
+        $data = iterator_to_array($cursor, true); // true = use_keys
+
+        $formatted = [];
+        foreach ($data as $doc) {
+            $row = [];
+            foreach($doc as $fieldName => $values) {
+                if (in_array($fieldName,['_id','fetchd_at',"company_id"])) {
+                    continue;
+                }
+                if(in_array($fieldName,$columns)){
+                    $row[$fieldName] = $values;
                 }
             }
+            $formatted[] = $row;
         }
-
-        // Identify label and aggregation fields
-        $labelField = null;
-        if (!empty($display_columns)) {
-            $fields = is_array($display_columns["values"]) ? $display_columns["values"] : [$display_columns["values"]];
-            // Always include _id unless explicitly excluded
-            $projection = [];
-            foreach ($fields as $field) {
-                $projection[$field] = 1;
-            }
-
-            // Optional: ensure `_id` is included unless user excludes it
-            if (!in_array('_id', $fields)) {
-                //$projection['_id'] = 0; // or leave it as is if you want it included
-            }
-
-            $options['projection'] = $projection;
-        }
-
-        // Execute aggregation
-        $cursor = $collection->find($filter, $options);
-        $data = iterator_to_array($cursor, false);
+        // DEBUG: print one row
+        // echo "<pre>Data Sample:\n" . print_r($data[0] ?? [], true) . "</pre>";
 
         return [
             "dataProvider" => new ArrayDataProvider([
@@ -216,7 +223,7 @@ class GraphRenderer
                     'pageSize' => 10,
                 ]
             ]),
-            "columns" => is_array($display_columns["values"]) ? $display_columns["values"] : [$display_columns["values"]]
+            "columns" => $columns
         ];
     }
 
