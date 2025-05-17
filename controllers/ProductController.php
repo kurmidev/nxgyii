@@ -204,7 +204,7 @@ class ProductController extends BaseController
         }
 
         $dataProvider = new ArrayDataProvider([
-            'query' => $response,
+            'allModels' => $response,
             'pagination' => [
                 'pageSize' => 10,
             ]
