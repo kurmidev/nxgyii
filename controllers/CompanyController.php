@@ -202,7 +202,8 @@ class CompanyController extends BaseController
 
         $response = [];
         $collection = $productApi->getCollectionName();
-        $result = (new Query())->from($collection)->limit(1)->one();
+        //$result = (new Query())->from($collection)->limit(1)->one();
+        $result = Yii::$app->mongodb->getCollection($collection)->findOne();
 
         if (!$result) {
             return [];
