@@ -199,7 +199,7 @@ class GraphRenderer
 
             // Optional: ensure `_id` is included unless user excludes it
             if (!in_array('_id', $fields)) {
-                $projection['_id'] = 0; // or leave it as is if you want it included
+                //$projection['_id'] = 0; // or leave it as is if you want it included
             }
 
             $options['projection'] = $projection;
