@@ -11,6 +11,7 @@ use app\models\ProductsApiListSearch;
 use app\models\ProductSearch;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\mongodb\Query;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -189,9 +190,9 @@ class ProductController extends BaseController
         $collectionName = $model->collectionName;
 
         $fetchedAt = null;
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider = new ArrayDataProvider([
             'query' => (new Query())->from($collectionName)
-                ->andWhere([">", 'fetched_at', date("YmdHi", strtotime("-5 minutes"))])
+                ->andWhere([">", 'fetched_at', date("YmdHi", strtotime("-5 minutes"))])->all()
                 ,
             'pagination' => [
                 'pageSize' => 10,
