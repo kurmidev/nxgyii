@@ -185,7 +185,7 @@ class GraphRenderer
         // Identify label and aggregation fields
         $labelField = null;
         if (!empty($display_columns)) {
-           $query->select($display_columns["values"]);
+           $query->select(json_decode($display_columns["values"],1));
         }
         // Execute aggregation
         $data = $query->all();
