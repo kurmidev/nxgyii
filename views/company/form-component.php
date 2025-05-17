@@ -78,9 +78,17 @@ $url = Yii::$app->urlManager->createUrl(["/company/get-api-data", "id" => ""]);
 $javascript = <<<JS
     $(document).ready(function(){
         $("#api_id_list").change(function(){
-            let html1 = '<h4>Select Operation on Column</h4>';
+          getChangeElements();
+        });
+        $("#display_type").change(function(){
+           getChangeElements();
+        });
+    });
+
+     function getChangeElements(){
+          let html1 = '<h4>Select Operation on Column</h4>';
             let html2 = '<h4>Select filter on Column</h4>';
-            let api_id = $(this).val();
+            let api_id = $("#api_id_list").val();
             $.ajax({
                 url: '{$url}'+api_id,
                 type: "get",
@@ -92,7 +100,8 @@ $javascript = <<<JS
                     
                     response.forEach(function(column) {
         html1 = "";
-        if(displayType!==1){
+        console.log("displayType",displayType);
+        if(Number(displayType)!==1){
                         html1 = `<div class="row mb-2">
     <div class="col-lg-6 col-sm-6 col-xs-6"><label class="form-label">Category</label></div>
     <div class="col-lg-6 col-sm-6 col-xs-6">
@@ -165,8 +174,7 @@ html1=`<div class="row mb-2">
                     $('#filter-container').html(html2);
                 }
             });
-        });
-    });
+    }
 JS;
 
 $this->registerJs($javascript,\yii\web\View::POS_END);
