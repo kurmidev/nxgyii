@@ -12,8 +12,17 @@ class m250505_152250_alter_product_company_mapping_table extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn("product_company_mapping", "headers", $this->json());
-        $this->addColumn("product_company_mapping", "allowed_api", $this->json());
+        try {
+            $this->addColumn("product_company_mapping", "headers", $this->json());
+        } catch (Exception $e) {
+
+        }
+        try {
+            $this->addColumn("product_company_mapping", "allowed_api", $this->json());
+        } catch (Exception $e) {
+
+        }
+
     }
 
     /**

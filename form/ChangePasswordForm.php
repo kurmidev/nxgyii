@@ -1,8 +1,8 @@
 <?php
 
-namespace common\forms;
+namespace app\form;
 
-use common\models\User;
+use app\models\User;
 
 class ChangePasswordForm extends \yii\base\Model {
 

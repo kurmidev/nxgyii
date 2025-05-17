@@ -10,6 +10,7 @@ class Constants
     const USERTYPE_ADMIN = -1;
     const USERTYPE_MSO = 0;
     const USERTYPE_CLIENT = 1;
+    const USERTYPE_COMPANY = 2;
 
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;

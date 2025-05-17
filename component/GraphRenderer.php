@@ -6,6 +6,7 @@ use app\component\widgets\LineChartWidget;
 use app\component\widgets\PiesChartWidget;
 use app\component\widgets\TableWidget;
 use app\component\widgets\XYBubbleChartWidget;
+use app\models\Employee;
 use app\models\ProductsApiCompanyMapping;
 use app\models\ProductsApiList;
 use Yii;
@@ -18,18 +19,31 @@ class GraphRenderer
     private $companyId;
     private $dashboardType;
     private $isMainDashboard;
+    private $employeeId;
 
-    public function __construct($companyId, $dashboardType, $isMainDashboard = false)
+    public function __construct($companyId, $dashboardType, $isMainDashboard = false,$employeeId = null)
     {
         $this->companyId = $companyId;
         $this->dashboardType = $dashboardType;
         $this->isMainDashboard = $isMainDashboard;
+        $this->employeeId = $employeeId;
     }
 
 
     public function render()
     {
-        $query = ProductsApiCompanyMapping::find()->where([ 'company_id' => $this->companyId]);
+
+        $component = [];
+
+        if(!empty($this->employeeId)){
+            $employee = Employee::find()->where(['id'=>$this->employeeId])->one();
+            if($employee){
+                $component = $employee->component_id;
+            }
+        }
+
+        $query = ProductsApiCompanyMapping::find()->where([ 'company_id' => $this->companyId])
+        ->andFilterWhere(["id"=>$component]);
         if($this->isMainDashboard){
             $query->andWhere(['on_main_dashboard' => 1]);
         }

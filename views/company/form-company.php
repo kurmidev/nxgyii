@@ -1,6 +1,7 @@
 <?php
 
 use app\component\Constants;
+use app\models\Designation;
 use app\models\ProductMaster;
 use app\models\Products;
 use app\models\ProductUserMapping;
@@ -11,6 +12,12 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model common\models\Area */
 /* @var $form yii\widgets\ActiveForm */
+
+$designationList = ArrayHelper::map(
+    Designation::find()->active()->all(),
+    'id',
+    'name'
+);
 
 $this->title = ($model->isNewRecord) ? 'Add new Company' : 'Update Company ' . $model->name . ' details.';
 $this->params['breadcrumbs'][] = ['label' => 'Company', 'url' => ['Company']];
@@ -96,9 +103,34 @@ $productLists = ArrayHelper::map(Products::find()->active()->all(), 'id', 'name'
                 <div class="col-lg-6 col-sm-6 col-xs-6">
                     <?= $form->field($model, 'product_mappings', ['options' => ['class' => "input-group mb-5"]])->begin(); ?>
                     <?= Html::activeLabel($model, 'product_mappings', ['class' => ' input-group-text']) ?>
+                    <div class="col-lg-2 col-sm-2 col-xs-2">
                     <?= Html::activeDropDownList($model, 'product_mappings', $productLists, ['class' => 'form-control form-select-solid', 'prompt' => "Select one", "multiple" => "multiple", "data-control" => "select2", "value" => $model->getProduct_mappings()]) ?>
                     <?= Html::error($model, 'product_mappings', ['class' => 'error help-block text-danger col-lg-12 col-sm-12 col-xs-12 mb-2']) ?>
+                    </div>
                     <?= $form->field($model, 'product_mappings')->end() ?>
+                </div>
+                <div class="col-lg-12 col-sm-12 col-xs-12">
+                    <?= $form->field($model, 'designation_id', ['options' => ['class' => "input-group mb-5"]])->begin(); ?>
+                    <?= Html::activeLabel($model, 'designation_id', ['class' => ' input-group-text']) ?>
+                    <div class="col-lg-6 col-sm-6 col-xs-6">
+                        <?= Html::activeDropDownList($model, 'designation_id', $designationList, ['class' => 'form-control form-select-solid', 'prompt' => "Select one"]) ?>
+                        <?= Html::error($model, 'designation_id', ['class' => 'error help-block text-danger col-lg-12 col-sm-12 col-xs-12 mb-2']) ?>
+                    </div>
+                    <?= $form->field($model, 'designation_id')->end() ?>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-6">
+                    <?= $form->field($model, 'password', ['options' => ['class' => 'input-group mb-5']])->begin() ?>
+                    <?= Html::activeLabel($model, 'password', ['class' => ' input-group-text']); ?>
+                    <?= Html::activeTextInput($model, 'password', ['class' => 'form-control form-control-solid', 'maxlength' => 10]) ?>
+                    <?= Html::error($model, 'password', ['class' => 'error help-block text-danger col-lg-12 col-sm-12 col-xs-12 mb-2 mt-2']) ?>
+                    <?= $form->field($model, 'password')->end() ?>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-xs-6">
+                    <?= $form->field($model, 'confirmpassword', ['options' => ['class' => 'input-group mb-5']])->begin() ?>
+                    <?= Html::activeLabel($model, 'confirmpassword', ['class' => ' input-group-text']); ?>
+                    <?= Html::activeTextInput($model, 'confirmpassword', ['class' => 'form-control form-control-solid', 'maxlength' => 10]) ?>
+                    <?= Html::error($model, 'confirmpassword', ['class' => 'error help-block text-danger col-lg-12 col-sm-12 col-xs-12 mb-2 mt-2']) ?>
+                    <?= $form->field($model, 'confirmpassword')->end() ?>
                 </div>
             </div>
 

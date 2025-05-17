@@ -15,6 +15,8 @@ use app\models\ProductsApiCompanyMapping;
 use app\models\ProductsApiCompanyMappingSearch;
 use app\models\ProductsApiList;
 use app\services\DashboardService;
+use app\form\ChangePasswordForm;
+use app\models\User;
 use Yii;
 use yii\mongodb\Query;
 use yii\web\NotFoundHttpException;
@@ -84,7 +86,7 @@ class CompanyController extends BaseController
         ]);
     }
 
-    public function actionViewCompany($id, $dash = null)
+    public function actionViewCompany($id, $dash = null,$employee_id=null)
     {
         $model = Company::findOne($id);
         if (!$model instanceof Company) {
@@ -94,13 +96,12 @@ class CompanyController extends BaseController
 
         $searchModel = new ProductsApiCompanyMappingSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('view-company', [
             'model' => $model,
             "dash" => $dash,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            "graph"=> (new GraphRenderer($model->id,$dash,$dash==0?true:false))->render(),
+            "graph"=> (new GraphRenderer($model->id,$dash,$dash==0?true:false,$employee_id))->render(),
         ]);
     }
 
@@ -288,6 +289,28 @@ class CompanyController extends BaseController
             "products" => $id,
             "model" => $model,
             "apiData" => $apiData,
+        ]);
+    }
+
+    public function actionChangePassword($id){
+        $company = Company::findOne($id);
+        if (!$company instanceof Company) {
+            \Yii::$app->getSession()->setFlash('e', 'No record found');
+            return $this->redirect(['company/company']);
+        }
+        $model = new ChangePasswordForm(['scenario'=>User::SCENARIO_CREATE]);
+        $model->user_id = $company->user->id;
+        
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
+            $company->password = $model->password;
+            $company->save();
+            \Yii::$app->getSession()->setFlash('s', "Password updated successfully.");
+            return $this->redirect(['company/company', 'id' => $company->id]);
+        }
+
+        return $this->render('change-password', [
+            'company' => $company,
+            "model" => $model
         ]);
     }
 

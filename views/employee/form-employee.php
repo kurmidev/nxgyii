@@ -4,6 +4,7 @@ use app\component\Constants;
 use app\models\Company;
 use app\models\Designation;
 use app\models\ProductMaster;
+use app\models\ProductsApiCompanyMapping;
 use app\models\ProductUserMapping;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -13,16 +14,13 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\Area */
 /* @var $form yii\widgets\ActiveForm */
 
-$companyId = Yii::$app->request->get('company_id');
-$assignedProduct = [];
-if(!empty($companyId)){
- $assignedProduct  = ProductUserMapping::find()->where(['user_id'=>$companyId,"user_type"=>ProductUserMapping::USER_TYPE_COMPANY])->indexBy("product_id")->all();
-}
+$componentLists = ArrayHelper::map(ProductsApiCompanyMapping::find()
+    ->andWhere(["company_id" => $company_id])->all(), 'id', 'report_name');
+
 
 $this->title = ($model->id) ? 'Add New Employee' : 'Update Employee ' . $model->name . ' details.';
 $this->params['breadcrumbs'][] = ['label' => 'Employee', 'url' => ['employee']];
 $this->params['breadcrumbs'][] = $this->title;
-$productLists = ArrayHelper::map(ProductMaster::find()->andFilterWhere(["id"=>array_keys($assignedProduct)])->active()->all(),'id','name');
 
 ?>
 <?= $this->render('@app/views/layouts/_contentheader') ?>
@@ -82,13 +80,13 @@ $productLists = ArrayHelper::map(ProductMaster::find()->andFilterWhere(["id"=>ar
                 </div>
 
                 <div class="col-md-6">
-                    <?= $form->field($model, 'product_mappings', ['options' => ['class' => "form-group"]])->begin(); ?>
-                    <?= Html::activeLabel($model, 'product_mappings', ['class' => ' control-label']) ?>
+                    <?= $form->field($model, 'component_id', ['options' => ['class' => "form-group"]])->begin(); ?>
+                    <?= Html::activeLabel($model, 'component_id', ['class' => ' control-label']) ?>
                     <div class="col-lg-6 col-sm-6 col-xs-6">
-                        <?= Html::activeDropDownList($model, 'product_mappings', $productLists, ['class' => 'form-control', 'prompt' => "Select one", "multiple" => "multiple", "data-control" => "select2", "value" => $model->getProduct_mappings()]) ?>
-                        <?= Html::error($model, 'product_mappings', ['class' => 'error help-block']) ?>
+                        <?= Html::activeDropDownList($model, 'component_id', $componentLists, ['class' => 'form-control', 'prompt' => "Select one", "multiple" => "multiple", "data-control" => "select2", "value" => $model->getProduct_mappings()]) ?>
+                        <?= Html::error($model, 'component_id', ['class' => 'error help-block']) ?>
                     </div>
-                    <?= $form->field($model, 'product_mappings')->end() ?>
+                    <?= $form->field($model, 'component_id')->end() ?>
                 </div>
 
                 <div class="col-lg-6 col-sm-6 col-xs-6 mb-3">

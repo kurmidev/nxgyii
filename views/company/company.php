@@ -57,9 +57,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'content' => function ($data) {
                         $content = [
                             ["name" => "Edit Company" , "url" => \Yii::$app->urlManager->createUrl(['company/update-company', "id" => $data->id])],
+                            ["name" => "Change Password" , "url" => \Yii::$app->urlManager->createUrl(['company/change-password', "id" => $data->id])],
                             ["name" => "Add Employee", "url" => \Yii::$app->urlManager->createUrl(['employee/add-employee', "company_id" => $data->id])],
-                            ["name" => "Dashboard", "url" => \Yii::$app->urlManager->createUrl(['company/view-company', "id" => $data->id])],
                             ["name" => "Product Mapping", "url" => \Yii::$app->urlManager->createUrl(['company/map-product', "id" => $data->id])],
+                            ["name" => "Dashboard", "url" => \Yii::$app->urlManager->createUrl(['company/view-company', "id" => $data->id])],
                         ];
 
                         // if ($data->status != Constants::CLOSED) {

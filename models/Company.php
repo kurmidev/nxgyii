@@ -20,6 +20,8 @@ use yii\helpers\ArrayHelper;
  * @property string $billing_address
  * @property string|null $pincode
  * @property string|null $logo
+ * @property int $designation_id
+ * @property string $password
  * @property int $status
  * @property string $added_on
  * @property string|null $updated_on
@@ -29,6 +31,7 @@ use yii\helpers\ArrayHelper;
 class Company extends \app\models\BaseModel
 {
     public $product_mappings;
+    public $confirmpassword;
     /**
      * {@inheritdoc}
      */
@@ -40,9 +43,9 @@ class Company extends \app\models\BaseModel
     public function scenarios()
     {
         return [
-            self::SCENARIO_CREATE => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status', 'product_mappings'],
-            self::SCENARIO_UPDATE => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status', 'product_mappings'],
-            self::SCENARIO_DEFAULT => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status', 'added_on', 'updated_on', 'added_by', 'updated_by'],
+            self::SCENARIO_CREATE => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status', 'product_mappings', 'password', 'confirmpassword', 'designation_id'],
+            self::SCENARIO_UPDATE => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status', 'product_mappings', 'password', 'confirmpassword', 'designation_id'],
+            self::SCENARIO_DEFAULT => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status', 'added_on', 'updated_on', 'added_by', 'updated_by', 'password', 'designation_id'],
         ];
     }
     /**
@@ -51,13 +54,15 @@ class Company extends \app\models\BaseModel
     public function rules()
     {
         return [
-            [['name', 'mobile_no', 'billing_address', 'product_mappings'], 'required'],
+            [['name', 'mobile_no', 'billing_address', 'product_mappings', 'designation_id'], 'required'],
             ['product_mappings', 'each', 'rule' => ['integer']],
             [['status', 'added_by', 'updated_by'], 'integer'],
-            [['added_on', 'updated_on'], 'safe'],
+            [['added_on', 'updated_on', 'password'], 'safe'],
             [['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'billing_address', 'pincode', 'logo'], 'string', 'max' => 255],
             [['name'], 'unique'],
             [['code'], 'unique'],
+            ['password', 'string', 'min' => 8, 'max' => 20],
+            ['confirm_password', 'compare', 'compareAttribute' => 'password'],
         ];
     }
 
@@ -75,6 +80,8 @@ class Company extends \app\models\BaseModel
             'email' => 'Email',
             'gst_in' => 'Gst In',
             'pan_no' => 'Pan No',
+            'designation_id' => 'Designation',
+            'password' => 'Password',
             'billing_address' => 'Billing Address',
             'pincode' => 'Pincode',
             'logo' => 'Logo',
@@ -105,6 +112,9 @@ class Company extends \app\models\BaseModel
         if (in_array($this->scenario, [self::SCENARIO_CREATE, self::SCENARIO_UPDATE])) {
             $this->addProductMappings($this->product_mappings);
         }
+        if ($insert) {
+            $this->createLoginCredential();
+        }
     }
 
     /**
@@ -119,6 +129,12 @@ class Company extends \app\models\BaseModel
     public function getProductMappings()
     {
         return $this->hasMany(ProductUserMapping::class, ['user_id' => 'id'])->andOnCondition(['user_type' => ProductUserMapping::USER_TYPE_COMPANY]);
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::class, ['email' => 'email']);
+        //->andOnCondition(['user_type' => Constants::USERTYPE_COMPANY]);
     }
 
     public function addProductMappings($product_mappings)
@@ -153,6 +169,28 @@ class Company extends \app\models\BaseModel
             return $api_list;
         }
         return [];
+    }
+
+    public function createLoginCredential()
+    {
+        $user = new User(["scenario" => User::SCENARIO_CREATE]);
+        $user->name = $this->name;
+        $user->mobile_no = $this->mobile_no;
+        $user->user_type = Constants::USERTYPE_CLIENT;
+        $user->company_id = $this->id;
+        $user->client_id = $this->id;
+        $user->designation_id = $this->designation_id;
+        $user->status = $this->status;
+        $user->username = $user->email = $this->email;
+        $user->password = md5($this->password);
+        $user->password_hash = Yii::$app->security->generatePasswordHash($this->password);
+        $user->auth_key = Yii::$app->security->generateRandomString();
+        $user->setPassword('password');
+        $user->generateAuthKey();
+        if ($user->validate() && $user->save()) {
+            return true;
+        }
+        return false;
     }
 
 }

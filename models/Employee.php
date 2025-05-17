@@ -20,6 +20,7 @@ use yii\helpers\ArrayHelper;
  * @property string|null $pincode
  * @property int|null $company_id
  * @property int|null $designation_id
+ * @property int  $component_id
  * @property int $status
  * @property string $added_on
  * @property string|null $updated_on
@@ -31,7 +32,6 @@ use yii\helpers\ArrayHelper;
  */
 class Employee extends \app\models\BaseModel
 {
-    public $product_mappings;
     public $password;
     /**
      * {@inheritdoc}
@@ -44,9 +44,9 @@ class Employee extends \app\models\BaseModel
     public function scenarios()
     {
         return [
-            self::SCENARIO_CREATE => ['name', 'code', 'mobile_no', 'address', 'password', 'phone_no', 'email', 'status', 'company_id', 'designation_id', 'product_mappings', 'pincode'],
-            self::SCENARIO_UPDATE => ['name', 'code', 'mobile_no', 'address', 'password', 'phone_no', 'email', 'status', 'company_id', 'designation_id', 'product_mappings', 'pincode'],
-            self::SCENARIO_DEFAULT => ['name', 'code', 'mobile_no', 'address', 'password', 'phone_no', 'email', 'status', 'company_id', 'designation_id', 'product_mappings', 'pincode'],
+            self::SCENARIO_CREATE => ['name', 'code', 'mobile_no', 'address', 'password', 'phone_no', 'email', 'status', 'company_id', 'designation_id', 'product_mappings', 'pincode','component_id'],
+            self::SCENARIO_UPDATE => ['name', 'code', 'mobile_no', 'address', 'password', 'phone_no', 'email', 'status', 'company_id', 'designation_id', 'product_mappings', 'pincode','component_id'],
+            self::SCENARIO_DEFAULT => ['name', 'code', 'mobile_no', 'address', 'password', 'phone_no', 'email', 'status', 'company_id', 'designation_id', 'product_mappings', 'pincode','component_id'],
         ];
     }
 
@@ -56,7 +56,7 @@ class Employee extends \app\models\BaseModel
     public function rules()
     {
         return [
-            [['name', 'mobile_no', 'address', 'pincode'], 'required'],
+            [['name', 'mobile_no', 'address', 'pincode','component_id'], 'required'],
             [['company_id', 'designation_id', 'status', 'added_by', 'updated_by'], 'integer'],
             [['added_on', 'updated_on'], 'safe'],
             [['name', 'code', 'mobile_no', 'phone_no', 'email', 'address', 'pincode', 'password'], 'string', 'max' => 255],
@@ -64,20 +64,6 @@ class Employee extends \app\models\BaseModel
             [['code'], 'unique'],
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::class, 'targetAttribute' => ['company_id' => 'id']],
             [['designation_id'], 'exist', 'skipOnError' => true, 'targetClass' => Designation::class, 'targetAttribute' => ['designation_id' => 'id']],
-            [
-                ["product_mapping"],
-                function ($attribute, $params, $validator) {
-                    if (!empty($params['company_id'])) {
-                        $company = Company::findOne(['id' => $params['company_id']]);
-                        if (!empty($company)) {
-                            $arr = array_intersect($company->getProduct_mappings(), $params['product_mappings']);
-                            if (empty($arr)) {
-                                $this->addError($attribute, 'No product mapped with this company.');
-                            }
-                        }
-                    }
-                }
-            ]
         ];
     }
 
@@ -97,6 +83,7 @@ class Employee extends \app\models\BaseModel
             'pincode' => 'Pincode',
             'company_id' => 'Company ',
             'designation_id' => 'Designation ',
+            'component_id'=> 'Component ',
             'status' => 'Status',
             'added_on' => 'Added On',
             'updated_on' => 'Updated On',
@@ -127,7 +114,7 @@ class Employee extends \app\models\BaseModel
 
     public function getUser()
     {
-        return $this->hasOne(User::class, ['email' => 'email']);
+        return $this->hasOne(User::class, ['username' => 'email']);
     }
 
 
@@ -143,9 +130,6 @@ class Employee extends \app\models\BaseModel
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        if (in_array($this->scenario, [self::SCENARIO_CREATE, self::SCENARIO_UPDATE])) {
-            $this->addProductMappings($this->product_mappings);
-        }
         if ($insert) {
             $this->createLoginCredential();
         }

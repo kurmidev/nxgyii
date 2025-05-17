@@ -5,6 +5,8 @@ namespace app\controllers;
 use app\models\Employee;
 use app\models\EmployeeSearch;
 use app\controllers\BaseController;
+use app\form\ChangePasswordForm;
+use app\models\User;
 use Yii;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -72,7 +74,31 @@ class EmployeeController extends BaseController
         
         return $this->render('form-employee', [
             'model' => $model,
+            'company_id'=> $model->company_id,
         ]);
     }
+
+     public function actionChangePassword($id){
+        $employee = Employee::findOne($id);
+        if (!$employee instanceof Employee) {
+            \Yii::$app->getSession()->setFlash('e', 'No record found');
+            return $this->redirect(['employee/index']);
+        }
+        $model = new ChangePasswordForm(['scenario'=>User::SCENARIO_CREATE]);
+        $model->user_id = $employee->user->id;
+        
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
+            $employee->password = $model->password;
+            $employee->save();
+            \Yii::$app->getSession()->setFlash('s', "Password updated successfully.");
+            return $this->redirect(['employee/employee', 'id' => $employee->id]);
+        }
+
+        return $this->render('change-password', [
+            'employee' => $employee,
+            "model" => $model
+        ]);
+    }
+
 
 }
