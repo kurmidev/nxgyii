@@ -21,7 +21,7 @@ class GraphRenderer
     private $isMainDashboard;
     private $employeeId;
 
-    public function __construct($companyId, $dashboardType, $isMainDashboard = false,$employeeId = null)
+    public function __construct($companyId, $dashboardType, $isMainDashboard = false, $employeeId = null)
     {
         $this->companyId = $companyId;
         $this->dashboardType = $dashboardType;
@@ -35,16 +35,16 @@ class GraphRenderer
 
         $component = [];
 
-        if(!empty($this->employeeId)){
-            $employee = Employee::find()->where(['id'=>$this->employeeId])->one();
-            if($employee){
+        if (!empty($this->employeeId)) {
+            $employee = Employee::find()->where(['id' => $this->employeeId])->one();
+            if ($employee) {
                 $component = $employee->component_id;
             }
         }
 
-        $query = ProductsApiCompanyMapping::find()->where([ 'company_id' => $this->companyId])
-        ->andFilterWhere(["id"=>$component]);
-        if($this->isMainDashboard){
+        $query = ProductsApiCompanyMapping::find()->where(['company_id' => $this->companyId])
+            ->andFilterWhere(["id" => $component]);
+        if ($this->isMainDashboard) {
             $query->andWhere(['on_main_dashboard' => 1]);
         }
         if (!empty($this->dashboardType)) {
@@ -53,16 +53,16 @@ class GraphRenderer
             $query->andWhere(['api_id' => $apiIds]);
         }
         $model = $query->all();
-        
+
         $graph = [];
         foreach ($model as $item) {
             $collectionName = $item->api->getCollectionName();
             $filters = []; //$item['filters'];
             $display_columns = $item["display_columns"];
             $chartData =
-            $item->display_type==Constants::DISPLAY_TYPE_TABLE?
-            $this->generateTableData($filters, $display_columns, $collectionName)
-            :$this->generateChartData($filters, $display_columns, $collectionName);
+                $item->display_type == Constants::DISPLAY_TYPE_TABLE ?
+                $this->generateTableData($filters, $display_columns, $collectionName)
+                : $this->generateChartData($filters, $display_columns, $collectionName);
             $graph[$item->id] = $this->generateGraphViews($chartData, $item->report_name, $item->display_type);
         }
         return $graph;
@@ -140,15 +140,15 @@ class GraphRenderer
 
         // Format output
         $formatted = [];
-        
+
         foreach ($data as $doc) {
             $row = [];
-            foreach($doc as $fieldName=>$values){
-                if($fieldName == '_id'){
+            foreach ($doc as $fieldName => $values) {
+                if ($fieldName == '_id') {
                     $row['category'] = $values;
                     continue;
                 }
-                if($fieldName == 'category'){
+                if ($fieldName == 'category') {
                     continue;
                 }
                 $row['value'] = $values;
@@ -165,7 +165,8 @@ class GraphRenderer
         $group = ['_id' => null];
         $project = [];
         $collection = Yii::$app->mongodb->getCollection($collectionName);
-        $query = (new Query())->from($collectionName);
+        $filter = [];
+        $options = [];
 
         // Build $match conditions
         if (!empty($filters)) {
@@ -178,31 +179,36 @@ class GraphRenderer
                     'eq' => '$eq',
                     default => '$eq'
                 };
-                $query->andWhere([$op, $field =>  $condition['val']]);
+                if (isset($filter[$field])) {
+                    $filter[$field][$op] = $condition['val'];
+                } else {
+                    $filter[$field] = [$op => $condition['val']];
+                }
             }
         }
 
         // Identify label and aggregation fields
         $labelField = null;
         if (!empty($display_columns)) {
-           $query->select(!is_array($display_columns["values"])?[$display_columns["values"]]:$display_columns["values"]);
+            $fields = is_array($display_columns["values"]) ? $display_columns["values"] : [$display_columns["values"]];
+            $options['projection'] = array_fill_keys($fields, 1);  // Include only selected fields
         }
+
         // Execute aggregation
-        $data = $query->all();
+        $data = $collection->find($filter, $options);
         // Format output
         $formatted = [];
-        
         foreach ($data as $doc) {
-         $formatted[] = $doc;
+            $formatted[] = $doc;
         }
 
         return [
-            "dataProvider"=> new ArrayDataProvider([
-            'allModels' => $formatted,
-            'pagination' => [
-                'pageSize' => 10,
-            ]
-        ]),
+            "dataProvider" => new ArrayDataProvider([
+                'allModels' => $formatted,
+                'pagination' => [
+                    'pageSize' => 10,
+                ]
+            ]),
             "columns" => $display_columns
         ];
     }
@@ -212,7 +218,7 @@ class GraphRenderer
     {
         switch ($displayType) {
             case Constants::DISPLAY_TYPE_TABLE:
-                return TableWidget::widget(['dataProvider' => $chartData['dataProvider'],"columns"=>$chartData['columns'], 'reportName' => $reportName]);
+                return TableWidget::widget(['dataProvider' => $chartData['dataProvider'], "columns" => $chartData['columns'], 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_CARD:
                 return;
             case Constants::DISPLAY_TYPE_BAR_CHART:
