@@ -92,7 +92,7 @@ $javascript = <<<JS
                     
                     response.forEach(function(column) {
         html1 = "";
-        if(displayType===1){
+        if(displayType!==1){
                         html1 = `<div class="row mb-2">
     <div class="col-lg-6 col-sm-6 col-xs-6"><label class="form-label">Category</label></div>
     <div class="col-lg-6 col-sm-6 col-xs-6">
