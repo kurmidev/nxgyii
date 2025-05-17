@@ -191,25 +191,32 @@ class GraphRenderer
         $labelField = null;
         if (!empty($display_columns)) {
             $fields = is_array($display_columns["values"]) ? $display_columns["values"] : [$display_columns["values"]];
-            $options['projection'] = array_fill_keys($fields, 1);  // Include only selected fields
+            // Always include _id unless explicitly excluded
+            $projection = [];
+            foreach ($fields as $field) {
+                $projection[$field] = 1;
+            }
+
+            // Optional: ensure `_id` is included unless user excludes it
+            if (!in_array('_id', $fields)) {
+                $projection['_id'] = 0; // or leave it as is if you want it included
+            }
+
+            $options['projection'] = $projection;
         }
 
         // Execute aggregation
-        $data = $collection->find($filter, $options);
-        // Format output
-        $formatted = [];
-        foreach ($data as $doc) {
-            $formatted[] = $doc;
-        }
+        $cursor = $collection->find($filter, $options);
+        $data = iterator_to_array($cursor, false);
 
         return [
             "dataProvider" => new ArrayDataProvider([
-                'allModels' => $formatted,
+                'allModels' => $data,
                 'pagination' => [
                     'pageSize' => 10,
                 ]
             ]),
-            "columns" => $display_columns
+            "columns" => is_array($display_columns["values"]) ? $display_columns["values"] : [$display_columns["values"]]
         ];
     }
 
