@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\form\ChangePasswordForm;
 use app\models\TicketComments;
 use Yii;
 use yii\web\Response;
@@ -13,7 +14,6 @@ use app\models\Categories;
 use app\models\Company;
 use app\models\Tickets;
 use OneLogin\Saml2\Auth;
-use PHPUnit\TextUI\Configuration\Constant;
 use yii\helpers\ArrayHelper;
 
 class SiteController extends BaseController
@@ -75,8 +75,8 @@ class SiteController extends BaseController
     public function actionLogout()
     {
         Yii::$app->user->logout();
-        $auth = new Auth(require Yii::getAlias('@app/config/saml.php'));
-        $auth->logout(Yii::$app->urlManager->createUrl("site/login"));
+        // $auth = new Auth(require Yii::getAlias('@app/config/saml.php'));
+        // $auth->logout(Yii::$app->urlManager->createUrl("site/login"));
         return $this->goHome();
     }
 
