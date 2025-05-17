@@ -40,8 +40,8 @@ class Company extends \app\models\BaseModel
     public function scenarios()
     {
         return [
-            self::SCENARIO_CREATE => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status','product_mappings'],
-            self::SCENARIO_UPDATE => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status','product_mappings'],
+            self::SCENARIO_CREATE => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status', 'product_mappings'],
+            self::SCENARIO_UPDATE => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status', 'product_mappings'],
             self::SCENARIO_DEFAULT => ['name', 'code', 'mobile_no', 'phone_no', 'email', 'gst_in', 'pan_no', 'pincode', 'logo', 'billing_address', 'status', 'added_on', 'updated_on', 'added_by', 'updated_by'],
         ];
     }
@@ -51,7 +51,7 @@ class Company extends \app\models\BaseModel
     public function rules()
     {
         return [
-            [['name', 'mobile_no', 'billing_address','product_mappings'], 'required'],
+            [['name', 'mobile_no', 'billing_address', 'product_mappings'], 'required'],
             ['product_mappings', 'each', 'rule' => ['integer']],
             [['status', 'added_by', 'updated_by'], 'integer'],
             [['added_on', 'updated_on'], 'safe'],
@@ -100,8 +100,9 @@ class Company extends \app\models\BaseModel
         return parent::beforeSave($insert);
     }
 
-    public function afterSave($insert, $changedAttributes){
-        if(in_array($this->scenario, [self::SCENARIO_CREATE, self::SCENARIO_UPDATE])){
+    public function afterSave($insert, $changedAttributes)
+    {
+        if (in_array($this->scenario, [self::SCENARIO_CREATE, self::SCENARIO_UPDATE])) {
             $this->addProductMappings($this->product_mappings);
         }
     }
@@ -115,35 +116,39 @@ class Company extends \app\models\BaseModel
         return new CompanyQuery(get_called_class());
     }
 
-    public function getProductMappings(){
-        return $this->hasMany(ProductUserMapping::class,['user_id'=>'id'])->andOnCondition(['user_type'=>ProductUserMapping::USER_TYPE_COMPANY]);
+    public function getProductMappings()
+    {
+        return $this->hasMany(ProductUserMapping::class, ['user_id' => 'id'])->andOnCondition(['user_type' => ProductUserMapping::USER_TYPE_COMPANY]);
     }
 
-    public function addProductMappings($product_mappings){
-        if(!empty($product_mappings)){
-            ProductUserMapping::deleteAll(["user_id"=>$this->id,'user_type'=>ProductUserMapping::USER_TYPE_COMPANY]);
+    public function addProductMappings($product_mappings)
+    {
+        if (!empty($product_mappings)) {
+            ProductUserMapping::deleteAll(["user_id" => $this->id, 'user_type' => ProductUserMapping::USER_TYPE_COMPANY]);
         }
-        foreach($product_mappings as $product_id){
-            $model = new ProductUserMapping(['scenario'=>ProductUserMapping::SCENARIO_CREATE]);
+        foreach ($product_mappings as $product_id) {
+            $model = new ProductUserMapping(['scenario' => ProductUserMapping::SCENARIO_CREATE]);
             $model->product_id = $product_id;
             $model->user_id = $this->id;
             $model->user_type = ProductUserMapping::USER_TYPE_COMPANY;
-            if($model->validate() && $model->save()){
+            if ($model->validate() && $model->save()) {
                 //do notthings
             }
         }
     }
 
-    public function getProduct_mappings(){
-        return !empty($this->productMappings)?ArrayHelper::getColumn($this->productMappings,'product_id'):[];
+    public function getProduct_mappings()
+    {
+        return !empty($this->productMappings) ? ArrayHelper::getColumn($this->productMappings, 'product_id') : [];
     }
 
-    public function getAssignedApiList(){
-        $m = ProductCompanyMapping::find()->where(['company_id'=>$this->id])->asArray()->all();
-        if(!empty($m)){
+    public function getAssignedApiList()
+    {
+        $m = ProductCompanyMapping::find()->where(['company_id' => $this->id])->asArray()->all();
+        if (!empty($m)) {
             $api_list = [];
-            foreach($m as $item){
-                $api_list = array_merge($api_list,json_decode($item['allowed_api'],true));
+            foreach ($m as $item) {
+                $api_list = array_merge($api_list, !empty($item['allowed_api']) ? json_decode($item['allowed_api'], 1) : []);
             }
             return $api_list;
         }

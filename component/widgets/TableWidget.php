@@ -2,20 +2,54 @@
 
 namespace app\component\widgets;
 
+use app\component\CtGridView;
 use yii\base\Widget;
+use yii\helpers\Html;
 
 class TableWidget extends Widget
 {
 
     public $reportName;
-    public $data = [];
+    public $dataProvider;
+    public $columns;
 
     public function init()
     {
         parent::init();
 
     }
+
     public function run()
+    {
+
+        return Html::tag(
+            "div",
+            Html::tag(
+                "div",
+                Html::tag(
+                    "div",
+                    Html::tag(
+                        "div",
+                        Html::tag("span", $this->reportName, ["class" => "fs-2hx fw-bold text-gray-900 me-2 lh-1 ls-n2"])
+                        ,
+                        ["class" => "d-flex align-items-center"]
+                    )
+                    ,
+                    ["class" => "card-title d-flex flex-column"]
+                )
+                ,
+                ["class" => "card-header pt-5"]
+            ) .
+            CtGridView::widget([
+                'dataProvider' => $this->dataProvider,
+                'columns' => $this->columns["values"]
+            ])
+            ,
+            ["class" => "card mb-5"]
+        );
+
+    }
+    public function runOld()
     {
         $table = "";
         if (!empty($this->data)) {

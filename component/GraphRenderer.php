@@ -9,6 +9,7 @@ use app\component\widgets\XYBubbleChartWidget;
 use app\models\ProductsApiCompanyMapping;
 use app\models\ProductsApiList;
 use Yii;
+use yii\data\ArrayDataProvider;
 use yii\mongodb\Query;
 
 class GraphRenderer
@@ -180,7 +181,16 @@ class GraphRenderer
         foreach ($data as $doc) {
          $formatted[] = $doc;
         }
-        return $formatted;
+
+        return [
+            "dataProvider"=> new ArrayDataProvider([
+            'allModels' => $formatted,
+            'pagination' => [
+                'pageSize' => 10,
+            ]
+        ]),
+            "columns" => $display_columns
+        ];
     }
 
 
@@ -188,7 +198,7 @@ class GraphRenderer
     {
         switch ($displayType) {
             case Constants::DISPLAY_TYPE_TABLE:
-                return TableWidget::widget(['data' => $chartData, 'reportName' => $reportName]);
+                return TableWidget::widget(['dataProvider' => $chartData['dataProvider'],"columns"=>$chartData['columns'], 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_CARD:
                 return;
             case Constants::DISPLAY_TYPE_BAR_CHART:
