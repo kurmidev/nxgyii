@@ -188,12 +188,23 @@ class ProductController extends BaseController
         }
 
         $collectionName = $model->collectionName;
+        // $data = (new Query())->from($collectionName)
+        //         ->andWhere([">", 'fetched_at', date("YmdHi", strtotime("-5 minutes"))])->all();
 
-        $fetchedAt = null;
+        $collection = Yii::$app->mongodb->getCollection($collectionName);
+        $conditions = [
+            '$and' => [
+                ['fetched_at' => ['$gte' => date("YmdHi", strtotime("-5 minutes"))]],
+            ]
+        ];
+        $data = $collection->find($conditions)->toArray();
+        $response = [];
+        foreach ($data as $doc) {
+            $response[] = $doc;
+        }
+
         $dataProvider = new ArrayDataProvider([
-            'query' => (new Query())->from($collectionName)
-                ->andWhere([">", 'fetched_at', date("YmdHi", strtotime("-5 minutes"))])->all()
-                ,
+            'query' => $response,
             'pagination' => [
                 'pageSize' => 10,
             ]
@@ -208,7 +219,6 @@ class ProductController extends BaseController
                 }
             }
         }
-
 
         return $this->render('collection-list', [
             'dataProvider' => $dataProvider,
