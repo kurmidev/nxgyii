@@ -34,8 +34,14 @@ class SiteController extends BaseController
     public function actionIndex()
     {
         $userType = User::loggedInUserType();
-        if ($userType == C::USERTYPE_CLIENT) {
-
+        if (in_array($userType , [C::USERTYPE_CLIENT,C::USERTYPE_COMPANY])) {
+            $user = User::currentUser();
+            $url[] = "company/view-company";
+            $url["id"] =  $user->company_id;
+            if($userType == C::USERTYPE_CLIENT){
+                $url["employee_id"] = $user->client_id;
+            }
+            return $this->redirect($url);
         } elseif ($userType == C::USERTYPE_ADMIN) {
             return $this->render('admin-index', [
                 "complaint" => $this->getComplaintDashboardData()
