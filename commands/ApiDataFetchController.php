@@ -148,13 +148,14 @@ class ApiDataFetchController extends ConsoleController
         }
         $header = array_merge(
             $config['headers'],
-            !empty($api['api_headers']) ? $this->mergeKeyValue($api['api_headers'],'',$config['token']) : []
+            !empty($api['api_headers']) ? $this->mergeKeyValue($api['api_headers']) : []
         );
         // if (!empty($config['token'])) {
         //     $header['Authorization'] = "Bearer " . $config['token'];
         // }
 
-        $res = $this->getData($url, $api['api_method'], $header, $api['api_body']);
+        $params = !empty($api['api_body']) ?  $this->mergeKeyValue($api['api_body']) : [];
+        $res = $this->getData($url, $api['api_method'], $header, $params);
         print_r([
             "header" => $header,
             "url" => $url,
