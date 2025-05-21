@@ -84,9 +84,13 @@
 
         // Update names and IDs
         clone.querySelectorAll("input").forEach((input) => {
+          console.log(input.name);
           if (input.name.includes("[key]")) {
             input.name = `${baseName}[${newIndex}][key]`;
             input.id = `${baseName.replace(/\[|\]/g, "-")}-${newIndex}-key`;
+          } else if (input.name.includes("[val]")) {
+            input.name = `${baseName}[${newIndex}][val]`;
+            input.id = `${baseName.replace(/\[|\]/g, "-")}-${newIndex}-val`;
           } else if (input.name.includes("[value]")) {
             input.name = `${baseName}[${newIndex}][value]`;
             input.id = `${baseName.replace(/\[|\]/g, "-")}-${newIndex}-value`;

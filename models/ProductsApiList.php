@@ -105,9 +105,9 @@ class ProductsApiList extends \app\models\BaseModel
             $this->api_headers = $this->sanitizeParams($this->api_headers);
         }
 
-        if (!empty($this->api_body)) {
-            $this->api_body = $this->sanitizeParams($this->api_body);
-        }
+        // if (!empty($this->api_body)) {
+        //     $this->api_body = $this->sanitizeParams($this->api_body);
+        // }
         if (!empty($this->api_response)) {
             $this->api_response = $this->sanitizeParams($this->api_response);
         }
