@@ -26,7 +26,7 @@ class BaseController extends \yii\web\Controller
                             if (in_array($action->id, ['accessdenied', 'data', 'logout', 'error']))
                                 return true;
                             $name = implode("-", [$action->controller->id, $action->id]);
-                            return true;//\Yii::$app->user->can($name);
+                            return Yii::$app->user->can($name);
                         }
                     ],
                 ],

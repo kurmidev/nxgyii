@@ -257,7 +257,8 @@ class User extends \app\models\BaseModel  implements IdentityInterface
             $desig = Designation::find()->andWhere(['id' => [$this->designation_id]])->indexBy('id')->one();
             if ($desig instanceof Designation) {
                 echo "insise designation.........";
-                AuthUser::assignDesignation($this->id, $desig->name);
+                
+                AuthUser::assignDesignation($this->id, $desig->code);
             }
         }
 
@@ -270,7 +271,7 @@ class User extends \app\models\BaseModel  implements IdentityInterface
                 if (!empty($desig)) {
                     $current = $desig[$this->designation_id];
                     $prev = $desig[$changedAttributes['designation_id']];
-                    AuthUser::assignDesignation($this->id, $current->name, $prev->name);
+                    AuthUser::assignDesignation($this->id, $current->code, $prev->code);
                 }
             }
         }
