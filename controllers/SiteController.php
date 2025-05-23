@@ -42,7 +42,7 @@ class SiteController extends BaseController
                 $url["employee_id"] = $user->client_id;
             }
             return $this->redirect($url);
-        } elseif ($userType == C::USERTYPE_ADMIN) {
+        } elseif (in_array($userType, [C::USERTYPE_ADMIN,C::USERTYPE_MSO])) {
             return $this->render('admin-index', [
                 "complaint" => $this->getComplaintDashboardData()
             ]);

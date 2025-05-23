@@ -105,6 +105,11 @@ class MenuHelper
                     ['module' => '', 'controller' => 'plugin', 'action' => 'add-sub-category', 'label' => 'Add Sub Catgory', 'is_menu' => false, 'icon' => " ki-devices"],
                     ['module' => '', 'controller' => 'plugin', 'action' => 'update-sub-category', 'label' => 'Update Sub Category', 'is_menu' => false, 'icon' => " ki-devices"],
                 ],
+                'users' => [
+                    ['module' => '', 'controller' => 'plugin', 'action' => 'user', 'label' => 'Users', 'is_menu' => true, 'icon' => " ki-devices"],
+                    ['module' => '', 'controller' => 'plugin', 'action' => 'add-user', 'label' => 'Add User', 'is_menu' => false, 'icon' => " ki-devices"],
+                    ['module' => '', 'controller' => 'plugin', 'action' => 'update-user', 'label' => 'Update User', 'is_menu' => false, 'icon' => " ki-devices"],
+                ],
                 'plugin' => [
                     ['module' => '', 'controller' => 'plugin', 'action' => 'index', 'label' => 'Plugin', 'is_menu' => true, 'icon' => " ki-devices"],
                     ['module' => '', 'controller' => 'plugin', 'action' => 'add-sms', 'label' => 'SMS', 'is_menu' => false, 'icon' => " ki-devices"],

@@ -34,6 +34,7 @@ use yii\web\IdentityInterface;
 class User extends \app\models\BaseModel  implements IdentityInterface 
 {
     public static $loggedInUser;
+    public $confirmpassword;
     /**
      * {@inheritdoc}
      */
@@ -58,7 +59,7 @@ class User extends \app\models\BaseModel  implements IdentityInterface
     public function rules()
     {
         return [
-            [['name', 'user_type', 'username', 'password', 'auth_key', 'password_hash'], 'required'],
+            [['name', 'user_type', 'username', 'password'], 'required'],
             [['user_type', 'company_id', 'client_id', 'designation_id', 'status', 'added_by', 'updated_by','client_id'], 'integer'],
             [['last_access_time', 'added_on', 'updated_on'], 'safe'],
             [['name', 'mobile_no', 'email', 'username', 'password', 'password_hash', 'verification_token', 'password_reset_token'], 'string', 'max' => 255],
@@ -303,7 +304,7 @@ class User extends \app\models\BaseModel  implements IdentityInterface
 
     public static function loggedInUserType() {
         $d = Yii::$app->user->getIdentity();
-        return !empty($d['user_type']) ? $d['user_type'] : "";
+        return isset($d['user_type']) ? $d['user_type'] : "";
     }
 
     public static function loggedInUserReferenceId() {
