@@ -2,12 +2,15 @@
 
 namespace app\commands;
 
-use app\component\Constants;
-use app\models\ProductCompanyMapping;
-use app\models\ProductsApiList;
-use app\services\FetchData;
-use GuzzleHttp\Client;
 use Yii;
+use GuzzleHttp\Client;
+use app\services\FetchData;
+use app\component\Constants;
+use app\models\ProductsApiList;
+use app\commands\ConsoleController;
+use app\models\ProductCompanyMapping;
+use DateTime;
+use yii\helpers\ArrayHelper;
 
 class ApiDataFetchController extends ConsoleController
 {
@@ -16,19 +19,19 @@ class ApiDataFetchController extends ConsoleController
 
     public function actionRun()
     {
-        $model = ProductCompanyMapping::find()->active()->all();
+        $model = ProductCompanyMapping::find()->andWhere(["product_id" => 1, 'company_id' => 1])->active()->all();
         foreach ($model as $product) {
             $apiList = $this->getApiConfigs($product->product_id);
             if (!empty($apiList)) {
                 $tokenKey = "token_{$product->company_id}_{$product->product_id}";
                 $cacheToken = Yii::$app->cache->get($tokenKey);
-                $loginDetails = !empty($cacheToken) ? $cacheToken : $this->getAuthorizationToken($product);
-                // $loginDetails = [
-                //     "status" => Constants::STATUS_ACTIVE,
-                //     "data" => [
-                //         "token" => "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImNkYTYxOTYyLWYxYTEtNTc2Yi1hN2RkLWIwNDZjYTJmMGE2ZCJ9.eyJzZXNzaW9uX2lkIjoiMzYyZjQ2YTAtMjliNi0xMWYwLTg2NjEtYmQ4YmNlMmMyZTI1IiwiYmVhcmVyIjp7ImVtYWlsIjoiQXNoaXNoc3NodWtsYUBnbWFpbC5jb20iLCJ1aWQiOiJkOTI4ZjNiYi1iZDJkLTQ5MjctYTM2Yi0wZjk1N2RiNGM1MTMiLCJyb2xlIjozLCJtaWQiOiJlZGZkYWE2Yy0wZjQwLTQzM2EtOTYzOC1iMzI0OTBhYTIyYzgiLCJ0ZW5hbnRfaWQiOiJPVE1NYXN0ZXJUZW5hbnQiLCJkaXJfdHlwZSI6MCwiYWNsIjoiZUp3RndZRUJ3Q0FJQTdDWGhJcklPUlRraWgyL3hFMFh6MlVuVExVUzVlV1hVN29rdG9PTjJjeE9xcldLcEtrVjRLbG5kZUI4RGVtdHQzWndMUHRPQk8zSmpEdjVDajhqT1J0dyJ9LCJwYXlsb2FkIjoiMzYyZjQ2YTAtMjliNi0xMWYwLTg2NjEtYmQ4YmNlMmMyZTI1IiwiaWF0IjoxNzQ2NDUyMzAxLCJleHAiOjE3NDY0NTk1MDEsImF1ZCI6IjRlYTA3MmE2NWY5OGM4NWZkY2QyNDViYmUyZmE4Mzc1OTk5YmYwNjViYTczNWM2OTg5ZjUwNmY0OGJhNThjZjgiLCJpc3MiOiJiMjU3NDBmODYxN2NiYzc5ZDRmNzEyNmU2OTNjODFmNzM3NTFiYzVlODhlOWI5OGM0ZjE5MmJiZjliMDc2NThjIiwic3ViIjoiZjMxZTJkNTk4NDAwMjQwZGU1NjMzOTA2M2UxNzE0ODU5ZmM3ZmJlNjlhZmMwYzU1N2Q1MzEyMDcyOTFiNDE3NCJ9.zptfJie-rZ1l3KqR8hYCfeEtyvwooL3HAjJrJOZ2FLTA7wjUeS69DUKAnwj7wc8NZaFbMNvAYyhfJELpIFxVAQ"
-                //     ]
-                // ];
+                //$loginDetails = !empty($cacheToken) ? $cacheToken : $this->getAuthorizationToken($product);
+                $loginDetails = [
+                    "status" => Constants::STATUS_ACTIVE,
+                    "data" => [
+                        "token" => "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImNkYTYxOTYyLWYxYTEtNTc2Yi1hN2RkLWIwNDZjYTJmMGE2ZCJ9.eyJzZXNzaW9uX2lkIjoiZjBkNGM1ZDAtM2NhMi0xMWYwLTgyZTQtYTM0ZGFmZDllMjM2IiwiYmVhcmVyIjp7ImVtYWlsIjoiQXNoaXNoc3NodWtsYUBnbWFpbC5jb20iLCJ1aWQiOiJkOTI4ZjNiYi1iZDJkLTQ5MjctYTM2Yi0wZjk1N2RiNGM1MTMiLCJyb2xlIjozLCJtaWQiOiJlZGZkYWE2Yy0wZjQwLTQzM2EtOTYzOC1iMzI0OTBhYTIyYzgiLCJ0ZW5hbnRfaWQiOiJPVE1NYXN0ZXJUZW5hbnQiLCJkaXJfdHlwZSI6MCwiYWNsIjoiZUp3Vnlja1J3REFJQkxDV3dPRll5akZYRlNrK0UzMFZ6NDdXWVd4UFdLc1FaVmdtNGpKdUtMemIwcnVLYjVrT1lkUmJoQlQyT1B0N1lMeEJMWW45WDkxUWduT2RZMmo4QXgrOEdqWT0ifSwicGF5bG9hZCI6ImYwZDRjNWQwLTNjYTItMTFmMC04MmU0LWEzNGRhZmQ5ZTIzNiIsImlhdCI6MTc0ODUzMzA5NywiZXhwIjoxNzQ4NTQwMjk3LCJhdWQiOiI0ZWEwNzJhNjVmOThjODVmZGNkMjQ1YmJlMmZhODM3NTk5OWJmMDY1YmE3MzVjNjk4OWY1MDZmNDhiYTU4Y2Y4IiwiaXNzIjoiYjI1NzQwZjg2MTdjYmM3OWQ0ZjcxMjZlNjkzYzgxZjczNzUxYmM1ZTg4ZTliOThjNGYxOTJiYmY5YjA3NjU4YyIsInN1YiI6ImYzMWUyZDU5ODQwMDI0MGRlNTYzMzkwNjNlMTcxNDg1OWZjN2ZiZTY5YWZjMGM1NTdkNTMxMjA3MjkxYjQxNzQifQ.cC183w-tpJ1Eqby04C6K1GKV_h0zJAS3ab04VBQ9fyz90kUW9R6hsWUJMIaSXWtINAs2xhlFZME2UWUaW_lafQ"
+                    ]
+                ];
                 if ($loginDetails["status"] == Constants::STATUS_INACTIVE) {
                     Yii::$app->cache->delete('token_' . $product->id);
                     $loginDetails = $this->getAuthorizationToken($product);
@@ -36,22 +39,51 @@ class ApiDataFetchController extends ConsoleController
                 if ($loginDetails['status'] == Constants::STATUS_ACTIVE) {
                     Yii::$app->cache->set($tokenKey, $loginDetails, 300);
                     $token = $loginDetails['data']['token'];
+
+                    $extraData = array_merge(['<token>' => $token], $this->getDynamicData($product->headers));
+                    
+                    $globalHeaders = [];
+                    if(!empty($product->products->auth_headers)){
+                        $globalHeaders = ArrayHelper::merge($globalHeaders, $this->mergeKeyValue($product->products->auth_headers, '', $extraData));
+                    }
+                    
+                    if($product->headers){
+                        $globalHeaders = ArrayHelper::merge($globalHeaders, $this->mergeKeyValue($product->headers, '', $extraData));
+                    }
+                    
                     $config = [
-                        'headers' => array_merge(
-                            !empty($product->products->auth_headers)?$this->mergeKeyValue($product->products->auth_headers,'', $token):[],
-                            !empty($product->headers)?$this->mergeKeyValue($product->headers, '',$token):[]
-                        ),
-                        'token' => $token,
+                        'headers' =>$globalHeaders,
                         "base_uri" => rtrim($product->products->base_url, '/'),
                         "company_id" => $product->company_id,
+                        "extraData" => $extraData,
                     ];
                     $this->fetchAndSaveData($apiList, $config);
                 }
             }
         }
     }
+    private function isJson($string)
+    {
+        if (!is_string($string))
+            return false;
 
-    private function mergeKeyValue($dataSets, $type = "", $token = "")
+        json_decode($string);
+        return (json_last_error() === JSON_ERROR_NONE);
+    }
+
+
+    private function getDynamicData($data)
+    {
+        $resp = [];
+        foreach ($data as $ds) {
+            if (str_contains($ds["key"], "<")) {
+                $resp[$ds["key"]] = $ds["val"];
+            }
+        }
+        return $resp;
+    }
+
+    private function mergeKeyValue($dataSets, $type = "", $extraData = [])
     {
         if (empty($dataSets)) {
             return [];
@@ -61,6 +93,9 @@ class ApiDataFetchController extends ConsoleController
             case "url":
                 $r = [];
                 foreach ($dataSets as $ds) {
+                    if (str_contains($ds["key"], "<")) {
+                        continue;
+                    }
                     if (!empty($ds['key']) && !empty($ds['val'])) {
                         $r[] = $ds["key"] . "=" . $ds["val"];
                     }
@@ -69,16 +104,50 @@ class ApiDataFetchController extends ConsoleController
                 break;
             default:
                 foreach ($dataSets as $ds) {
+                    if (str_contains($ds["key"], "<")) {
+                        continue;
+                    }
                     if (!empty($ds['key']) && !empty($ds['val'])) {
                         $val = $ds['val'];
-                        if (str_contains($val, '<token>')) {
-                            $val = str_replace('<token>', $token, $val);
+                        $val = $this->formalizeData($val, $extraData);
+
+                        if ($this->isJson($val)) {
+                            $val = json_decode($val, true);
                         }
+
                         $resp[$ds["key"]] = $val;
                     }
                 }
                 break;
         }
+        return $resp;
+    }
+
+
+    private function formalizeData($data, $extra = [])
+    {
+        $resp = $data;
+        
+        if (str_contains($resp, '<token>') && !empty($extra['<token>'])) {
+            $resp = str_replace('<token>', $extra['<token>'], $resp);
+        }
+
+        if (str_contains($resp, '<tenant_id>') && !empty($extra['<tenant_id>'])) {
+            $resp = str_replace('<tenant_id>', $extra['<tenant_id>'], $resp);
+        }
+
+        if (str_contains($resp, '<currenttimestamp>')) {
+            $date = DateTime::createFromFormat('Y-m-d H:i:s.u', date('Y-m-d H:i:s.u'));
+            $milliseconds = (int) ($date->format('Uu') / 1000);
+            $resp = str_replace('<currenttimestamp>', $milliseconds, $resp);
+        }
+
+        if (str_contains($resp, '<last7daytimestamp>')) {
+            $date = DateTime::createFromFormat('Y-m-d H:i:s.u', date('Y-m-d H:i:s.u', strtotime("-7 days")));
+            $milliseconds = (int) ($date->format('Uu') / 1000);
+            $resp = str_replace('<last7daytimestamp>', $milliseconds, $resp);
+        }
+
         return $resp;
     }
 
@@ -126,7 +195,7 @@ class ApiDataFetchController extends ConsoleController
 
     private function getApiConfigs($product_id)
     {
-        return ProductsApiList::find()->active()->andWhere(["product_id" => $product_id])->all();
+        return ProductsApiList::find()->active()->andWhere(["product_id" => $product_id, 'id' => 3])->all();
     }
 
     private function fetchAndSaveData($apiList, $config)
@@ -142,24 +211,24 @@ class ApiDataFetchController extends ConsoleController
 
     private function fetchApi($api, $config = [])
     {
+
         $url = rtrim($config['base_uri'], '/') . '/' . ltrim($api['api_endpoint'], '/');
         if (!empty($api['api_params'])) {
             $url .= "?" . $this->mergeKeyValue($api["api_params"], "url");
         }
         $header = array_merge(
             $config['headers'],
-            !empty($api['api_headers']) ? $this->mergeKeyValue($api['api_headers']) : []
+            !empty($api['api_headers']) ? $this->mergeKeyValue($api['api_headers'],'',$config['extraData']) : []
         );
-        // if (!empty($config['token'])) {
-        //     $header['Authorization'] = "Bearer " . $config['token'];
-        // }
-
-        $params = !empty($api['api_body']) ?  $this->mergeKeyValue($api['api_body']) : [];
+        
+        $params = !empty($api['api_body']) ? $this->mergeKeyValue($api['api_body'], "", $config["extraData"]) : [];
         $res = $this->getData($url, $api['api_method'], $header, $params);
+        
         print_r([
             "header" => $header,
             "url" => $url,
             "res" => $res,
+            "params" => $params,
             "method" => $api['api_method']
         ]);
         $collectionName = strtolower(preg_replace('/[^a-z0-9_]/i', '_', $api['api_name'] . "_" . $api['id']));
@@ -182,7 +251,7 @@ class ApiDataFetchController extends ConsoleController
 
         $header = array_merge(
             $config['headers'],
-            !empty($api['api_headers']) ? $this->mergeKeyValue($api['api_headers'],'',$config['token']) : []
+            !empty($api['api_headers']) ? $this->mergeKeyValue($api['api_headers'], '', $config['token']) : []
         );
 
         $skip = 0;
@@ -202,8 +271,8 @@ class ApiDataFetchController extends ConsoleController
     {
         $remaingCount = $remaingCount == 0 ? $skip * self::DEFAULT_PAGE_SIZE : $remaingCount;
         $endpoint = $url;
-    $endpoint .= (str_contains($url, "?") ? "&" : "?") . "skip=" . $skip;
-        
+        $endpoint .= (str_contains($url, "?") ? "&" : "?") . "skip=" . $skip;
+
         $data = $this->getData($endpoint, $method, $headers);
         print_r([
             "header" => $headers,

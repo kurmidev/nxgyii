@@ -10,7 +10,12 @@ trait FetchData{
         try{
             $client = new Client();
             $params = !empty($params) ? json_encode($params) : "";
+            if(!empty($params)){
+                // $headers['Content-Length'] = strlen($params);
+                // $headers["Host"] = parse_url($endpoint, PHP_URL_HOST);
+            }
             $request = new Request($method, $endpoint, $headers,$params);
+            
             $response = $client->send($request);
             if($response->getStatusCode() == 200){
                 return ["body" => json_decode($response->getBody()->getContents(),true)];
