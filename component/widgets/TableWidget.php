@@ -42,7 +42,7 @@ class TableWidget extends Widget
             ) .
             CtGridView::widget([
                 'dataProvider' => $this->dataProvider,
-                'columns' => $this->columns["values"]
+                'columns' => empty($this->columns["values"])?["Sr"]:$this->columns["values"]
             ])
             ,
             ["class" => "card mb-5"]

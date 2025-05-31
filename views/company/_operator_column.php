@@ -3,13 +3,14 @@
 use app\component\Constants;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-
 if (
     in_array($model->display_type, [
         Constants::DISPLAY_TYPE_BAR_CHART,
         Constants::DISPLAY_TYPE_LINE_CHART,
         Constants::DISPLAY_TYPE_PIE_CHART,
-        Constants::DISPLAY_TYPE_XY_BUBBLE_CHART
+        Constants::DISPLAY_TYPE_XY_BUBBLE_CHART,
+        Constants::DISPLAY_TYPE_CARD,
+        Constants::DISPLAY_TYPE_MULPLECARD
     ])
 ) {
 

@@ -3,7 +3,9 @@ namespace app\component;
 
 use app\component\widgets\BarChartWidget;
 use app\component\widgets\LineChartWidget;
+use app\component\widgets\MultiCardWidget;
 use app\component\widgets\PiesChartWidget;
+use app\component\widgets\SingleCardWidget;
 use app\component\widgets\TableWidget;
 use app\component\widgets\XYBubbleChartWidget;
 use app\models\Employee;
@@ -234,7 +236,9 @@ class GraphRenderer
             case Constants::DISPLAY_TYPE_TABLE:
                 return TableWidget::widget(['dataProvider' => $chartData['dataProvider'], "columns" => $chartData['columns'], 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_CARD:
-                return;
+                return SingleCardWidget::widget(['data' => $chartData, 'reportName' => $reportName]);
+            case Constants::DISPLAY_TYPE_MULPLECARD:
+                return MultiCardWidget::widget(['data' => $chartData, 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_BAR_CHART:
                 return BarChartWidget::widget(['data' => $chartData, 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_LINE_CHART:

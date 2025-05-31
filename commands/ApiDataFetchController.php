@@ -10,6 +10,7 @@ use app\models\ProductsApiList;
 use app\commands\ConsoleController;
 use app\models\ProductCompanyMapping;
 use DateTime;
+use Exception;
 use yii\helpers\ArrayHelper;
 
 class ApiDataFetchController extends ConsoleController
@@ -19,19 +20,13 @@ class ApiDataFetchController extends ConsoleController
 
     public function actionRun()
     {
-        $model = ProductCompanyMapping::find()->andWhere(["product_id" => 1, 'company_id' => 1])->active()->all();
+        $model = ProductCompanyMapping::find()->active()->all();
         foreach ($model as $product) {
             $apiList = $this->getApiConfigs($product->product_id);
             if (!empty($apiList)) {
                 $tokenKey = "token_{$product->company_id}_{$product->product_id}";
                 $cacheToken = Yii::$app->cache->get($tokenKey);
-                //$loginDetails = !empty($cacheToken) ? $cacheToken : $this->getAuthorizationToken($product);
-                $loginDetails = [
-                    "status" => Constants::STATUS_ACTIVE,
-                    "data" => [
-                        "token" => "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCIsImtpZCI6ImNkYTYxOTYyLWYxYTEtNTc2Yi1hN2RkLWIwNDZjYTJmMGE2ZCJ9.eyJzZXNzaW9uX2lkIjoiZjBkNGM1ZDAtM2NhMi0xMWYwLTgyZTQtYTM0ZGFmZDllMjM2IiwiYmVhcmVyIjp7ImVtYWlsIjoiQXNoaXNoc3NodWtsYUBnbWFpbC5jb20iLCJ1aWQiOiJkOTI4ZjNiYi1iZDJkLTQ5MjctYTM2Yi0wZjk1N2RiNGM1MTMiLCJyb2xlIjozLCJtaWQiOiJlZGZkYWE2Yy0wZjQwLTQzM2EtOTYzOC1iMzI0OTBhYTIyYzgiLCJ0ZW5hbnRfaWQiOiJPVE1NYXN0ZXJUZW5hbnQiLCJkaXJfdHlwZSI6MCwiYWNsIjoiZUp3Vnlja1J3REFJQkxDV3dPRll5akZYRlNrK0UzMFZ6NDdXWVd4UFdLc1FaVmdtNGpKdUtMemIwcnVLYjVrT1lkUmJoQlQyT1B0N1lMeEJMWW45WDkxUWduT2RZMmo4QXgrOEdqWT0ifSwicGF5bG9hZCI6ImYwZDRjNWQwLTNjYTItMTFmMC04MmU0LWEzNGRhZmQ5ZTIzNiIsImlhdCI6MTc0ODUzMzA5NywiZXhwIjoxNzQ4NTQwMjk3LCJhdWQiOiI0ZWEwNzJhNjVmOThjODVmZGNkMjQ1YmJlMmZhODM3NTk5OWJmMDY1YmE3MzVjNjk4OWY1MDZmNDhiYTU4Y2Y4IiwiaXNzIjoiYjI1NzQwZjg2MTdjYmM3OWQ0ZjcxMjZlNjkzYzgxZjczNzUxYmM1ZTg4ZTliOThjNGYxOTJiYmY5YjA3NjU4YyIsInN1YiI6ImYzMWUyZDU5ODQwMDI0MGRlNTYzMzkwNjNlMTcxNDg1OWZjN2ZiZTY5YWZjMGM1NTdkNTMxMjA3MjkxYjQxNzQifQ.cC183w-tpJ1Eqby04C6K1GKV_h0zJAS3ab04VBQ9fyz90kUW9R6hsWUJMIaSXWtINAs2xhlFZME2UWUaW_lafQ"
-                    ]
-                ];
+                $loginDetails = !empty($cacheToken) ? $cacheToken : $this->getAuthorizationToken($product);
                 if ($loginDetails["status"] == Constants::STATUS_INACTIVE) {
                     Yii::$app->cache->delete('token_' . $product->id);
                     $loginDetails = $this->getAuthorizationToken($product);
@@ -41,18 +36,16 @@ class ApiDataFetchController extends ConsoleController
                     $token = $loginDetails['data']['token'];
 
                     $extraData = array_merge(['<token>' => $token], $this->getDynamicData($product->headers));
-                    
                     $globalHeaders = [];
-                    if(!empty($product->products->auth_headers)){
+                    if (!empty($product->products->auth_headers)) {
                         $globalHeaders = ArrayHelper::merge($globalHeaders, $this->mergeKeyValue($product->products->auth_headers, '', $extraData));
                     }
-                    
-                    if($product->headers){
+
+                    if ($product->headers) {
                         $globalHeaders = ArrayHelper::merge($globalHeaders, $this->mergeKeyValue($product->headers, '', $extraData));
                     }
-                    
                     $config = [
-                        'headers' =>$globalHeaders,
+                        'headers' => $globalHeaders,
                         "base_uri" => rtrim($product->products->base_url, '/'),
                         "company_id" => $product->company_id,
                         "extraData" => $extraData,
@@ -110,7 +103,6 @@ class ApiDataFetchController extends ConsoleController
                     if (!empty($ds['key']) && !empty($ds['val'])) {
                         $val = $ds['val'];
                         $val = $this->formalizeData($val, $extraData);
-
                         if ($this->isJson($val)) {
                             $val = json_decode($val, true);
                         }
@@ -123,19 +115,24 @@ class ApiDataFetchController extends ConsoleController
         return $resp;
     }
 
+    private function extractAngleBracketContent(string $input): array
+    {
+        preg_match_all('/<([^<>]+)>/', $input, $matches);
+        return $matches[1] ?? [];
+    }
+
 
     private function formalizeData($data, $extra = [])
     {
         $resp = $data;
+
+        $contents = $this->extractAngleBracketContent($data);
+        foreach ($contents as $content) {
+            if (!empty($extra["<$content>"])) {
+                $resp = str_replace("<$content>", $extra["<$content>"], $resp);
+            }
+        }
         
-        if (str_contains($resp, '<token>') && !empty($extra['<token>'])) {
-            $resp = str_replace('<token>', $extra['<token>'], $resp);
-        }
-
-        if (str_contains($resp, '<tenant_id>') && !empty($extra['<tenant_id>'])) {
-            $resp = str_replace('<tenant_id>', $extra['<tenant_id>'], $resp);
-        }
-
         if (str_contains($resp, '<currenttimestamp>')) {
             $date = DateTime::createFromFormat('Y-m-d H:i:s.u', date('Y-m-d H:i:s.u'));
             $milliseconds = (int) ($date->format('Uu') / 1000);
@@ -195,17 +192,22 @@ class ApiDataFetchController extends ConsoleController
 
     private function getApiConfigs($product_id)
     {
-        return ProductsApiList::find()->active()->andWhere(["product_id" => $product_id, 'id' => 3])->all();
+        return ProductsApiList::find()->active()->andWhere(["product_id" => $product_id])->all();
     }
 
     private function fetchAndSaveData($apiList, $config)
     {
         foreach ($apiList as $api) {
-            if ($api->is_pagination) {
-                $this->fetchPaginatedApi($api, $config);
-            } else {
-                $this->fetchApi($api, $config);
+            try {
+                if ($api->is_pagination) {
+                    $this->fetchPaginatedApi($api, $config);
+                } else {
+                    $this->fetchApi($api, $config);
+                }
+            } catch (Exception $e) {
+                print_r($e->getMessage());
             }
+
         }
     }
 
@@ -218,12 +220,12 @@ class ApiDataFetchController extends ConsoleController
         }
         $header = array_merge(
             $config['headers'],
-            !empty($api['api_headers']) ? $this->mergeKeyValue($api['api_headers'],'',$config['extraData']) : []
+            !empty($api['api_headers']) ? $this->mergeKeyValue($api['api_headers'], '', $config['extraData']) : []
         );
-        
+
         $params = !empty($api['api_body']) ? $this->mergeKeyValue($api['api_body'], "", $config["extraData"]) : [];
         $res = $this->getData($url, $api['api_method'], $header, $params);
-        
+
         print_r([
             "header" => $header,
             "url" => $url,
@@ -251,9 +253,9 @@ class ApiDataFetchController extends ConsoleController
 
         $header = array_merge(
             $config['headers'],
-            !empty($api['api_headers']) ? $this->mergeKeyValue($api['api_headers'], '', $config['token']) : []
+            !empty($api['api_headers']) ? $this->mergeKeyValue($api['api_headers'], '', $config['extraData']) : []
         );
-
+        
         $skip = 0;
         $remaingCount = 0;
         do {

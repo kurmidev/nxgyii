@@ -8,9 +8,8 @@ use yii\helpers\Html;
 class SingleCardWidget extends Widget
 {
 
-    public $header;
     public $data;
-    public $footer;
+    public $reportName;
 
     public function init()
     {
@@ -19,20 +18,29 @@ class SingleCardWidget extends Widget
 
     public function run()
     {
-        $header = empty($this->header) ? "" : Html::tag(
+
+        $counts = 0;
+        if (is_array($this->data)) {
+            foreach ($this->data as $key => $value) {
+                $counts += $value["value"];
+            }
+        }
+        $header = Html::tag(
             "div",
-            Html::tag('h3', $this->title, ["class" => "card-title"]),
+            Html::tag('h3', $this->reportName, ["class" => "card-title"]),
             ["class" => "card-header"]
         );
+        $body = Html::tag("div", $counts, ["class" => "card-body"]);
 
-        $footer = empty($this->footer) ? "" : Html::tag("div", $this->footer, ["class" => "card-footer"]);
-
-        $body = Html::tag("div", $this->data, ["class" => "card-body"]);
-
+        $display = Html::tag(
+            "div",
+            $header . $body,
+            ["class" => "card col-lg-3 col-sm-3 col-xs-3 m-1 card-flush shadow-sm"]
+        );
         return Html::tag(
             "div",
-            $header . $body . $footer,
-            ["class" => "card card-flush shadow-sm"]
+            $display,
+            ["class" => " row "]
         );
     }
 
