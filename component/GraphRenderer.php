@@ -171,21 +171,34 @@ class GraphRenderer
         // Build $match conditions
         if (!empty($filters)) {
             foreach ($filters as $field => $condition) {
-                $op = match ($condition['attr']) {
-                    'gt' => '$gt',
-                    'lt' => '$lt',
-                    'gte' => '$gte',
-                    'lte' => '$lte',
-                    'eq' => '$eq',
-                    default => '$eq'
-                };
-
-                // Support multiple conditions on same field
-                if (!isset($filter[$field])) {
-                    $filter[$field] = [];
+                switch ($condition['attr']) {
+                    case 'gt':
+                        $match[$field] = ['$gt' => $condition['val']];
+                        break;
+                    case 'lt':
+                        $match[$field] = ['$lt' => $condition['val']];
+                        break;
+                    case 'gte':
+                        $match[$field] = ['$gte' => $condition['val']];
+                        break;
+                    case 'lte':
+                        $match[$field] = ['$lte' => $condition['val']];
+                        break;
+                    case 'eq':
+                        $match[$field] = ['$eq' => $condition['val']];
+                        break;
+                    case 'neq':
+                        $match[$field] = ['$ne' => $condition['val']];
+                        break;
+                    case 'in':
+                        $match[$field] = ['$in' => is_array($condition['val'])? (array) $condition['val'] : [$condition['val']]];
+                        break;
+                    case 'not in':
+                        $match[$field] = ['$nin' =>  is_array($condition['val'])? (array) $condition['val'] : [$condition['val']]];
+                        break;
+                    default:
+                        $match[$field] = ['$eq' => $condition['val']];
                 }
-
-                $filter[$field][$op] = $condition['val'];
             }
         }
 
@@ -205,11 +218,11 @@ class GraphRenderer
         $formatted = [];
         foreach ($data as $doc) {
             $row = [];
-            foreach($doc as $fieldName => $values) {
-                if (in_array($fieldName,['_id','fetchd_at',"company_id"])) {
+            foreach ($doc as $fieldName => $values) {
+                if (in_array($fieldName, ['_id', 'fetchd_at', "company_id"])) {
                     continue;
                 }
-                if(in_array($fieldName,$columns)){
+                if (in_array($fieldName, $columns)) {
                     $row[$fieldName] = $values;
                 }
             }
