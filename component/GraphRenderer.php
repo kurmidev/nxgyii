@@ -11,6 +11,7 @@ use app\component\widgets\XYBubbleChartWidget;
 use app\models\Employee;
 use app\models\ProductsApiCompanyMapping;
 use app\models\ProductsApiList;
+use DateTime;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\mongodb\Query;
@@ -59,7 +60,7 @@ class GraphRenderer
         $graph = [];
         foreach ($model as $item) {
             $collectionName = $item->api->getCollectionName();
-            $filters = []; //$item['filters'];
+            $filters = $item['filters'];
             $display_columns = $item["display_columns"];
             $chartData =
                 $item->display_type == Constants::DISPLAY_TYPE_TABLE ?
@@ -70,7 +71,97 @@ class GraphRenderer
         return $graph;
     }
 
+    private function generateWhereConditions($query, $field, $attr, $value)
+    {
+        if ($value == "<last7daytimestamp>") {
+            $date = DateTime::createFromFormat('Y-m-d H:i:s.u', date('Y-m-d H:i:s.u', strtotime("-7 days")));
+            $value = (int) ($date->format('Uu') / 1000);
+        }
+        if ($value=='<currenttimestamp>') {
+            $date = DateTime::createFromFormat('Y-m-d H:i:s.u', date('Y-m-d H:i:s.u'));
+            $value = (int) ($date->format('Uu') / 1000);
+        }
+        if ($value == "<last7datetime>") {
+            $value = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s', strtotime("-7 days")));
+        }
+        if ($value == "<last7date>") {
+            $value = DateTime::createFromFormat('Y-m-d', date('Y-m-d', strtotime("-7 days")));
+        }
+
+        switch ($attr) {
+            case 'gt':
+                $query->andWhere(['>', $field, $value]);
+                break;
+            case 'lt':
+                $query->andWhere(['<', $field, $value]);
+                break;
+            case 'eq':
+                $query->andWhere([$field => $value]);
+                break;
+            case 'in':
+                $query->andWhere(['in', $field, is_array($value) ? (array) $value : [$value]]);
+                break;
+            case 'nin':
+                $query->andWhere(['not in ', is_array($value) ? (array) $value : [$value]]);
+                break;
+            case 'between':
+                $query->andWhere(['between', $field, $value[0], $value[1]]);
+                break;
+            default:
+                break;
+        }
+        return $query;
+    }
+
     function generateChartData($filters, $display_columns, $collectionName)
+    {
+        $label = $action = $value = null;
+        $query = (new Query())->from($collectionName);
+        if (!empty($filters)) {
+            foreach ($filters as $field => $condition) {
+                $query = $this->generateWhereConditions($query, $field, $condition["attr"], $condition['val']);
+            }
+        }
+        if (!empty($display_columns)) {
+            $label = $display_columns['label'];
+            $action = $display_columns['action'];
+            $value = $display_columns['value'];
+            $query->select([$label, $value]);
+        }
+
+        $data = [];
+        $queryData = $query->all();
+        if (!empty($queryData)) {
+            foreach ($queryData as $key => $val) {
+                switch ($action) {
+                    case 'sum':
+                        $data[$val[$label]] = $val[$value] + $data[$val[$label]];
+                        break;
+                    case 'avg':
+                        $data[$val[$label]]['v'] += $val[$value];
+                        $data[$val[$label]]['c'] += 1;
+                        break;
+                    case 'count':
+                        $data[$val[$label]] += 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        if (!empty($data)) {
+            foreach ($data as $k => $v) {
+                if ($action == 'avg') {
+                    $finalData[] = ["category" => $k, "value" => $v['v'] / $v['c']];
+                }
+                $finalData[] = ["category" => $k, "value" => $v];
+            }
+        }
+        return $finalData;
+    }
+
+    function generateChartDataOld($filters, $display_columns, $collectionName)
     {
         $match = [];
         $group = ['_id' => null];
@@ -80,17 +171,43 @@ class GraphRenderer
         // Build $match conditions
         if (!empty($filters)) {
             foreach ($filters as $field => $condition) {
-                $op = match ($condition['attr']) {
-                    'gt' => '$gt',
-                    'lt' => '$lt',
-                    'gte' => '$gte',
-                    'lte' => '$lte',
-                    'eq' => '$eq',
-                    default => '$eq'
-                };
-                $match[$field] = [$op => (float) $condition['val']];
+                switch ($condition['attr']) {
+                    case 'gt':
+                        $match[$field] = ['$gt' => $condition['val']];
+                        break;
+                    case 'lt':
+                        $match[$field] = ['$lt' => $condition['val']];
+                        break;
+                    case 'gte':
+                        $match[$field] = ['$gte' => $condition['val']];
+                        break;
+                    case 'lte':
+                        $match[$field] = ['$lte' => $condition['val']];
+                        break;
+                    case 'eq':
+                        $match[$field] = ['$eq' => $condition['val']];
+                        break;
+                    case 'neq':
+                        $match[$field] = ['$ne' => $condition['val']];
+                        break;
+                    case 'in':
+                        $match[$field] = ['$in' => is_array($condition['val']) ? (array) $condition['val'] : [$condition['val']]];
+                        break;
+                    case 'not in':
+                        $match[$field] = ['$nin' => is_array($condition['val']) ? (array) $condition['val'] : [$condition['val']]];
+                        break;
+                    default:
+                        $match[$field] = ['$eq' => $condition['val']];
+                }
             }
         }
+
+        $query = new Query();
+        $query->select($display_columns);
+        $query->from($collectionName);
+        $query->where($match);
+        $data = $query->all();
+
 
         // Identify label and aggregation fields
         $labelField = null;
@@ -137,6 +254,8 @@ class GraphRenderer
             $pipeline[] = ['$project' => $project];
         }
 
+        echo "<pre>Pipeline:\n" . print_r($pipeline, true) . "</pre>";
+
         // Execute aggregation
         $data = $collection->aggregate($pipeline);
 
@@ -162,6 +281,45 @@ class GraphRenderer
 
 
     function generateTableData($filters, $display_columns, $collectionName)
+    {
+
+        $columns = $formatted = [];
+        $query = (new Query())->from($collectionName);
+        if (!empty($filters)) {
+            foreach ($filters as $field => $condition) {
+                $query = $this->generateWhereConditions($query, $field, $condition["attr"], $condition['val']);
+            }
+        }
+        if (!empty($display_columns)) {
+            $columns = is_array($display_columns['values'])
+                ? $display_columns['values']
+                : [$display_columns['values']];
+            $query->select($columns);
+        }
+        $data = $query->all();
+
+        foreach ($data as $doc) {
+            $row = [];
+            foreach ($doc as $fieldName => $values) {
+                if (in_array($fieldName, $columns)) {
+                    $row[$fieldName] = $values;
+                }
+            }
+            $formatted[] = $row;
+        }
+
+        return [
+            "dataProvider" => new ArrayDataProvider([
+                'allModels' => $data,
+                'pagination' => [
+                    'pageSize' => 10,
+                ]
+            ]),
+            "columns" => $columns
+        ];
+    }
+
+    function generateTableDataOld($filters, $display_columns, $collectionName)
     {
         $collection = Yii::$app->mongodb->getCollection($collectionName);
 
@@ -191,10 +349,10 @@ class GraphRenderer
                         $match[$field] = ['$ne' => $condition['val']];
                         break;
                     case 'in':
-                        $match[$field] = ['$in' => is_array($condition['val'])? (array) $condition['val'] : [$condition['val']]];
+                        $match[$field] = ['$in' => is_array($condition['val']) ? (array) $condition['val'] : [$condition['val']]];
                         break;
                     case 'not in':
-                        $match[$field] = ['$nin' =>  is_array($condition['val'])? (array) $condition['val'] : [$condition['val']]];
+                        $match[$field] = ['$nin' => is_array($condition['val']) ? (array) $condition['val'] : [$condition['val']]];
                         break;
                     default:
                         $match[$field] = ['$eq' => $condition['val']];
@@ -209,7 +367,7 @@ class GraphRenderer
 
 
         // DEBUG: print filter and projection
-        // echo "<pre>Filter:\n" . print_r($filter, true) . "\nProjection:\n" . print_r($options, true) . "</pre>";
+        echo "<pre>Filter:\n" . print_r($filter, true) . "\nProjection:\n" . print_r($options, true) . "</pre>";
 
         // Execute the query
         $cursor = $collection->find($filter, $options);
