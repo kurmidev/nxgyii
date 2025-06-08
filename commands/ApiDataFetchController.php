@@ -160,8 +160,11 @@ class ApiDataFetchController extends ConsoleController
                 $headers = empty($product->products['login_headers']) ? [] : $product->products['login_headers'];
                 $headers = $this->mergeKeyValue($headers);
                 $body = $product->credentials;
+                $body['kill_existing_session'] = true;
+                $body['token'] = "";
                 $url = rtrim($product->products->base_url, '/') . '/' . ltrim($product->products->login_endpoint, '/');
                 $res = $this->getData($url, $method = "POST", $headers, $body);
+                print_r($res);
                 if (!empty($res)) {
                     $token = null;
                     if (!empty($res["body"]["response"][1]["jwttoken"])) {
