@@ -56,7 +56,7 @@ class ProductsApiList extends \app\models\BaseModel
             [['api_params', 'api_headers', 'api_body', 'api_response', 'added_on', 'updated_on'], 'safe'],
             [['api_name', 'api_endpoint', 'api_method'], 'string', 'max' => 255],
             [['product_id', 'api_name'], 'unique', 'targetAttribute' => ['product_id', 'api_name']],
-            [['api_endpoint'], 'unique'],
+            //[['api_endpoint'], 'unique'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Products::class, 'targetAttribute' => ['product_id' => 'id']],
         ];
     }
