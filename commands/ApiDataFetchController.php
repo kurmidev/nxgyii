@@ -90,7 +90,12 @@ class ApiDataFetchController extends ConsoleController
                         continue;
                     }
                     if (!empty($ds['key']) && !empty($ds['val'])) {
-                        $r[] = $ds["key"] . "=" . $ds["val"];
+                        $val = $ds['val'];
+                        $val = $this->formalizeData($val, $extraData);
+                        if ($this->isJson($val)) {
+                            $val = json_decode($val, true);
+                        }
+                        $r[] = $ds["key"] . "=" . $val;
                     }
                     $resp = implode("&", $r);
                 }
@@ -216,7 +221,7 @@ class ApiDataFetchController extends ConsoleController
 
         $url = rtrim($config['base_uri'], '/') . '/' . ltrim($api['api_endpoint'], '/');
         if (!empty($api['api_params'])) {
-            $url .= "?" . $this->mergeKeyValue($api["api_params"], "url");
+            $url .= "?" . $this->mergeKeyValue($api["api_params"], "url",$config['extraData']);
         }
         $header = array_merge(
             $config['headers'],
@@ -248,7 +253,7 @@ class ApiDataFetchController extends ConsoleController
 
         $url = rtrim($config['base_uri'], '/') . '/' . ltrim($api['api_endpoint'], '/');
         if (!empty($api['api_params'])) {
-            $url .= "?" . $this->mergeKeyValue($api["api_params"], "url");
+            $url .= "?" . $this->mergeKeyValue($api["api_params"], "url",$config['extraData']);
         }
 
         $header = array_merge(
