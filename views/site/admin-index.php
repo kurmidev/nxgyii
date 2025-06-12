@@ -1,7 +1,9 @@
 <?php
 
 use app\component\Constants;
+use app\component\widgets\BarChartWidget;
 use app\component\widgets\PieChartWidget;
+use app\component\widgets\PiesChartWidget;
 use PHPUnit\TextUI\Configuration\Constant;
 
 $this->title = 'Dashoard';
@@ -38,6 +40,15 @@ if (!empty($complaint["compayWise"])) {
 <?= $this->render('@app/views/layouts/_contentheader') ?>
 <div id="kt_app_content_container" class="app-container  container-fluid ">
     <div class="row g-5 g-xxl-10">
+        <div class="col-xl-12 col-xxl-12 mb-xl-12 mb-xxl-10">
+             <?= PieChartWidget::widget([
+                "title" => "Products",
+                "data" => $company['bar'],
+                "viewObj" => $this,
+                "listData" => $company['table']
+            ]) ?>
+        </div>
+
         <div class="col-xl-5 col-xxl-5 mb-xl-5 mb-xxl-10">
             <?= PieChartWidget::widget([
                 "title" => "Complaint Dashboard",
@@ -66,7 +77,8 @@ if (!empty($complaint["compayWise"])) {
                     </div>
                     <div class="stat-box">
                         <h2><?= !empty($complaint["generalWise"][Constants::LABEL_COMPLAINT_STATUS[Constants::ON_HOLD]]) ?
-                            $complaint["generalWise"][Constants::LABEL_COMPLAINT_STATUS[Constants::ON_HOLD]] : 0 ?></h2>
+                            $complaint["generalWise"][Constants::LABEL_COMPLAINT_STATUS[Constants::ON_HOLD]] : 0 ?>
+                        </h2>
                         <p>On Hold Tickets</p>
                     </div>
                     <div class="stat-box">
@@ -75,7 +87,8 @@ if (!empty($complaint["compayWise"])) {
                         <p>Closed Tickets</p>
                     </div>
                     <div class="stat-box">
-                        <h2><?= date("H", round($complaint["reponsetime"]["avg_response_time_minutes"] / 60)) ?> hrs</h2>
+                        <h2><?= date("H", round($complaint["reponsetime"]["avg_response_time_minutes"] / 60)) ?> hrs
+                        </h2>
                         <p>Average Response Time</p>
                     </div>
                     <div class="stat-box">
@@ -87,7 +100,8 @@ if (!empty($complaint["compayWise"])) {
                             Time:<?= date("H:i", mktime(0, round($complaint["reponsetime"]["first_response_time_minutes"]))) ?>
                         </p>
                         <p>Average Response Time:
-                            <?= date("H:i", mktime(0, round($complaint["reponsetime"]["avg_response_time_minutes"]))) ?></p>
+                            <?= date("H:i", mktime(0, round($complaint["reponsetime"]["avg_response_time_minutes"]))) ?>
+                        </p>
                         <p>Average Resolution
                             Time:<?= date("H:i", mktime(round($complaint["reponsetime"]["avg_resolution_time_hours"]))) ?>
                         </p>

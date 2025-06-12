@@ -12,6 +12,7 @@ use app\component\Constants as C;
 use app\component\Constants;
 use app\models\Categories;
 use app\models\Company;
+use app\models\ProductCompanyMapping;
 use app\models\Tickets;
 use OneLogin\Saml2\Auth;
 use yii\helpers\ArrayHelper;
@@ -34,17 +35,18 @@ class SiteController extends BaseController
     public function actionIndex()
     {
         $userType = User::loggedInUserType();
-        if (in_array($userType , [C::USERTYPE_CLIENT,C::USERTYPE_COMPANY])) {
+        if (in_array($userType, [C::USERTYPE_CLIENT, C::USERTYPE_COMPANY])) {
             $user = User::currentUser();
             $url[] = "company/view-company";
-            $url["id"] =  $user->company_id;
-            if($userType == C::USERTYPE_CLIENT){
+            $url["id"] = $user->company_id;
+            if ($userType == C::USERTYPE_CLIENT) {
                 $url["employee_id"] = $user->client_id;
             }
             return $this->redirect($url);
-        } elseif (in_array($userType, [C::USERTYPE_ADMIN,C::USERTYPE_MSO])) {
+        } elseif (in_array($userType, [C::USERTYPE_ADMIN, C::USERTYPE_MSO])) {
             return $this->render('admin-index', [
-                "complaint" => $this->getComplaintDashboardData()
+                "complaint" => $this->getComplaintDashboardData(),
+                "company" => $this->getCompanyDashboardData(),
             ]);
         }
     }
@@ -241,6 +243,36 @@ LEFT JOIN (
                 "avg_response_time_minutes" => 0,
                 "avg_resolution_time_hours" => 0
             ]
+        ];
+    }
+
+    public function getCompanyDashboardData()
+    {
+        $products = ProductCompanyMapping::find()->with('products')->with('company')->all();
+        $response = [];
+        $table = [];
+        foreach ($products as $product) {
+            if (!isset($response[$product->products->name])) {
+                $response[$product->products->name] = [
+                    "label" => $product->products->name,
+                    "count" => 1
+                ];
+            }else{
+                $response[$product->products->name]["count"] += 1;
+            }
+
+            if (!isset($table[$product->products->name])) {
+                $table[$product->products->name] = [
+                    "Product" => $product->products->name,
+                    "Company" => $product->company->name
+                ];
+            }else{
+                $table[$product->products->name]["Company"] .=",". $product->company->name;
+            }
+        }
+        return [
+            "table" => array_values($table),
+            "bar" => array_values($response)
         ];
     }
 
