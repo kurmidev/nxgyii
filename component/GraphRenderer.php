@@ -56,16 +56,19 @@ class GraphRenderer
             $query->andWhere(['api_id' => $apiIds]);
         }
         $model = $query->all();
-
         $graph = [];
         foreach ($model as $item) {
             $collectionName = $item->api->getCollectionName();
             $filters = $item['filters'];
             $display_columns = $item["display_columns"];
-            $chartData =
-                $item->display_type == Constants::DISPLAY_TYPE_TABLE ?
-                $this->generateTableData($filters, $display_columns, $collectionName)
-                : $this->generateChartData($filters, $display_columns, $collectionName);
+            $chartData = "";
+            if ($item->display_type == Constants::DISPLAY_TYPE_MULPLECARD) {
+                $chartData = $this->generateMultiCardData($filters, $display_columns, $collectionName);
+            } else if ($item->display_type == Constants::DISPLAY_TYPE_TABLE) {
+                $chartData = $this->generateTableData($filters, $display_columns, $collectionName);
+            } else {
+                $chartData = $this->generateChartData($filters, $display_columns, $collectionName);
+            }
             $graph[$item->id] = $this->generateGraphViews($chartData, $item->report_name, $item->display_type);
         }
         return $graph;
@@ -77,7 +80,7 @@ class GraphRenderer
             $date = DateTime::createFromFormat('Y-m-d H:i:s.u', date('Y-m-d H:i:s.u', strtotime("-7 days")));
             $value = (int) ($date->format('Uu') / 1000);
         }
-        if ($value=='<currenttimestamp>') {
+        if ($value == '<currenttimestamp>') {
             $date = DateTime::createFromFormat('Y-m-d H:i:s.u', date('Y-m-d H:i:s.u'));
             $value = (int) ($date->format('Uu') / 1000);
         }
@@ -126,7 +129,18 @@ class GraphRenderer
             $label = $display_columns['label'];
             $action = $display_columns['action'];
             $value = $display_columns['value'];
-            $query->select([$label, $value]);
+            $select = [];
+            if (!empty($label)) {
+                $select = array_merge($select, [$label]);
+            }
+
+            if (!empty($value)) {
+                $select = array_merge($select, [$value]);
+            }
+
+            if (!empty($select)) {
+               $query->select($select);
+            }
         }
 
         $data = [];
@@ -156,6 +170,54 @@ class GraphRenderer
                     $finalData[] = ["category" => $k, "value" => $v['v'] / $v['c']];
                 }
                 $finalData[] = ["category" => $k, "value" => $v];
+            }
+        }
+        return $finalData;
+    }
+
+    function generateMultiCardData($filters, $display_columns, $collectionName)
+    {
+        $label = $action = $value = null;
+        $query = (new Query())->from($collectionName);
+        if (!empty($filters)) {
+            foreach ($filters as $field => $condition) {
+                $query = $this->generateWhereConditions($query, $field, $condition["attr"], $condition['val']);
+            }
+        }
+        if (!empty($display_columns)) {
+            $value = $display_columns['value'];
+            $select = [];
+            if (!empty($label)) {
+                $select = array_merge($select, [$label]);
+            }
+
+            if (!empty($value)) {
+                $select = array_merge($select, [$value]);
+            }
+
+            if (!empty($select)) {
+                $query->select([$label, $value]);
+            }
+        }
+
+        $finalData = [];
+        $queryData = $query->all();
+        $finalData = [];
+        if (!empty($queryData)) {
+            foreach ($queryData as $key => $val) {
+                $res = [];
+                foreach ($val as $k => $val) {
+                    if (in_array($k, $display_columns['values'])) {
+                        $res[$k] = $val;
+                    }
+                    if ($k == $display_columns['label']) {
+                        $label = $val;
+                    }
+                }
+                $finalData[] = [
+                    "label" => $label,
+                    "value" => $res
+                ];
             }
         }
         return $finalData;
@@ -297,7 +359,6 @@ class GraphRenderer
             $query->select($columns);
         }
         $data = $query->all();
-
         foreach ($data as $doc) {
             $row = [];
             foreach ($doc as $fieldName => $values) {
@@ -307,7 +368,6 @@ class GraphRenderer
             }
             $formatted[] = $row;
         }
-
         return [
             "dataProvider" => new ArrayDataProvider([
                 'allModels' => $data,

@@ -58,7 +58,6 @@ $assignedApiList = ArrayHelper::map(
                 <div class="col-lg-6 col-sm-6 col-xs-6" id="columns-container">
                 <h4>Select Operation on Column</h4>
                 <?=$this->render('_operator_column', ['model' => $model,'apiData'=>$apiData])?>
-                    
                 </div>
                 <div class="col-lg-6 col-sm-6 col-xs-6" id="filter-container">
                 <h4>Select filter on Column</h4>

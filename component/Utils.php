@@ -155,7 +155,7 @@ class Utils
     public static function allValuesAreNumbersOrDates(array $values): bool
     {
         foreach ($values as $value) {
-            if(!empty($value)){
+            if (!empty($value)) {
                 continue;
             }
             // Check if value is numeric
@@ -171,6 +171,21 @@ class Utils
         }
         return true;
     }
+
+    public static function convertToHeaderCase(string $input): string
+    {
+        // Handle snake_case by replacing underscores with spaces
+        $step1 = str_replace('_', ' ', $input);
+
+        // Insert space before each capital letter preceded by a lowercase letter or digit (for camelCase or PascalCase)
+        $step2 = preg_replace('/(?<=[a-z0-9])([A-Z])/', ' $1', $step1);
+
+        // Convert to lowercase then capitalize first letter of each word
+        $headerCase = ucwords(strtolower($step2));
+
+        return $headerCase;
+    }
+
 
 
 }

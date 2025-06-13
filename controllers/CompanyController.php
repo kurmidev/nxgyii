@@ -53,7 +53,7 @@ class CompanyController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->getSession()->setFlash('s', "Company $model->name added successfully.");
             return $this->redirect(['company', 'id' => $model->id]);
-        } 
+        }
         return $this->render('form-company', [
             'model' => $model,
         ]);
@@ -210,7 +210,7 @@ class CompanyController extends BaseController
         }
 
         // Filter out unwanted fields and arrays
-        $excludedKeys = ['_id', 'fetched_at', 'company_id', 'id', 'tenant_id'];
+        $excludedKeys = ['_id', 'fetched_at', 'company_id', 'id'];
         $res = array_keys(array_filter($result, function ($value, $key) use ($excludedKeys) {
             return !is_array($value) && !in_array($key, $excludedKeys);
         }, ARRAY_FILTER_USE_BOTH));

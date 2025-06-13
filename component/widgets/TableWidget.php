@@ -5,6 +5,7 @@ namespace app\component\widgets;
 use app\component\CtGridView;
 use yii\base\Widget;
 use yii\helpers\Html;
+use yii\widgets\Pjax;
 
 class TableWidget extends Widget
 {
@@ -21,7 +22,6 @@ class TableWidget extends Widget
 
     public function run()
     {
-
         return Html::tag(
             "div",
             Html::tag(
@@ -42,8 +42,8 @@ class TableWidget extends Widget
             ) .
             CtGridView::widget([
                 'dataProvider' => $this->dataProvider,
-                'columns' => empty($this->columns["values"])?["Sr"]:$this->columns["values"]
-            ])
+                'columns' => empty($this->columns) ? ["Sr"] : $this->columns
+            ]) 
             ,
             ["class" => "card mb-5"]
         );

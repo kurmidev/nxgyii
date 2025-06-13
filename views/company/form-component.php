@@ -43,7 +43,7 @@ $assignedApiList = ArrayHelper::map(
                 <div class="col-lg-6 col-sm-6 col-xs-6">
                     <?= $form->field($model, 'display_type', ['options' => ['class' => 'input-group mb-5']])->begin() ?>
                     <?= Html::activeLabel($model, 'display_type', ['class' => 'input-group-text']); ?>
-                    <?= Html::activeDropDownList($model, 'display_type', Constants::DISPLAY_LABEL, ['class' => 'form-select form-select-solid', 'prompt' => "Select one","id"=>"display_type"]) ?>
+                    <?= Html::activeDropDownList($model, 'display_type', Constants::DISPLAY_LABEL, ['class' => 'form-select form-select-solid', 'prompt' => "Select one", "id" => "display_type"]) ?>
                     <?= Html::error($model, 'display_type', ['class' => 'error help-block text-danger col-lg-12 col-sm-12 col-xs-12 mb-2 mt-2']) ?>
                     <?= $form->field($model, 'display_type')->end() ?>
                 </div>
@@ -100,13 +100,11 @@ $javascript = <<<JS
                     
                     response.forEach(function(column) {
         html1 = "";
-        console.log("displayType",displayType);
-        if(Number(displayType)!==1){
-                        html1 = `<div class="row mb-2">
+        if(Number(displayType)===7){
+html1 = `<div class="row mb-2">
     <div class="col-lg-6 col-sm-6 col-xs-6"><label class="form-label">Category</label></div>
     <div class="col-lg-6 col-sm-6 col-xs-6">
-        <select id="componentmodel-display_columns-label" class="form-control form-control-solid" name="ComponentModel[display_columns][label]">
-            <option value="">select one</option>
+        <select id="componentmodel-display_columns-label" class="form-control form-control-solid"  name="ComponentModel[display_columns][label]">
                     `+options+`
         </select>
     </div>
@@ -114,7 +112,36 @@ $javascript = <<<JS
 <div class="row mb-2">
     <div class="col-lg-6 col-sm-6 col-xs-6"><label class="form-label">Values</label></div>
     <div class="col-lg-6 col-sm-6 col-xs-6">
-        <select id="componentmodel-display_columns-values" class="form-control form-control-solid" name="ComponentModel[display_columns][values]">
+        <select id="componentmodel-display_columns-values" class="form-control form-control-solid" multiple=true name="ComponentModel[display_columns][values][]">
+           `+options+`
+        </select>
+    </div>
+</div>
+`;
+        }else
+        if(Number(displayType)===1){
+html1=`<div class="row mb-2">
+    <div class="col-lg-6 col-sm-6 col-xs-6"><label class="form-label">Fields List</label></div>
+    <div class="col-lg-6 col-sm-6 col-xs-6">
+        <select id="componentmodel-display_columns-label" class="form-control form-control-solid" multiple=true name="ComponentModel[display_columns][values][]">
+            `+options+`
+        </select>
+    </div>
+</div>
+</div>`;
+                        }else{
+                        html1 = `<div class="row mb-2">
+    <div class="col-lg-6 col-sm-6 col-xs-6"><label class="form-label">Category</label></div>
+    <div class="col-lg-6 col-sm-6 col-xs-6">
+        <select id="componentmodel-display_columns-label" class="form-control form-control-solid"  name="ComponentModel[display_columns][label]">
+                    `+options+`
+        </select>
+    </div>
+</div>
+<div class="row mb-2">
+    <div class="col-lg-6 col-sm-6 col-xs-6"><label class="form-label">Values</label></div>
+    <div class="col-lg-6 col-sm-6 col-xs-6">
+        <select id="componentmodel-display_columns-values" class="form-control form-control-solid" name="ComponentModel[display_columns][values][]">
            `+options+`
         </select>
     </div>
@@ -132,17 +159,7 @@ $javascript = <<<JS
         </select>
     </div>
 </div>`;
-                        }else{
-html1=`<div class="row mb-2">
-    <div class="col-lg-6 col-sm-6 col-xs-6"><label class="form-label">Fields List</label></div>
-    <div class="col-lg-6 col-sm-6 col-xs-6">
-        <select id="componentmodel-display_columns-label" class="form-control form-control-solid" multiple=true name="ComponentModel[display_columns][values]">
-            `+options+`
-        </select>
-    </div>
-</div>
-</div>`;
-                        }
+            }
                         html2 += '<div class="row">'+
                                     '<div class="col-lg-4 col-sm-4 col-xs-4"><label>' + column.key + '</label></div>'+
                                     '<div class="col-lg-4 col-sm-4 col-xs-4">'+
@@ -177,4 +194,4 @@ html1=`<div class="row mb-2">
     }
 JS;
 
-$this->registerJs($javascript,\yii\web\View::POS_END);
+$this->registerJs($javascript, \yii\web\View::POS_END);

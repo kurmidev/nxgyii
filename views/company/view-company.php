@@ -16,7 +16,6 @@ $this->params['links'] = [
 $this->params['breadcrumbs'][] = $this->title;
 
 $assignedProduct = Products::find()->active()->andWhere(['id' => $model->getProduct_mappings()])->all();
-
 ?>
 <div class="card card-flush">
     <?= $this->render('@app/views/layouts/_contentheader') ?>
