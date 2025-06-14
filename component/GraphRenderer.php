@@ -156,6 +156,9 @@ class GraphRenderer
                         $data[$val[$label]]['c'] += 1;
                         break;
                     case 'count':
+                        if(!isset($data[$val[$label]])) {
+                            $data[$val[$label]] = 0;
+                        }
                         $data[$val[$label]] += 1;
                         break;
                     default:
