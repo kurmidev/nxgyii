@@ -185,6 +185,9 @@ class GraphRenderer
             }
         }
         if (!empty($display_columns)) {
+            if($display_columns['label']){
+                $label = $display_columns['label'];
+            }
             $value = !empty($display_columns['value']) ? $display_columns['value'] : [];
             if (!empty($display_columns["values"])) {
                 $value = $display_columns["values"];
