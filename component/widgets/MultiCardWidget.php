@@ -21,6 +21,7 @@ class MultiCardWidget extends Widget
     {
 
         $display = [];
+        
         if (is_array($this->data)) {
             foreach ($this->data as $key => $value) {
                 $dis = "";

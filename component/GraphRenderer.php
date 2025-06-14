@@ -128,14 +128,14 @@ class GraphRenderer
         if (!empty($display_columns)) {
             $label = $display_columns['label'];
             $action = $display_columns['action'];
-            $value = $display_columns['value'];
+            $value = $display_columns['values'];
             $select = [];
             if (!empty($label)) {
                 $select = array_merge($select, [$label]);
             }
 
             if (!empty($value)) {
-                $select = array_merge($select, [$value]);
+                $select = array_merge($select, $value);
             }
 
             if (!empty($select)) {
@@ -163,7 +163,7 @@ class GraphRenderer
                 }
             }
         }
-
+        $finalData = [];
         if (!empty($data)) {
             foreach ($data as $k => $v) {
                 if ($action == 'avg') {
