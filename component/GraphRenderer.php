@@ -139,7 +139,7 @@ class GraphRenderer
             }
 
             if (!empty($select)) {
-               $query->select($select);
+                $query->select($select);
             }
         }
 
@@ -185,18 +185,21 @@ class GraphRenderer
             }
         }
         if (!empty($display_columns)) {
-            $value = $display_columns['value'];
+            $value = !empty($display_columns['value']) ? $display_columns['value'] : [];
+            if (!empty($display_columns["values"])) {
+                $value = $display_columns["values"];
+            }
             $select = [];
             if (!empty($label)) {
                 $select = array_merge($select, [$label]);
             }
 
             if (!empty($value)) {
-                $select = array_merge($select, [$value]);
+                $select = array_merge($select, $value);
             }
 
             if (!empty($select)) {
-                $query->select([$label, $value]);
+                $query->select($select);
             }
         }
 
