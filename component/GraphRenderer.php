@@ -135,7 +135,7 @@ class GraphRenderer
             }
 
             if (!empty($value)) {
-                $select = array_merge($select, $value);
+                $select = array_merge($select, is_array($value)?$value:[$value]);
             }
 
             if (!empty($select)) {
