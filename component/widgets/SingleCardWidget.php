@@ -32,16 +32,12 @@ class SingleCardWidget extends Widget
         );
         $body = Html::tag("div", $counts, ["class" => "card-body"]);
 
-        $display = Html::tag(
+        return Html::tag(
             "div",
             $header . $body,
             ["class" => "card col-lg-3 col-sm-3 col-xs-3 m-1 card-flush shadow-sm"]
         );
-        return Html::tag(
-            "div",
-            $display,
-            ["class" => " row "]
-        );
+       
     }
 
 }
