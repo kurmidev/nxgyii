@@ -45,7 +45,7 @@ $conf = [
             ],
         ],
         'urlManager' => [
-            //  'enablePrettyUrl' => true,
+            'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
                 // 'saml/login' => 'saml/login',

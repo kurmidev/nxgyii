@@ -86,7 +86,7 @@ class CompanyController extends BaseController
         ]);
     }
 
-    public function actionViewCompany($id, $dash = null,$employee_id=null)
+    public function actionViewCompany($id, $dash = null, $employee_id = null)
     {
         $model = Company::findOne($id);
         if (!$model instanceof Company) {
@@ -101,7 +101,7 @@ class CompanyController extends BaseController
             "dash" => $dash,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            "graph"=> (new GraphRenderer($model->id,$dash,$dash==0?true:false,$employee_id))->render(),
+            "graph" => (new GraphRenderer($model->id, $dash, $dash == 0 ? true : false, $employee_id))->render(),
         ]);
     }
 
@@ -219,9 +219,21 @@ class CompanyController extends BaseController
         foreach ($res as $field) {
             $distinctValues = $collection->distinct($field);
             if (!Utils::allValuesAreNumbersOrDates($distinctValues)) {
+                $mapped = [];
+                foreach ($distinctValues as $value) {
+                    $key = is_bool($value) ? ($value ? 'true' : 'false') : (string) $value;
+                    $label = match (strtolower($key)) {
+                        'true' => 'True',
+                        'false' => 'False',
+                        'yes' => 'Yes',
+                        'no' => 'No',
+                        default => ucfirst($key),  // Capitalize first letter
+                    };
+                    $mapped[$key] = $label;
+                }
                 $response[] = [
                     "key" => $field,
-                    "values" => $distinctValues
+                    "values" => $mapped
                 ];
             } else {
                 $response[] = [
@@ -284,7 +296,7 @@ class CompanyController extends BaseController
 
         $model->load($component->attributes, "");
         $apiData = $this->getApiResponseData($model->api_id);
-        
+
         return $this->render('form-component-update', [
             'company' => $company,
             "products" => $id,
@@ -293,15 +305,16 @@ class CompanyController extends BaseController
         ]);
     }
 
-    public function actionChangePassword($id){
+    public function actionChangePassword($id)
+    {
         $company = Company::findOne($id);
         if (!$company instanceof Company) {
             \Yii::$app->getSession()->setFlash('e', 'No record found');
             return $this->redirect(['company/company']);
         }
-        $model = new ChangePasswordForm(['scenario'=>User::SCENARIO_CREATE]);
+        $model = new ChangePasswordForm(['scenario' => User::SCENARIO_CREATE]);
         $model->user_id = $company->user->id;
-        
+
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
             $company->password = $model->password;
             $company->save();
