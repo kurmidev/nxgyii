@@ -60,6 +60,10 @@ class GraphRenderer
         foreach ($model as $item) {
             $collectionName = $item->api->getCollectionName();
             $filters = $item['filters'];
+            if(!empty($item->company_id)){
+                $filters['company_id'] = $item->company_id;
+                $filters['fetched_at:'] = date("YmdHis",strtotime("-5 minutes"));
+            }
             $display_columns = $item["display_columns"];
             $chartData = "";
             if ($item->display_type == Constants::DISPLAY_TYPE_MULPLECARD) {
@@ -139,7 +143,7 @@ class GraphRenderer
             }
 
             if (!empty($select)) {
-                $query->select($select);
+                $query->select($select)->distinct();
             }
         }
 
