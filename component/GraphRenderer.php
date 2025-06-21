@@ -60,9 +60,10 @@ class GraphRenderer
         foreach ($model as $item) {
             $collectionName = $item->api->getCollectionName();
             $filters = $item['filters'];
+            $otherfilter = [];
             if(!empty($item->company_id)){
-                $filters['company_id'] = $item->company_id;
-                $filters['fetched_at:'] = date("YmdHis",strtotime("-5 minutes"));
+                $otherfilter['company_id'] = $item->company_id;
+                $otherfilter['fetched_at:'] = date("YmdHis",strtotime("-5 minutes"));
             }
             $display_columns = $item["display_columns"];
             $chartData = "";
@@ -71,7 +72,7 @@ class GraphRenderer
             } else if ($item->display_type == Constants::DISPLAY_TYPE_TABLE) {
                 $chartData = $this->generateTableData($filters, $display_columns, $collectionName);
             } else {
-                $chartData = $this->generateChartData($filters, $display_columns, $collectionName);
+                $chartData = $this->generateChartData($filters, $display_columns, $collectionName,$otherfilter);
             }
             $graph[$item->id] = $this->generateGraphViews($chartData, $item->report_name, $item->display_type);
         }
@@ -120,7 +121,7 @@ class GraphRenderer
         return $query;
     }
 
-    function generateChartData($filters, $display_columns, $collectionName)
+    function generateChartData($filters, $display_columns, $collectionName,$otherfilter=[])
     {
         $label = $action = $value = null;
         $query = (new Query())->from($collectionName);
@@ -128,6 +129,9 @@ class GraphRenderer
             foreach ($filters as $field => $condition) {
                 $query = $this->generateWhereConditions($query, $field, $condition["attr"], $condition['val']);
             }
+        }
+        if (!empty($otherfilter)) {
+            $query->andWhere($otherfilter);
         }
         if (!empty($display_columns)) {
             $label = $display_columns['label'];
