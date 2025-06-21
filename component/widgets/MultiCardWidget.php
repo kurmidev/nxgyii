@@ -52,7 +52,7 @@ class MultiCardWidget extends Widget
                     "div",
                     Html::tag(
                         "h3",
-                        Html::tag("span", $value['label'], ["class" => "card-label fw-bold text-gray-900"]),
+                        Html::tag("span", $this->reportName, ["class" => "card-label fw-bold text-gray-900"]),
                         ["class" => "card-title align-items-start flex-column"]
                     ),
                     ["class" => "card-header pt-5"]
