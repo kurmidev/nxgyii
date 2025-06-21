@@ -198,9 +198,16 @@ class ProductController extends BaseController
             ]
         ];
         $data = $collection->find($conditions)->toArray();
+
         $response = [];
         foreach ($data as $doc) {
-            $response[] = $doc;
+            $res = [];
+            foreach ($doc as $k => $val) {
+                if (!is_array($val) && !in_array($k, ['_id', 'id', "company_id", "fetched_at"])) {
+                    $res[$k] = $val;
+                }
+            }
+            $response[] = $res;
         }
 
         $dataProvider = new ArrayDataProvider([
