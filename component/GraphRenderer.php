@@ -63,7 +63,7 @@ class GraphRenderer
             $otherfilter = [];
             if(!empty($item->company_id)){
                 $otherfilter['company_id'] = $item->company_id;
-                $otherfilter['fetched_at:'] = date("YmdHis",strtotime("-5 minutes"));
+                $otherfilter['fetched_at'] = date("YmdHis",strtotime("-5 minutes"));
             }
             $display_columns = $item["display_columns"];
             $chartData = "";
