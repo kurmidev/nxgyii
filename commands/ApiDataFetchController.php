@@ -158,6 +158,16 @@ class ApiDataFetchController extends ConsoleController
             $resp = str_replace('<last7daytime>', strtotime("-7 days"), $resp);
         }
 
+
+        if (str_contains($resp, '<currentdate>')) {
+            $resp = str_replace('<currentdate>', date("Y-m-d",strtotime('now')), $resp);
+        }
+
+        if (str_contains($resp, '<last7daydate>')) {
+            $resp = str_replace('<last7daydate>', date("Y-m-d",strtotime("-7 days")), $resp);
+        }
+
+
         return $resp;
     }
 
