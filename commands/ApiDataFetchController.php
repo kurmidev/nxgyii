@@ -137,7 +137,7 @@ class ApiDataFetchController extends ConsoleController
                 $resp = str_replace("<$content>", $extra["<$content>"], $resp);
             }
         }
-        
+
         if (str_contains($resp, '<currenttimestamp>')) {
             $date = DateTime::createFromFormat('Y-m-d H:i:s.u', date('Y-m-d H:i:s.u'));
             $milliseconds = (int) ($date->format('Uu') / 1000);
@@ -232,7 +232,7 @@ class ApiDataFetchController extends ConsoleController
 
         $url = rtrim($config['base_uri'], '/') . '/' . ltrim($api['api_endpoint'], '/');
         if (!empty($api['api_params'])) {
-            $url .= "?" . $this->mergeKeyValue($api["api_params"], "url",$config['extraData']);
+            $url .= "?" . $this->mergeKeyValue($api["api_params"], "url", $config['extraData']);
         }
         $header = array_merge(
             $config['headers'],
@@ -264,14 +264,14 @@ class ApiDataFetchController extends ConsoleController
 
         $url = rtrim($config['base_uri'], '/') . '/' . ltrim($api['api_endpoint'], '/');
         if (!empty($api['api_params'])) {
-            $url .= "?" . $this->mergeKeyValue($api["api_params"], "url",$config['extraData']);
+            $url .= "?" . $this->mergeKeyValue($api["api_params"], "url", $config['extraData']);
         }
 
         $header = array_merge(
             $config['headers'],
             !empty($api['api_headers']) ? $this->mergeKeyValue($api['api_headers'], '', $config['extraData']) : []
         );
-        
+
         $skip = 0;
         $remaingCount = 0;
         do {
@@ -324,9 +324,10 @@ class ApiDataFetchController extends ConsoleController
         $i = 0;
         $collection = Yii::$app->mongodb->getCollection($collectionName);
         $collection->remove(["company_id" => $config['company_id']]);
-        foreach ($data as $d) {
+        print_r($data);
+        if (count($data) == 1) {
             $fd = array_merge(
-                $d,
+                $data[0],
                 [
                     'fetched_at' => date("YmdHi"),
                     "company_id" => $config['company_id'],
@@ -334,7 +335,21 @@ class ApiDataFetchController extends ConsoleController
             );
             $collection->insert($fd);
             $i++;
+
+        } else {
+            foreach ($data as $d) {
+                $fd = array_merge(
+                    $d,
+                    [
+                        'fetched_at' => date("YmdHi"),
+                        "company_id" => $config['company_id'],
+                    ]
+                );
+                $collection->insert($fd);
+                $i++;
+            }
         }
+
         return $i;
     }
 
