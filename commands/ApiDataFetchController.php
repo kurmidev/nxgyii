@@ -300,7 +300,7 @@ class ApiDataFetchController extends ConsoleController
         ]);
 
         if (!isset($data["body"]["totalCount"]) && $skip == 0) {
-            $data["body"]["totalCount"] = 1000;// count($data["body"]);
+            $data["body"]["totalCount"] = 1;// count($data["body"]);
         }
         if ($remaingCount == 0 && $data["body"]["totalCount"] > 0 && $skip == 0) {
             $remaingCount = $data["body"]["totalCount"];
