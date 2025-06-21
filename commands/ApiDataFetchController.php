@@ -326,16 +326,11 @@ class ApiDataFetchController extends ConsoleController
         $collection->remove(["company_id" => $config['company_id']]);
         print_r($data);
         if (count($data) == 1) {
-            $fd = array_merge(
-                $data[0],
-                [
-                    'fetched_at' => date("YmdHi"),
-                    "company_id" => $config['company_id'],
-                ]
-            );
+            $fd = $data;
+            $fd['fetched_at'] = date("YmdHi");
+            $fd["company_id"] = $config['company_id'];
             $collection->insert($fd);
             $i++;
-
         } else {
             foreach ($data as $d) {
                 $fd = array_merge(
@@ -349,7 +344,6 @@ class ApiDataFetchController extends ConsoleController
                 $i++;
             }
         }
-
         return $i;
     }
 
