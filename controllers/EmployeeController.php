@@ -16,7 +16,7 @@ use yii\filters\VerbFilter;
  */
 class EmployeeController extends BaseController
 {
-   
+
     /**
      * Lists all Employee models.
      *
@@ -38,15 +38,16 @@ class EmployeeController extends BaseController
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionAddEmployee()
+    public function actionAddEmployee($company_id)
     {
-        $model = new Employee(["scenario"=>Employee::SCENARIO_CREATE]);
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {  
+        $model = new Employee(["scenario" => Employee::SCENARIO_CREATE]);
+        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             Yii::$app->getSession()->setFlash('s', "Employee $model->name added successfully.");
             return $this->redirect(['employee/employee']);
-        } 
+        }
         return $this->render('form-employee', [
             'model' => $model,
+            "company_id" => $company_id
         ]);
     }
 
@@ -71,22 +72,23 @@ class EmployeeController extends BaseController
             Yii::$app->getSession()->setFlash('s', "Employee $model->name updated successfully.");
             return $this->redirect(['employee/employee']);
         }
-        
+
         return $this->render('form-employee', [
             'model' => $model,
-            'company_id'=> $model->company_id,
+            'company_id' => $model->company_id,
         ]);
     }
 
-     public function actionChangePassword($id){
+    public function actionChangePassword($id)
+    {
         $employee = Employee::findOne($id);
         if (!$employee instanceof Employee) {
             \Yii::$app->getSession()->setFlash('e', 'No record found');
             return $this->redirect(['employee/index']);
         }
-        $model = new ChangePasswordForm(['scenario'=>User::SCENARIO_CREATE]);
+        $model = new ChangePasswordForm(['scenario' => User::SCENARIO_CREATE]);
         $model->user_id = $employee->user->id;
-        
+
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()) {
             $employee->password = $model->password;
             $employee->save();
