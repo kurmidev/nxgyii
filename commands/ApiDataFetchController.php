@@ -330,7 +330,7 @@ class ApiDataFetchController extends ConsoleController
             $fd['fetched_at'] = date("YmdHi");
             $fd["company_id"] = $config['company_id'];
             $collection->insert($fd);
-            $i++;
+            $i=count($data);
         } else {
             foreach ($data as $d) {
                 $fd = array_merge(
