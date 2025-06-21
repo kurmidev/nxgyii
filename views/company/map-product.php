@@ -56,7 +56,7 @@ $apiList = ArrayHelper::index(ProductsApiList::find()->active()->asArray()->all(
                             <?= Html::activeLabel($model, 'allowed_api[' . $product->id . ']', ['class' => ' input-group-text', 'label' => 'Allowed APIs']); ?>
                             <div class="col-lg-6 col-sm-6 col-xs-6">
                             <?= Html::activeDropDownList($model, 'allowed_api[' . $product->id . ']',
-                            ArrayHelper::map($apiList[$product->id],'id','api_name') 
+                            ArrayHelper::map(!empty($apiList[$product->id])?$apiList[$product->id]:[],'id','api_name') 
                             ,['class' => 'form-control form-select-solid', 'prompt' => "Select one", "multiple" => "multiple", "data-control" => "select2","style"=>"width:auto;"]) ?>
                             </div>
                             <?= Html::error($model, 'allowed_api[' . $product->id . ']', ['class' => 'error help-block text-danger col-lg-12 col-sm-12 col-xs-12 mb-2 mt-2']) ?>
