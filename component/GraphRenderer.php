@@ -147,7 +147,7 @@ class GraphRenderer
             }
 
             if (!empty($select)) {
-                $query->select($select)->distinct();
+                $query->select($select)->distinct($label);
             }
         }
 
