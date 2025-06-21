@@ -325,7 +325,7 @@ class ApiDataFetchController extends ConsoleController
         $collection = Yii::$app->mongodb->getCollection($collectionName);
         $collection->remove(["company_id" => $config['company_id']]);
         print_r($data);
-        if (count($data) == 1) {
+        if (empty($data[0])) {
             $fd = $data;
             $fd['fetched_at'] = date("YmdHi");
             $fd["company_id"] = $config['company_id'];
