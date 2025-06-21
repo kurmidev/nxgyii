@@ -221,15 +221,17 @@ class CompanyController extends BaseController
             if (!Utils::allValuesAreNumbersOrDates($distinctValues)) {
                 $mapped = [];
                 foreach ($distinctValues as $value) {
-                    $key = is_bool($value) ? ($value ? 'true' : 'false') : (string) $value;
-                    $label = match (strtolower($key)) {
-                        'true' => 'True',
-                        'false' => 'False',
-                        'yes' => 'Yes',
-                        'no' => 'No',
-                        default => ucfirst($key),  // Capitalize first letter
-                    };
-                    $mapped[$key] = $label;
+                    if (!is_array($value)) {
+                        $key = is_bool($value) ? ($value ? 'true' : 'false') : (string) $value;
+                        $label = match (strtolower($key)) {
+                            'true' => 'True',
+                            'false' => 'False',
+                            'yes' => 'Yes',
+                            'no' => 'No',
+                            default => ucfirst($key),  // Capitalize first letter
+                        };
+                        $mapped[$key] = $label;
+                    }
                 }
                 $response[] = [
                     "key" => $field,
