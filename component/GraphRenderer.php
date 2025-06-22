@@ -167,7 +167,9 @@ class GraphRenderer
                         if(!empty($val[$label]) && empty($data[$val[$label]]) ) {
                             $data[$val[$label]] = 0;
                         }
-                        $data[$val[$label]] += 1;
+                        if(!empty($val[$label])){
+                            $data[$val[$label]] += 1;
+                        }
                         break;
                     default:
                         break;
