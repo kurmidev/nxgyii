@@ -68,11 +68,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'label' => 'Action',
                     'content' => function ($data) {
-                            $content = [
-                                ["name" => "Edit Employee", "url" => \Yii::$app->urlManager->createUrl(['employee/update-employee', 'id' => $data['id']])],
-                                ["name" => "Change Password", "url" => \Yii::$app->urlManager->createUrl(['employee/change-password', "id" => $data->id])],
-                                ["name" => "Dashboard", "url" => \Yii::$app->urlManager->createUrl(['company/view-company',"employee_id"=>$data->id, "id" => $data->company_id])],
-                            ];
+                            $content = [];
+                            if (Utils::isallowed("company-update-employee")) {
+                                $content[] = ["name" => "Edit Employee", "url" => \Yii::$app->urlManager->createUrl(['employee/update-employee', 'id' => $data['id']])];
+                            }
+                            if (Utils::isallowed("company-change-password")) {
+                                $content[] = ["name" => "Change Password", "url" => \Yii::$app->urlManager->createUrl(['employee/change-password', "id" => $data->id])];
+                            }
+                            if (Utils::isallowed("company-view-company")) {
+                                $content[] = ["name" => "Dashboard", "url" => \Yii::$app->urlManager->createUrl(['company/view-company', "employee_id" => $data->id, "id" => $data->company_id])];
+                            }
                             return Utils::getDropDownButton($content);
                         }
                 ]

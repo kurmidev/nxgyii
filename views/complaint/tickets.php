@@ -13,9 +13,10 @@ use app\models\ProductMaster;
 /* @var $searchModel common\models\search\CitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $this->title = 'Complaints';
-$this->params['links'] = [
-    ['title' => 'Add New Complaints', 'url' => \Yii::$app->urlManager->createUrl('complaint/add-complaint'), 'class' => 'btn btn-primary'],
-];
+$this->params['links'] = [];
+if (Utils::isallowed("company-add-component")) {
+    $this->params['links'][] = ['title' => 'Add New Complaints', 'url' => \Yii::$app->urlManager->createUrl('complaint/add-complaint'), 'class' => 'btn btn-primary'];
+}
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -78,10 +79,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             $content = [
                                 ["name" => "Reply/View", "url" => \Yii::$app->urlManager->createUrl(['complaint/process-complaint', "id" => $data->id])],
                             ];
-                            if ($data->status != Constants::CLOSED) {
+                            if ($data->status != Constants::CLOSED && Utils::isallowed("complaint-close-complaint")) {
                                 $content[] = ["name" => "Close", "url" => \Yii::$app->urlManager->createUrl(['complaint/close-complaint', "id" => $data->id])];
                             }
-                            if(empty($data->rating) && $data->status == Constants::CLOSED) {
+                            if(empty($data->rating) && $data->status == Constants::CLOSED && Utils::isallowed("complaint-rating")) {
                                 $content[] = ["name" => "Rating", "url" => \Yii::$app->urlManager->createUrl(['complaint/rating', "id" => $data->id])];
                             }
                             return Utils::getDropDownButton($content);

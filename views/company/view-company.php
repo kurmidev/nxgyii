@@ -1,6 +1,7 @@
 <?php
 
 use app\component\Constants;
+use app\component\Utils;
 use app\models\Products;
 use app\models\User;
 use app\component\widgets\BarChartWidget;
@@ -10,9 +11,11 @@ use app\component\widgets\XYBubbleChartWidget;
 
 
 $this->title = "Dashboard for {$model->name}";
-$this->params['links'] = [
-    ['title' => 'Add Dashboard Component', 'url' => \Yii::$app->urlManager->createUrl(['company/add-component', 'id' => $model->id]), 'class' => 'btn btn-primary'],
-];
+$this->params['links'] = [];
+if (Utils::isallowed("company-add-component")) {
+    $this->params['links'][] = ['title' => 'Add Dashboard Component', 'url' => \Yii::$app->urlManager->createUrl(['company/add-component', 'id' => $model->id]), 'class' => 'btn btn-primary'];
+}
+
 $this->params['breadcrumbs'][] = $this->title;
 
 $assignedProduct = Products::find()->active()->andWhere(['id' => $model->getProduct_mappings()])->all();
@@ -33,7 +36,7 @@ $assignedProduct = Products::find()->active()->andWhere(['id' => $model->getProd
                 </li>
             <?php } ?>
 
-            <?php if (User::loggedInUserType() != Constants::USERTYPE_CLIENT) { ?>
+            <?php if (User::loggedInUserType() != Constants::USERTYPE_CLIENT && Utils::isallowed("company-add-component")) { ?>
                 <li class="nav-item">
                     <a class="nav-link  <?= $dash == -1 ? 'active' : '' ?>"
                         href="<?= Yii::$app->urlManager->createUrl(["company/view-company", "dash" => -1, "id" => $model->id]) ?>">Component
@@ -50,11 +53,11 @@ $assignedProduct = Products::find()->active()->andWhere(['id' => $model->getProd
                     'dataProvider' => $dataProvider
                 ]) ?>
             <?php } else { ?>
-                    <div id="kt_app_content_container" class="app-container row container-fluid ">
+                <div id="kt_app_content_container" class="app-container row container-fluid ">
                     <?php foreach ($graph as $graphItem) { ?>
-                            <?= $graphItem ?>
+                        <?= $graphItem ?>
                     <?php } ?>
-                    </div>
+                </div>
             <?php } ?>
         </div>
     </div>

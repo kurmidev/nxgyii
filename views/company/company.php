@@ -1,21 +1,17 @@
 <?php
 
-use yii\helpers\Html;
-use common\component\ImsGridView;
 use yii\widgets\Pjax;
 use app\component\Constants;
 use app\component\CtGridView;
 use app\component\Utils;
-use app\models\Company;
-use app\models\ProductMaster;
-
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\search\CitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $this->title = 'Company';
-$this->params['links'] = [
-    ['title' => 'Add New Company', 'url' => \Yii::$app->urlManager->createUrl('company/add-company'), 'class' => 'btn btn-primary'],
-];
+$this->params['links'] = [];
+if (Utils::isallowed("company-add-company")) {
+    $this->params['links'][] = ['title' => 'Add New Company', 'url' => \Yii::$app->urlManager->createUrl('company/add-company'), 'class' => 'btn btn-primary'];
+};
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -55,18 +51,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'label' => 'Action',
                     'content' => function ($data) {
-                        $content = [
-                            ["name" => "Edit Company" , "url" => \Yii::$app->urlManager->createUrl(['company/update-company', "id" => $data->id])],
-                            ["name" => "Change Password" , "url" => \Yii::$app->urlManager->createUrl(['company/change-password', "id" => $data->id])],
-                            ["name" => "Add Employee", "url" => \Yii::$app->urlManager->createUrl(['employee/add-employee', "company_id" => $data->id])],
-                            ["name" => "Product Mapping", "url" => \Yii::$app->urlManager->createUrl(['company/map-product', "id" => $data->id])],
-                            ["name" => "Dashboard", "url" => \Yii::$app->urlManager->createUrl(['company/view-company', "id" => $data->id])],
-                        ];
-
-                        // if ($data->status != Constants::CLOSED) {
-                        //     $content[] = ["name" => "Close", "url" => \Yii::$app->urlManager->createUrl(['complaint/close-complaint', "id" => $data->id])];
-                        // }
-                        return Utils::getDropDownButton($content);
+                            $content = [];
+                            if (Utils::isallowed("company-update-company")) {
+                                $content[] = ["name" => "Edit Company", "url" => \Yii::$app->urlManager->createUrl(['company/update-company', "id" => $data->id])];
+                            }
+                            if (Utils::isallowed("company-view-company")) {
+                                $content[] = ["name" => "View Company", "url" => \Yii::$app->urlManager->createUrl(['company/view-company', "id" => $data->id])];
+                            }
+                            if (Utils::isallowed("company-change-password")) {
+                                $content[] = ["name" => "Change Password", "url" => \Yii::$app->urlManager->createUrl(['company/change-password', "id" => $data->id])];
+                            }
+                            if (Utils::isallowed("employee-add-employee")) {
+                                $content[] = ["name" => "Add Employee", "url" => \Yii::$app->urlManager->createUrl(['employee/add-employee', "company_id" => $data->id])];
+                            }
+                            if (Utils::isallowed("company-map-product")) {
+                                $content[] = ["name" => "Product Mapping", "url" => \Yii::$app->urlManager->createUrl(['company/map-product', "id" => $data->id])];
+                            }
+                            if (Utils::isallowed("company-view-company")) {
+                                $content[] = ["name" => "Dashboard", "url" => \Yii::$app->urlManager->createUrl(['company/view-company', "id" => $data->id])];
+                            }
+                            return Utils::getDropDownButton($content);
                         }
                 ]
             ],

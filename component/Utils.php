@@ -2,6 +2,7 @@
 
 namespace app\component;
 
+use app\models\User;
 use DateTime;
 use Exception;
 use yii\helpers\Html;
@@ -184,6 +185,16 @@ class Utils
         $headerCase = ucwords(strtolower($step2));
 
         return $headerCase;
+    }
+
+    public static function isallowed($menu){
+        $menuList = User::getAssignedMenu();
+        if(!empty($menuList)){
+            if(in_array($menu, $menuList)){
+                return true;
+            }
+        }
+        return false;
     }
 
 
