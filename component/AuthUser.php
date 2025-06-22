@@ -82,4 +82,9 @@ class AuthUser {
         return false;
     }
 
+    public static function getAssignedMenuList($userId){
+        $auth = Yii::$app->authManager;
+        return $auth->getPermissionsByUser($userId);
+    }
+
 }

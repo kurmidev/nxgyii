@@ -329,8 +329,13 @@ class User extends \app\models\BaseModel implements IdentityInterface
         return new UserQuery(get_called_class());
     }
 
-    public static function assignAccessRights($designation_id, $user_id)
+    public static function getAssignedMenu()
     {
-
+        $currentUserId = self::loggedInUserId();
+        $userList = AuthUser::getAssignedMenuList($currentUserId);
+        if(!empty($userList)){
+            return array_column($userList, 'name');
+        }
+        return [];
     }
 }

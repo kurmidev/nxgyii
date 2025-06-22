@@ -42,6 +42,8 @@ class CompanySearch extends Company
     {
         $query = Company::find();
 
+        $query->defaultCondition();
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

@@ -3,6 +3,8 @@
 use app\component\MenuHelper;
 use app\models\User;
 use yii\helpers\ArrayHelper;
+
+$assignedMenu = User::getAssignedMenu();
 ?>
 <div id="kt_app_sidebar" class="app-sidebar flex-column" data-kt-drawer="true" data-kt-drawer-name="app-sidebar"
   data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="250px"
@@ -56,18 +58,20 @@ use yii\helpers\ArrayHelper;
               <?php
               foreach ($menuDetails['items'] as $k => $v) {
                 foreach ($v as $itemsName => $itemsData) {
-                  if ($itemsData['is_menu']) { ?>
-                    <div class="menu-item">
-                      <a class="menu-link"
-                        href="<?= Yii::$app->urlManager->createUrl(implode("/", [$itemsData['module'], $itemsData['controller'], $itemsData['action']])) ?>">
-                        <span class="menu-bullet">
-                          <span class="bullet bullet-dot"></span>
-                        </span>
-                        <span class="menu-title"><?= $k ?></span>
-                      </a>
-                      <!--end:Menu link-->
-                    </div>
-                  <?php }
+                  if ($itemsData['is_menu']) {
+                    if (in_array($itemsData['controller'] . "-" . $itemsData["action"], $assignedMenu)) { ?>
+                      <div class="menu-item">
+                        <a class="menu-link"
+                          href="<?= Yii::$app->urlManager->createUrl(implode("/", [$itemsData['module'], $itemsData['controller'], $itemsData['action']])) ?>">
+                          <span class="menu-bullet">
+                            <span class="bullet bullet-dot"></span>
+                          </span>
+                          <span class="menu-title"><?= $k ?></span>
+                        </a>
+                        <!--end:Menu link-->
+                      </div>
+                    <?php }
+                  }
                 }
               }
               ?>
@@ -77,23 +81,25 @@ use yii\helpers\ArrayHelper;
           foreach ($menuDetails['items'] as $m => $val) {
             $itemsData = ArrayHelper::index($val, 'is_menu');
             $itemsData = $itemsData[1];
-            ?>
-            <div class="menu-item here show menu-accordion">
-              <!--begin:Menu link-->
-              <span class="menu-link">
-                <span class="menu-icon">
-                  <i class="ki-solid <?=$itemsData["icon"]?> text-danger fs-2x">
-                  </i>
+            if (in_array($itemsData['controller'] . "-" . $itemsData["action"], $assignedMenu)) {
+              ?>
+              <div class="menu-item here show menu-accordion">
+                <!--begin:Menu link-->
+                <span class="menu-link">
+                  <span class="menu-icon">
+                    <i class="ki-solid <?= $itemsData["icon"] ?> text-danger fs-2x">
+                    </i>
+                  </span>
+                  <span class="">
+                    <a class="menu-link"
+                      href="<?= Yii::$app->urlManager->createUrl(implode("/", [$itemsData['module'], $itemsData['controller'], $itemsData['action']])) ?>">
+                      <?= ucwords($menu) ?>
+                    </a>
+                  </span>
                 </span>
-                <span class="">
-                  <a class="menu-link"
-                    href="<?= Yii::$app->urlManager->createUrl(implode("/", [$itemsData['module'], $itemsData['controller'], $itemsData['action']])) ?>">
-                    <?= ucwords($menu) ?>
-                  </a>
-                </span>
-              </span>
-            </div>
-          <?php }
+              </div>
+            <?php }
+          }
         }
       }
       ?>
@@ -133,7 +139,8 @@ use yii\helpers\ArrayHelper;
               <!--begin::Username-->
               <div class="d-flex flex-column">
                 <div class="fw-bold d-flex align-items-center fs-5">
-                  <?=User::loggedInUserName()?> <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span>
+                  <?= User::loggedInUserName() ?> <span
+                    class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Pro</span>
                 </div>
               </div>
               <!--end::Username-->
@@ -141,8 +148,8 @@ use yii\helpers\ArrayHelper;
           </div>
           <!--end::Menu item-->
 
-         
-       
+
+
 
           <!--begin::Menu separator-->
           <div class="separator my-2"></div>
@@ -150,7 +157,7 @@ use yii\helpers\ArrayHelper;
 
           <!--begin::Menu item-->
           <div class="menu-item px-5 my-1">
-            <a href="<?=Yii::$app->urlManager->createUrl("site/profile")?>" class="menu-link px-5">
+            <a href="<?= Yii::$app->urlManager->createUrl("site/profile") ?>" class="menu-link px-5">
               Account Settings
             </a>
           </div>
@@ -158,7 +165,7 @@ use yii\helpers\ArrayHelper;
 
           <!--begin::Menu item-->
           <div class="menu-item px-5">
-            <a href="<?=Yii::$app->urlManager->createUrl("site/logout")?>" class="menu-link px-5">
+            <a href="<?= Yii::$app->urlManager->createUrl("site/logout") ?>" class="menu-link px-5">
               Sign Out
             </a>
           </div>
@@ -172,7 +179,8 @@ use yii\helpers\ArrayHelper;
       <!--begin::Info-->
       <div class="me-2">
         <!--begin::Username-->
-        <a href="#" class="app-sidebar-username text-gray-800 text-hover-primary fs-6 fw-semibold lh-0"><?=User::loggedInUserName()?></a>
+        <a href="#"
+          class="app-sidebar-username text-gray-800 text-hover-primary fs-6 fw-semibold lh-0"><?= User::loggedInUserName() ?></a>
         <!--end::Username-->
       </div>
       <!--end::Info-->
@@ -180,7 +188,7 @@ use yii\helpers\ArrayHelper;
     <!--end::User avatar-->
 
     <!--begin::Action-->
-    <a href="<?=Yii::$app->urlManager->createUrl("site/logout")?>"
+    <a href="<?= Yii::$app->urlManager->createUrl("site/logout") ?>"
       class="btn btn-icon btn-active-color-primary btn-icon-custom-color me-n4" data-bs-toggle="tooltip"
       aria-label="End session and singout" data-bs-original-title="End session and singout" data-kt-initialized="1">
       <i class="ki-duotone ki-entrance-left fs-2 text-gray-500"><span class="path1"></span><span

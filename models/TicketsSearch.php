@@ -47,6 +47,7 @@ class TicketsSearch extends Tickets
     public function search($params)
     {
         $query = Tickets::find();
+        $query->defaultCondition();
 
         // add conditions that should always apply here
 

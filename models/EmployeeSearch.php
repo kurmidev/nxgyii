@@ -41,6 +41,7 @@ class EmployeeSearch extends Employee
     public function search($params)
     {
         $query = Employee::find();
+        $query->defaultCondition();
 
         // add conditions that should always apply here
 
