@@ -5,6 +5,7 @@ namespace app\models;
 use app\component\AuthUser;
 use Yii;
 use app\component\Constants as C;
+use app\component\MenuHelper;
 use yii\base\NotSupportedException;
 use yii\web\IdentityInterface;
 /**
@@ -332,10 +333,17 @@ class User extends \app\models\BaseModel implements IdentityInterface
     public static function getAssignedMenu()
     {
         $currentUserId = self::loggedInUserId();
-        $userList = AuthUser::getAssignedMenuList($currentUserId);
-        if(!empty($userList)){
-            return array_column($userList, 'name');
+        $userType = self::loggedInUserType();
+        if ($userType == C::USERTYPE_ADMIN) {
+            $menuList = MenuHelper::getMenuLists();
+            return $menuList;
+        } else {
+            $userList = AuthUser::getAssignedMenuList($currentUserId);
+            if (!empty($userList)) {
+                return array_column($userList, 'name');
+            }
         }
+
         return [];
     }
 }

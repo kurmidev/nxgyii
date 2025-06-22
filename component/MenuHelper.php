@@ -62,7 +62,7 @@ class MenuHelper
                     ['module' => '', 'controller' => 'company', 'action' => 'update-company', 'label' => 'Update company', 'is_menu' => false, 'icon' => " ki-logistic"],
                     ['module' => '', 'controller' => 'company', 'action' => 'change-password', 'label' => 'Change Password', 'is_menu' => false, 'icon' => " ki-logistic"],
                     ['module' => '', 'controller' => 'company', 'action' => 'view-company', 'label' => 'Company Dashboard', 'is_menu' => false, 'icon' => " ki-logistic"],
-                    ['module' => '', 'controller' => 'company', 'action' => 'map-product', 'label' => 'Product Company Mapping', 'is_menu' => false, 'icon' => " ki-basket-ok"],                    
+                    ['module' => '', 'controller' => 'company', 'action' => 'map-product', 'label' => 'Product Company Mapping', 'is_menu' => false, 'icon' => " ki-basket-ok"],
                     ['module' => '', 'controller' => 'company', 'action' => 'detail-view', 'label' => 'Dashboard Details', 'is_menu' => false, 'icon' => " ki-logistic"],
                     ['module' => '', 'controller' => 'company', 'action' => 'add-component', 'label' => 'Create Dashboard Component', 'is_menu' => false, 'icon' => " ki-basket-ok"],
                     ['module' => '', 'controller' => 'company', 'action' => 'update-component', 'label' => 'Update Dashboard Component', 'is_menu' => false, 'icon' => " ki-basket-ok"],
@@ -117,13 +117,13 @@ class MenuHelper
                 ]
             ]
         ],
-        "reports"=>[
+        "reports" => [
             "config" => ["class" => "menu-item-icon icon tx-18 fa fa-file-text-o"],
             "items" => [
                 "complaint" => [
                     ['module' => '', 'controller' => 'reports', 'action' => 'complaint', 'label' => 'Complaint', 'is_menu' => true, 'icon' => " ki-delivery-24"],
                 ],
-                "engg performance"=>[
+                "engg performance" => [
                     ['module' => '', 'controller' => 'reports', 'action' => 'engg-performance', 'label' => 'Engineer Performance', 'is_menu' => true, 'icon' => " ki-delivery-24"],
                 ]
             ],
@@ -146,12 +146,12 @@ class MenuHelper
                     print_r($m);
                     exit();
                     if ($is_submenu) {
-                      
+
                         $label = self::styleMenuLabel($key, $menuConfig);
                         $result[$key] = [
                             'url' => "#",
                             'label' => $label,
-                            'options' => ['class' => 'menu-item here show menu-accordion',"data-kt-menu-trigger"=>"click"],
+                            'options' => ['class' => 'menu-item here show menu-accordion', "data-kt-menu-trigger" => "click"],
                             'items' => array_values(self::getDisplayMenu($menuItems)),
                             //'submenuTemplate' => "\n<ul class = 'nav-group-items compact '>\n{items}\n</ul>\n",
                             //'template' => '<a href="{url}" class="nav-link nav-group-toggle">{label}</a>',
@@ -171,13 +171,13 @@ class MenuHelper
                                                 </div>',
                         ];
                     } else {
-                   /*     <li class="nav-item"><a class="nav-link" href="index.html">
-                        <svg class="nav-icon">
-                          <use xlink:href="/images/icons/free.svg#cil-speedometer"></use>
-                        </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span>
-                      </a>
-                      </li>
-                      */
+                        /*     <li class="nav-item"><a class="nav-link" href="index.html">
+                             <svg class="nav-icon">
+                               <use xlink:href="/images/icons/free.svg#cil-speedometer"></use>
+                             </svg> Dashboard<span class="badge badge-sm bg-info ms-auto">NEW</span>
+                           </a>
+                           </li>
+                           */
 
                         $mv = current($m);
                         $label = self::styleMenuLabel($mv['label'], $menuConfig);
@@ -186,7 +186,7 @@ class MenuHelper
                             'label' => $label,
                             //'options' => ['class' => 'nav-item'],
                             //'template' => '<a href="{url}" class="nav-link" >{label}</a>',
-                            'options' => ['class' => 'menu-item here show menu-accordion',"data-kt-menu-trigger"=>"click"],
+                            'options' => ['class' => 'menu-item here show menu-accordion', "data-kt-menu-trigger" => "click"],
                             'template' => '<span class="menu-link">
                             <span class="menu-icon">
                                 <i class=" ki-chart-pie-3 fs-2">
@@ -220,20 +220,20 @@ class MenuHelper
     public static function styleMenuLabel($label, $menuConfig = [])
     {
         $text = ucwords(implode(' ', preg_split('/(?=[A-Z])/', $label)));
-return  ' <div class="menu-item">
+        return ' <div class="menu-item">
             <a class="menu-link" href="/good/dashboards/projects.html">
             <span class="menu-bullet">
                 <span class="bullet bullet-dot"></span>
             </span>
-            <span class="menu-title">'.$text.'</span></a>
+            <span class="menu-title">' . $text . '</span></a>
         </div>';
 
-        
+
         $label = "";
         if (!empty($menuConfig)) {
             $label .= Html::tag("i", "", ["class" => $menuConfig['class']]);
         }
-        $label .='&nbsp&nbsp'. Html::tag('span', $text, ['class' => "menu-item-label"]);
+        $label .= '&nbsp&nbsp' . Html::tag('span', $text, ['class' => "menu-item-label"]);
         return $label;
     }
 
@@ -331,6 +331,22 @@ return  ' <div class="menu-item">
             }
         }
         return $res;
+    }
+
+    public static function getMenuLists()
+    {
+        $menus = self::$menu;
+        $menuItems = [];
+        foreach ($menus as $menu) {
+            $items = $menu['items'];
+            foreach($items as $item){
+                $mi = ArrayHelper::getColumn($item, function ($m) {
+                    return $m['controller'] . '-' . $m["action"];
+                });    
+                $menuItems = array_merge($menuItems,$mi);
+            }
+        }
+        return $menuItems;
     }
 
 }
