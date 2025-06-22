@@ -15,6 +15,7 @@ $this->params['links'] = [];
 if (Utils::isallowed("company-add-component")) {
     $this->params['links'][] = ['title' => 'Add Dashboard Component', 'url' => \Yii::$app->urlManager->createUrl(['company/add-component', 'id' => $model->id]), 'class' => 'btn btn-primary'];
 }
+$this->params['links'][] = ['title' => 'JUMPCLOUD', 'url' => "https://console.jumpcloud.com/login/admin", 'class' => 'btn btn-primary',"target"=>"_blank"];
 
 $this->params['breadcrumbs'][] = $this->title;
 
