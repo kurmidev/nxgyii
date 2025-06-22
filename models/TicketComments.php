@@ -40,7 +40,7 @@ class TicketComments extends \app\models\BaseModel
             [['ticket_id', 'added_on', 'updated_on', 'added_by', 'updated_by'], 'integer'],
             [['comment'], 'string'],
             [['attachment'], 'safe'],
-            [['attachmentUpload'], 'file', 'skipOnEmpty' => false, 'extensions' => 'jpg, png, pdf, doc, txt'],
+            [['attachmentUpload'], 'file', 'skipOnEmpty' => true, 'extensions' => 'jpg, png, pdf, doc, txt'],
             [['zoho_comment_id'], 'string', 'max' => 100],
         ];
     }

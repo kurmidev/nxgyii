@@ -18,7 +18,8 @@ class InitController extends ConsoleController
         $this->init_time = date("Y-m-d H:i:s");
     }
 
-    public function actionRefresh(){
+    public function actionRefresh()
+    {
         $this->addRules();
     }
 
@@ -95,7 +96,7 @@ class InitController extends ConsoleController
     public function addAdminUser()
     {
         $username = "sadmin";
-        $password =  strtolower(str_replace([" ", "."], "", SITE_NAME)) . "@" . date("Ymd");
+        $password = strtolower(str_replace([" ", "."], "", SITE_NAME)) . "@" . date("Ymd");
         $model = User::findOne(['username' => $username]);
         if (!$model instanceof User) {
             $model = new User(['scenario' => User::SCENARIO_CREATE]);
@@ -110,11 +111,26 @@ class InitController extends ConsoleController
         $model->auth_key = \Yii::$app->security->generateRandomString();
         $model->status = Constants::STATUS_ACTIVE;
         if ($model->validate() && $model->save()) {
-            echo "username => {$username} and password is  {$password}".PHP_EOL;
+            echo "username => {$username} and password is  {$password}" . PHP_EOL;
             return true;
-        }else{
+        } else {
             print_r($model->errors);
         }
         return false;
+    }
+
+    public function actionResetRbac()
+    {
+        echo "Adding Rules ....." . PHP_EOL;
+        $this->addRules();
+        echo "Finish adding base Rules ....." . PHP_EOL;
+        $model = User::find()->all();
+        foreach ($model as $user) {
+            if (!empty($user->designation)) {
+                AuthUser::assignDesignation($user->id, $user->designation->code);
+                echo "{$user->username} assigned to {$user->designation->name}" . PHP_EOL;
+            }
+        }
+        echo "Finish assigning designations roles ....." . PHP_EOL;
     }
 }
