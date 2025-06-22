@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\component\Constants;
 use Yii;
+use yii\base\ExitException;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -109,11 +110,17 @@ class Company extends \app\models\BaseModel
 
     public function afterSave($insert, $changedAttributes)
     {
+        parent::afterSave($insert, $changedAttributes);
+
         if (in_array($this->scenario, [self::SCENARIO_CREATE, self::SCENARIO_UPDATE])) {
             $this->addProductMappings($this->product_mappings);
         }
         if ($insert) {
             $this->createLoginCredential();
+        }
+
+        if(array_intersect(["designation_id","name","email","mobile_no"],array_keys($changedAttributes))) {
+            $this->updateUser();
         }
     }
 
@@ -133,8 +140,8 @@ class Company extends \app\models\BaseModel
 
     public function getUser()
     {
-        return $this->hasOne(User::class, ['email' => 'email']);
-        //->andOnCondition(['user_type' => Constants::USERTYPE_COMPANY]);
+        return $this->hasOne(User::class, ['client_id' => 'id'])
+        ->andOnCondition(['user_type' => Constants::USERTYPE_COMPANY]);
     }
 
     public function addProductMappings($product_mappings)
@@ -176,7 +183,7 @@ class Company extends \app\models\BaseModel
         $user = new User(["scenario" => User::SCENARIO_CREATE]);
         $user->name = $this->name;
         $user->mobile_no = $this->mobile_no;
-        $user->user_type = Constants::USERTYPE_CLIENT;
+        $user->user_type = Constants::USERTYPE_COMPANY;
         $user->company_id = $this->id;
         $user->client_id = $this->id;
         $user->designation_id = $this->designation_id;
@@ -193,4 +200,16 @@ class Company extends \app\models\BaseModel
         return false;
     }
 
+    public function updateUser(){
+        $user = User::findOne(['client_id' => $this->id, 'user_type' => Constants::USERTYPE_COMPANY]);
+        if(!empty($user)){
+            $user->name = $this->name;
+            $user->mobile_no = $this->mobile_no;
+            $user->designation_id = $this->designation_id;
+            $user->email = $this->email;
+            $user->save();
+        }else{
+            $this->createLoginCredential();
+        }
+    }
 }

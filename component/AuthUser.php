@@ -46,33 +46,25 @@ class AuthUser {
             $desig = $auth->createRole($designation_id);
             $auth->add($desig);
         }
-        $children = $auth->getChildren($designation_id);
-        $children = !empty($children) ? array_keys($children) : [];
-        self::addAccessRights($designation_id, $items);
-        foreach ($items as $item) {
+        
+        $allchildren = $auth->getChildren($designation_id);
+        foreach ($allchildren as $child) {
+            $auth->removeChild($desig, $child);
+        }
+
+        foreach($items as $item) {
             $cp = $auth->getPermission($item);
             if (!empty($cp)) {
-                if (!in_array($item, $children)) {
-                    $auth->addChild($desig, $cp);
-                } else {
-                    Yii::$app->authManager->removeChild($desig, $cp);
-                }
+                $auth->addChild($desig, $cp);
             }
         }
     }
 
-    public static function assignDesignation($username, $designation_name, $prev_designation = "") {
+    public static function assignDesignation($username, $designation_name) {
         $auth = Yii::$app->authManager;
-        if (!empty($prev_designation)) {
-            $item = $auth->getRole($prev_designation);
-            if ($item) {
-                $auth->revoke($item, $username);
-            }
-        }
-        $desg = $auth->getRole($designation_name);
-        if (!empty($desg)) {
-            $auth->assign($desg, $username);
-        }
+        $auth->revokeAll($username);
+        $desig = $auth->getRole($designation_name);
+        $auth->assign($desig,$username);
     }
 
     public static function addAccessRights($role_name, $items) {

@@ -130,14 +130,19 @@ class Employee extends \app\models\BaseModel
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        if ($insert) {
+         if ($insert) {
             $this->createLoginCredential();
+        }
+
+        if(array_intersect(["designation_id","name","email","mobile_no"],array_keys($changedAttributes))) {
+            $this->updateUser();
         }
         return false;
     }
 
     public function createLoginCredential()
     {
+        $password = empty($this->password) ?"1234567890" : $this->password;
         $user = new User(["scenario" => User::SCENARIO_CREATE]);
         $user->name = $this->name;
         $user->mobile_no = $this->mobile_no;
@@ -147,8 +152,8 @@ class Employee extends \app\models\BaseModel
         $user->designation_id = $this->designation_id;
         $user->status = $this->status;
         $user->username = $user->email = $this->email;
-        $user->password = md5($this->password);
-        $user->password_hash = Yii::$app->security->generatePasswordHash($this->password);
+        $user->password = md5($password);
+        $user->password_hash = Yii::$app->security->generatePasswordHash($password);
         $user->auth_key = Yii::$app->security->generateRandomString();
         $user->setPassword('password');
         $user->generateAuthKey();
@@ -194,6 +199,19 @@ class Employee extends \app\models\BaseModel
     public function getProduct_mappings()
     {
         return !empty($this->productMappings) ? ArrayHelper::getColumn($this->productMappings, 'product_id') : [];
+    }
+
+     public function updateUser(){
+        $user = User::findOne(['client_id' => $this->id, 'user_type' => Constants::USERTYPE_COMPANY]);
+        if(!empty($user)){
+            $user->name = $this->name;
+            $user->mobile_no = $this->mobile_no;
+            $user->designation_id = $this->designation_id;
+            $user->email = $this->email;
+            $user->save();
+        }else{
+            $this->createLoginCredential();
+        }
     }
 
 }

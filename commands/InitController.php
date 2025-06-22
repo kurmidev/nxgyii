@@ -5,7 +5,9 @@ namespace app\commands;
 use app\component\AuthUser;
 use app\component\Constants;
 use app\component\MenuHelper;
+use app\models\Company;
 use app\models\Designation;
+use app\models\Employee;
 use app\models\User;
 use yii\console\ExitCode;
 
@@ -124,10 +126,31 @@ class InitController extends ConsoleController
         echo "Adding Rules ....." . PHP_EOL;
         $this->addRules();
         echo "Finish adding base Rules ....." . PHP_EOL;
+        echo "Assigning designations roles ....." . PHP_EOL;
+        $designation = Designation::find()->all();
+        foreach ($designation as $d) {
+            AuthUser::addDesignationAuthRule($d->id, array_keys($d->menu));
+            echo "{$d->name} assigned to {$d->id}" . PHP_EOL;
+        }
+
+        echo "Finish assigning designations roles ....." . PHP_EOL;
+
+        User::deleteAll(["user_type" => Constants::USERTYPE_COMPANY]);
+        User::deleteAll(["user_type" => Constants::USERTYPE_CLIENT]);
+        $company = Company::find()->all();
+        foreach ($company as $c) {
+            $c->createLoginCredential();
+        }
+
+        $employee = Employee::find()->all();
+        foreach ($employee as $e) {
+            $e->createLoginCredential();
+        }
+
         $model = User::find()->all();
         foreach ($model as $user) {
             if (!empty($user->designation)) {
-                AuthUser::assignDesignation($user->id, $user->designation->code);
+                AuthUser::assignDesignation($user->id, $user->designation_id);
                 echo "{$user->username} assigned to {$user->designation->name}" . PHP_EOL;
             }
         }

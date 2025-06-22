@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\component\AuthUser;
 use app\component\Constants;
+use PHPUnit\Util\Json;
 use Yii;
 
 /**
@@ -14,6 +15,7 @@ use Yii;
  * @property string $code
  * @property int|null $parent_id
  * @property int $status
+ * @property string[] $menu
  * @property string $added_on
  * @property string|null $updated_on
  * @property int|null $added_by
@@ -21,7 +23,6 @@ use Yii;
  */
 class Designation extends \app\models\BaseModel
 {
-    public $menu;
     /**
      * {@inheritdoc}
      */
@@ -45,7 +46,7 @@ class Designation extends \app\models\BaseModel
     public function rules()
     {
         return [
-            [['name','status'], 'required'],
+            [['name','status','menu'], 'required'],
             [['parent_id', 'status', 'added_by', 'updated_by'], 'integer'],
             [['added_on', 'updated_on'], 'safe'],
             [['name', 'code'], 'string', 'max' => 255],
@@ -69,6 +70,7 @@ class Designation extends \app\models\BaseModel
             'updated_on' => 'Updated On',
             'added_by' => 'Added By',
             'updated_by' => 'Updated By',
+            'menu' => 'Menu',
         ];
     }
 
@@ -111,8 +113,7 @@ class Designation extends \app\models\BaseModel
     public function saveMenuData() {
         if (!empty($this->menu)) {
             $menu = array_keys($this->menu);
-            AuthUser::addDesignationAuthRule($this->code, $menu);
+            AuthUser::addDesignationAuthRule($this->id, $menu);
         }
     }
-
 }

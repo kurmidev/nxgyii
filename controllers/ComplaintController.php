@@ -48,9 +48,6 @@ class ComplaintController extends BaseController{
             $repyModel->save();
             Yii::$app->getSession()->setFlash('s', "Ticket $model->code reply added successfully.");
             return $this->redirect(['complaint/index', 'id' => $model->id]);
-        }else if(!empty($repyModel->errors)){
-            print_r($repyModel->errors);
-            exit;
         }
 
         return $this->render('process-complaint', [

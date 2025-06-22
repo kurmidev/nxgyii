@@ -74,12 +74,12 @@ class DesignationController extends BaseController
         }
 
         $menus = MenuHelper::reArrangeMenu();
-        $savedMenu = Yii::$app->authManager->getChildren($model->code);
+        $savedMenu = !empty($model->menu) ? array_keys($model->menu) : [];
         
         return $this->render('form-designation', [
             'model' => $model,
             'menu' => $menus,
-            'savedMenu' => !empty($savedMenu) ? array_keys($savedMenu) : []
+            'savedMenu' => !empty($savedMenu) ? $savedMenu: []
         ]);
     }
 
