@@ -89,6 +89,7 @@ class MenuHelper
                     ['module' => '', 'controller' => 'complaint', 'action' => 'view-complaint', 'label' => 'Ticket Details', 'is_menu' => false, 'icon' => " ki-delivery-24"],
                     ['module' => '', 'controller' => 'complaint', 'action' => 'rating', 'label' => 'Ticket Rating', 'is_menu' => false, 'icon' => " ki-delivery-24"],
                     ['module' => '', 'controller' => 'complaint', 'action' => 'close-complaint', 'label' => 'Close Complaint', 'is_menu' => false, 'icon' => " ki-delivery-24"],
+                    ['module' => '', 'controller' => 'site', 'action' => 'download-file', 'label' => 'Download Files', 'is_menu' => false, 'icon' => " ki-delivery-24"],
                 ]
             ]
         ],

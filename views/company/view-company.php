@@ -15,7 +15,7 @@ $this->params['links'] = [];
 if (Utils::isallowed("company-add-component")) {
     $this->params['links'][] = ['title' => 'Add Dashboard Component', 'url' => \Yii::$app->urlManager->createUrl(['company/add-component', 'id' => $model->id]), 'class' => 'btn btn-primary'];
 }
-$this->params['links'][] = ['title' => 'JUMPCLOUD', 'url' => "https://console.jumpcloud.com/login/admin", 'class' => 'btn btn-primary',"target"=>"_blank"];
+
 
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -34,6 +34,10 @@ $assignedProduct = Products::find()->active()->andWhere(['id' => $model->getProd
                 <li class="nav-item">
                     <a class="nav-link  <?= $dash == $product->id ? 'active' : '' ?>"
                         href="<?= Yii::$app->urlManager->createUrl(["company/view-company", "dash" => $product->id, "id" => $model->id]) ?>"><?= $product->name ?></a>
+
+                    <?php if ($dash == Constants::PRODUCT_ID_JUMPCLOUD ) { ?>
+                        <a class="nav-link" href="https://console.jumpcloud.com/login/admin" target="_blank">JUMPCLOUD</a>
+                    <?php } ?>
                 </li>
             <?php } ?>
 

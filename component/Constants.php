@@ -128,4 +128,6 @@ class Constants
         self::DISPLAY_TYPE_XY_BUBBLE_CHART => "Bubble Chart",
         self::DISPLAY_TYPE_MULPLECARD => "Multiple Card",
     ];
+
+    const PRODUCT_ID_JUMPCLOUD = 1;
 }
