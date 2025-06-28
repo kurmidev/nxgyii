@@ -21,7 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="card card-flush">
     <?= $this->render('@app/views/layouts/_contentheader') ?>
-    <?php Pjax::begin(); ?>
     <?=
 
         CtGridView::widget([
@@ -45,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'content' => function ($model) {
                             return !empty($model->company) ? $model->company->name : '';
                         },
-                    'filter' => ArrayHelper::map(Company::find()->all(), "id", "name"),
+                    'filter' => ArrayHelper::map(Company::find()->defaultCondition()->all(), "id", "name"),
                 ],
                 [
                     'attribute' => 'designation_id',
@@ -84,5 +83,5 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]);
     ?>
-    <?php Pjax::end(); ?>
+
 </div>

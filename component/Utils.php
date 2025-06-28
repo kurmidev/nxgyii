@@ -197,6 +197,16 @@ class Utils
         return false;
     }
 
+    public static function getCltrActionName($itemLists){
+        $list = [];
+        foreach($itemLists as $item=>$itemvalue){
+            foreach($itemvalue as $key=>$value){
+                $list[] = $value['controller']."-". $value['action'];
+            }
+        }
+        return $list;
+    }
+
 
 
 }

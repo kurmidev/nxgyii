@@ -34,10 +34,6 @@ $assignedProduct = Products::find()->active()->andWhere(['id' => $model->getProd
                 <li class="nav-item">
                     <a class="nav-link  <?= $dash == $product->id ? 'active' : '' ?>"
                         href="<?= Yii::$app->urlManager->createUrl(["company/view-company", "dash" => $product->id, "id" => $model->id]) ?>"><?= $product->name ?></a>
-
-                    <?php if ($dash == Constants::PRODUCT_ID_JUMPCLOUD ) { ?>
-                        <a class="nav-link" href="https://console.jumpcloud.com/login/admin" target="_blank">JUMPCLOUD</a>
-                    <?php } ?>
                 </li>
             <?php } ?>
 
@@ -58,6 +54,12 @@ $assignedProduct = Products::find()->active()->andWhere(['id' => $model->getProd
                     'dataProvider' => $dataProvider
                 ]) ?>
             <?php } else { ?>
+                <?php if ($dash == Constants::PRODUCT_ID_JUMPCLOUD ) { ?>
+                    <div class="d-flex flex-row flex-end gap-5">
+                        <!-- move button to right -->
+                        <a class="btn btn-danger fw-semibold" href="https://console.jumpcloud.com/login/admin" target="_blank">JUMPCLOUD</a>
+                        </div>
+                    <?php } ?>
                 <div id="kt_app_content_container" class="app-container row container-fluid ">
                     <?php foreach ($graph as $graphItem) { ?>
                         <?= $graphItem ?>

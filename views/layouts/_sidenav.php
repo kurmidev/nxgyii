@@ -1,6 +1,7 @@
 <?php
 
 use app\component\MenuHelper;
+use app\component\Utils;
 use app\models\User;
 use yii\helpers\ArrayHelper;
 
@@ -38,7 +39,13 @@ $assignedMenu = User::getAssignedMenu();
             menu-active-bg 
             fw-semibold" id="#kt_sidebar_menu" data-kt-menu="true">
       <?php foreach (MenuHelper::$menu as $menu => $menuDetails) { ?>
-        <?php if (count($menuDetails['items']) > 1) { ?>
+        <?php
+        if (count($menuDetails['items']) > 1) {
+          $uclist = Utils::getCltrActionName($menuDetails['items']);
+          if (!array_intersect($uclist, $assignedMenu)) {
+            continue;
+          }
+          ?>
           <div data-kt-menu-trigger="click" class="menu-item here menu-accordion">
             <!--begin:Menu link-->
             <span class="menu-link">

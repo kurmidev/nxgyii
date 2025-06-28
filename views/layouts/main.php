@@ -23,6 +23,7 @@ ActiveFormAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <link rel="shortcut icon" href="/media/logos/favicon.ico" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" /> <!--end::Fonts-->
+    <script src="/js/plugins.bundle.js"></script>
     <?php $this->head() ?>
 
 </head>

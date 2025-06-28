@@ -26,17 +26,21 @@ class AppAsset extends AssetBundle
         'css/style.bundle.css',
     ];
     public $js = [
-      "js/plugins.bundle.js", 
-      "js/scripts.bundle.js",
-      "js/datatables.bundle.js",
-      "js/vis-timeline.bundle.js",
-      "js/widgets.bundle.js",  
-      "js/widgets.js",  
-      "js/chat.js",  
-      "js/script.js"
+       // "js/plugins.bundle.js",
+        "js/scripts.bundle.js",
+        "js/datatables.bundle.js",
+        "js/vis-timeline.bundle.js",
+        "js/widgets.bundle.js",
+        "js/widgets.js",
+        "js/chat.js",
+        "js/script.js"
+    ];
+       public $jsOptions = [
+        'position' => \yii\web\View::POS_END, // JS will be loaded before </body>
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap5\BootstrapAsset'
+        'yii\bootstrap5\BootstrapAsset',   // For Bootstrap 5
+        "yii\grid\GridViewAsset"
     ];
 }
