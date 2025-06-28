@@ -336,7 +336,7 @@ class CompanyController extends BaseController
         $collection = Yii::$app->mongodb->getCollection($col);
         $conditions = [
             '$and' => [
-                ['fetched_at' => ['$gte' => date("YmdHi", strtotime("-5 minutes"))]],
+                //['fetched_at' => ['$gte' => date("YmdHi", strtotime("-5 minutes"))]],
                 ['company_id' => $company_id]
             ]
         ];
