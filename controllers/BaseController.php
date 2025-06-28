@@ -24,7 +24,7 @@ class BaseController extends \yii\web\Controller
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
-                            if (in_array($action->id, ['accessdenied', 'data', 'logout', 'error']))
+                            if (in_array($action->id, ['accessdenied', 'data', 'logout', 'error','dashboard-detail']))
                                 return true;
                             $name = implode("-", [$action->controller->id, $action->id]);
                             if (Yii::$app->user->identity->user_type == Constants::USERTYPE_ADMIN) {
