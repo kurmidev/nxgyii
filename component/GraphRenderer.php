@@ -61,7 +61,7 @@ class GraphRenderer
             $collectionName = $item->api->getCollectionName();
             $filters = $item['filters'];
             $otherfilter = [];
-            if(!empty($item->company_id)){
+            if (!empty($item->company_id)) {
                 $otherfilter['company_id'] = $item->company_id;
                 //$otherfilter['fetched_at'] = date("YmdHis",strtotime("-5 minutes"));
             }
@@ -72,7 +72,7 @@ class GraphRenderer
             } else if ($item->display_type == Constants::DISPLAY_TYPE_TABLE) {
                 $chartData = $this->generateTableData($filters, $display_columns, $collectionName);
             } else {
-                $chartData = $this->generateChartData($filters, $display_columns, $collectionName,$otherfilter);
+                $chartData = $this->generateChartData($filters, $display_columns, $collectionName, $otherfilter);
             }
             $graph[$item->id] = $this->generateGraphViews($chartData, $item->report_name, $item->display_type);
         }
@@ -121,7 +121,7 @@ class GraphRenderer
         return $query;
     }
 
-    function generateChartData($filters, $display_columns, $collectionName,$otherfilter=[])
+    function generateChartData($filters, $display_columns, $collectionName, $otherfilter = [])
     {
         $label = $action = $value = null;
         $query = (new Query())->from($collectionName);
@@ -143,7 +143,7 @@ class GraphRenderer
             }
 
             if (!empty($value)) {
-                $select = array_merge($select, is_array($value)?$value:[$value]);
+                $select = array_merge($select, is_array($value) ? $value : [$value]);
             }
 
             if (!empty($select)) {
@@ -164,10 +164,10 @@ class GraphRenderer
                         $data[$val[$label]]['c'] += 1;
                         break;
                     case 'count':
-                        if(!empty($val[$label]) && empty($data[$val[$label]]) ) {
+                        if (!empty($val[$label]) && empty($data[$val[$label]])) {
                             $data[$val[$label]] = 0;
                         }
-                        if(!empty($val[$label])){
+                        if (!empty($val[$label])) {
                             $data[$val[$label]] += 1;
                         }
                         break;
@@ -198,7 +198,7 @@ class GraphRenderer
             }
         }
         if (!empty($display_columns)) {
-            if($display_columns['label']){
+            if ($display_columns['label']) {
                 $label = $display_columns['label'];
             }
             $value = !empty($display_columns['value']) ? $display_columns['value'] : [];
@@ -239,127 +239,8 @@ class GraphRenderer
                 ];
             }
         }
-        return $finalData;
+        return ["data" => $finalData, "collection" => $collectionName, "company_id" => $this->companyId];
     }
-
-    function generateChartDataOld($filters, $display_columns, $collectionName)
-    {
-        $match = [];
-        $group = ['_id' => null];
-        $project = [];
-        $collection = Yii::$app->mongodb->getCollection($collectionName);
-
-        // Build $match conditions
-        if (!empty($filters)) {
-            foreach ($filters as $field => $condition) {
-                switch ($condition['attr']) {
-                    case 'gt':
-                        $match[$field] = ['$gt' => $condition['val']];
-                        break;
-                    case 'lt':
-                        $match[$field] = ['$lt' => $condition['val']];
-                        break;
-                    case 'gte':
-                        $match[$field] = ['$gte' => $condition['val']];
-                        break;
-                    case 'lte':
-                        $match[$field] = ['$lte' => $condition['val']];
-                        break;
-                    case 'eq':
-                        $match[$field] = ['$eq' => $condition['val']];
-                        break;
-                    case 'neq':
-                        $match[$field] = ['$ne' => $condition['val']];
-                        break;
-                    case 'in':
-                        $match[$field] = ['$in' => is_array($condition['val']) ? (array) $condition['val'] : [$condition['val']]];
-                        break;
-                    case 'not in':
-                        $match[$field] = ['$nin' => is_array($condition['val']) ? (array) $condition['val'] : [$condition['val']]];
-                        break;
-                    default:
-                        $match[$field] = ['$eq' => $condition['val']];
-                }
-            }
-        }
-
-        $query = new Query();
-        $query->select($display_columns);
-        $query->from($collectionName);
-        $query->where($match);
-        $data = $query->all();
-
-
-        // Identify label and aggregation fields
-        $labelField = null;
-        if (!empty($display_columns)) {
-            if (!empty($display_columns['label'])) {
-                $labelField = $display_columns['label'];
-                $group['_id'] = '$' . $display_columns['label'];
-                $project['category'] = '$_id';
-            }
-            $field = "";
-            if (!empty($display_columns['values']) && !empty($display_columns['action'])) {
-                $field = $display_columns['values'];
-                $project[$field] = 1;
-                switch ($display_columns['action']) {
-                    case 'sum':
-                        $group[$field] = ['$sum' => '$' . $field];
-                        break;
-                    case 'count':
-                        $group[$field] = ['$sum' => 1];
-                        break;
-                    case 'min':
-                        $group[$field] = ['$min' => '$' . $field];
-                        break;
-                    case 'max':
-                        $group[$field] = ['$max' => '$' . $field];
-                        break;
-                    case 'avg':
-                        $group[$field] = ['$avg' => '$' . $field];
-                        break;
-                }
-            }
-        }
-
-        // Assemble pipeline
-        if (!empty($match)) {
-            $pipeline[] = ['$match' => $match];
-        }
-
-        if (!empty($group)) {
-            $pipeline[] = ['$group' => $group];
-        }
-
-        if (!empty($project)) {
-            $pipeline[] = ['$project' => $project];
-        }
-
-        echo "<pre>Pipeline:\n" . print_r($pipeline, true) . "</pre>";
-
-        // Execute aggregation
-        $data = $collection->aggregate($pipeline);
-
-        // Format output
-        $formatted = [];
-
-        foreach ($data as $doc) {
-            $row = [];
-            foreach ($doc as $fieldName => $values) {
-                if ($fieldName == '_id') {
-                    $row['category'] = $values;
-                    continue;
-                }
-                if ($fieldName == 'category') {
-                    continue;
-                }
-                $row['value'] = $values;
-            }
-            $formatted[] = $row;
-        }
-        return $formatted;
-    }
-
 
     function generateTableData($filters, $display_columns, $collectionName)
     {
@@ -398,105 +279,23 @@ class GraphRenderer
         ];
     }
 
-    function generateTableDataOld($filters, $display_columns, $collectionName)
-    {
-        $collection = Yii::$app->mongodb->getCollection($collectionName);
-
-        $filter = [];
-        $options = [];
-
-        // Build $match conditions
-        if (!empty($filters)) {
-            foreach ($filters as $field => $condition) {
-                switch ($condition['attr']) {
-                    case 'gt':
-                        $match[$field] = ['$gt' => $condition['val']];
-                        break;
-                    case 'lt':
-                        $match[$field] = ['$lt' => $condition['val']];
-                        break;
-                    case 'gte':
-                        $match[$field] = ['$gte' => $condition['val']];
-                        break;
-                    case 'lte':
-                        $match[$field] = ['$lte' => $condition['val']];
-                        break;
-                    case 'eq':
-                        $match[$field] = ['$eq' => $condition['val']];
-                        break;
-                    case 'neq':
-                        $match[$field] = ['$ne' => $condition['val']];
-                        break;
-                    case 'in':
-                        $match[$field] = ['$in' => is_array($condition['val']) ? (array) $condition['val'] : [$condition['val']]];
-                        break;
-                    case 'not in':
-                        $match[$field] = ['$nin' => is_array($condition['val']) ? (array) $condition['val'] : [$condition['val']]];
-                        break;
-                    default:
-                        $match[$field] = ['$eq' => $condition['val']];
-                }
-            }
-        }
-
-        // Setup projection (i.e., select fields to return)
-        $columns = is_array($display_columns['values'])
-            ? $display_columns['values']
-            : [$display_columns['values']];
-
-
-        // DEBUG: print filter and projection
-        echo "<pre>Filter:\n" . print_r($filter, true) . "\nProjection:\n" . print_r($options, true) . "</pre>";
-
-        // Execute the query
-        $cursor = $collection->find($filter, $options);
-        $data = iterator_to_array($cursor, true); // true = use_keys
-
-        $formatted = [];
-        foreach ($data as $doc) {
-            $row = [];
-            foreach ($doc as $fieldName => $values) {
-                if (in_array($fieldName, ['_id', 'fetchd_at', "company_id"])) {
-                    continue;
-                }
-                if (in_array($fieldName, $columns)) {
-                    $row[$fieldName] = $values;
-                }
-            }
-            $formatted[] = $row;
-        }
-        // DEBUG: print one row
-        // echo "<pre>Data Sample:\n" . print_r($data[0] ?? [], true) . "</pre>";
-
-        return [
-            "dataProvider" => new ArrayDataProvider([
-                'allModels' => $data,
-                'pagination' => [
-                    'pageSize' => 10,
-                ]
-            ]),
-            "columns" => $columns
-        ];
-    }
-
-
     public function generateGraphViews($chartData, $reportName, $displayType)
     {
         switch ($displayType) {
             case Constants::DISPLAY_TYPE_TABLE:
                 return TableWidget::widget(['dataProvider' => $chartData['dataProvider'], "columns" => $chartData['columns'], 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_CARD:
-                return SingleCardWidget::widget(['data' => $chartData, 'reportName' => $reportName]);
+                return SingleCardWidget::widget(["data" => $chartData['data'], "collection" => $chartData['collection'], "company_id" => $chartData["company_id"], 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_MULPLECARD:
-                return MultiCardWidget::widget(['data' => $chartData, 'reportName' => $reportName]);
+                return MultiCardWidget::widget(["data" => $chartData['data'], "collection" => $chartData['collection'], "company_id" => $chartData["company_id"], 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_BAR_CHART:
-                return BarChartWidget::widget(['data' => $chartData, 'reportName' => $reportName]);
+                return BarChartWidget::widget(["data" => $chartData['data'], "collection" => $chartData['collection'], "company_id" => $chartData["company_id"], 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_LINE_CHART:
-                return LineChartWidget::widget(['data' => $chartData, 'reportName' => $reportName]);
+                return LineChartWidget::widget(["data" => $chartData['data'], "collection" => $chartData['collection'], "company_id" => $chartData["company_id"], 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_PIE_CHART:
-                return PiesChartWidget::widget(['data' => $chartData, 'reportName' => $reportName]);
+                return PiesChartWidget::widget(["data" => $chartData['data'], "collection" => $chartData['collection'], "company_id" => $chartData["company_id"], 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_XY_BUBBLE_CHART:
-                return XYBubbleChartWidget::widget(['data' => $chartData, 'reportName' => $reportName]);
+                return XYBubbleChartWidget::widget(["data" => $chartData['data'], "collection" => $chartData['collection'], "company_id" => $chartData["company_id"], 'reportName' => $reportName]);
             default:
                 return null;
         }

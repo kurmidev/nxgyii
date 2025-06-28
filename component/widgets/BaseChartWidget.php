@@ -10,6 +10,8 @@ abstract class BaseChartWidget extends Widget
     public $chartId;
     public $reportName;
     public $data = []; // Only data is passed
+    public $collection;
+    public $company_id;
 
     public function init()
     {

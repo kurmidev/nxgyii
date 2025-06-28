@@ -3,6 +3,7 @@
 namespace app\component\widgets;
 
 use app\component\Utils;
+use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 
@@ -11,6 +12,9 @@ class MultiCardWidget extends Widget
 
     public $data;
     public $reportName;
+    public $collection;
+    public $company_id;
+
 
     public function init()
     {
@@ -28,12 +32,15 @@ class MultiCardWidget extends Widget
                 foreach ($value['value'] as $k => $v) {
                     $header = Html::tag(
                         "div",
-                        Utils::convertToHeaderCase($k),
+                         Utils::convertToHeaderCase($k),
                         ["class" => "text-gray-700 fw-semibold fs-6 me-2"]
                     );
                     $body = Html::tag(
                         "div",
-                        Html::tag("span", $v, ["class" => "text-gray-900 fw-bolder fs-6"]),
+                        Html::a(
+                         Html::tag("span", $v, ["class" => "text-gray-900 fw-bolder fs-6"]),
+                         Yii::$app->urlManager->createUrl(["company/dashboard-detail","col"=>$this->collection,"company_id"=>$this->company_id]),
+                        ),
                         ["class" => "d-flex align-items-senter"]
                     );
 

@@ -18,6 +18,7 @@ use app\services\DashboardService;
 use app\form\ChangePasswordForm;
 use app\models\User;
 use Yii;
+use yii\data\ArrayDataProvider;
 use yii\mongodb\Query;
 use yii\web\NotFoundHttpException;
 
@@ -327,6 +328,52 @@ class CompanyController extends BaseController
         return $this->render('change-password', [
             'company' => $company,
             "model" => $model
+        ]);
+    }
+
+    public function actionDashboardDetail($col,$company_id){
+        
+        $collection = Yii::$app->mongodb->getCollection($col);
+        $conditions = [
+            '$and' => [
+                ['fetched_at' => ['$gte' => date("YmdHi", strtotime("-5 minutes"))]],
+                ['company_id' => $company_id]
+            ]
+        ];
+        $data = $collection->find($conditions)->toArray();
+
+        $response = [];
+        foreach ($data as $doc) {
+            $res = [];
+            foreach ($doc as $k => $val) {
+                if (!is_array($val) && !in_array($k, ['_id', 'id', "company_id", "fetched_at"])) {
+                    $res[$k] = $val;
+                }
+            }
+            $response[] = $res;
+        }
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $response,
+            'pagination' => [
+                'pageSize' => 100,
+            ]
+        ]);
+
+        $data = $dataProvider->getModels();
+        $columns = [];
+        if (!empty($data[0])) {
+            foreach ($data[0] as $key => $value) {
+                if (!is_array($value) && !in_array($key, ['_id', 'id', "company_id", "fetched_at"])) {
+                    $columns[] = "$key:text:" . ucwords($key);
+                }
+            }
+        }
+
+        return $this->render('collection-list', [
+            'dataProvider' => $dataProvider,
+            "columns" => $columns,
+            "title" => substr(Utils::convertToHeaderCase($col),0, -1),
         ]);
     }
 

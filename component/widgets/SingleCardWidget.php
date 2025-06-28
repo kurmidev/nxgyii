@@ -10,6 +10,9 @@ class SingleCardWidget extends Widget
 
     public $data;
     public $reportName;
+    public $collection;
+    public $company_id;
+
 
     public function init()
     {

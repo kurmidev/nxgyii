@@ -4,16 +4,14 @@ namespace app\component;
 
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
-use yii\widgets\LinkPager;
 use yii\helpers\Html;
-use app\component\ImsGridPagination;
 
 class CtGridView extends GridView {
 
     public $noFooter;
 
     public function __construct($config = array()) {
-        parent::__construct($config);
+        parent::__construct($config);        
         $this->tableOptions = ['class' => "table  table-hover table-bordered br-section-wrapper"];
     }
 
@@ -41,6 +39,7 @@ class CtGridView extends GridView {
 
     public function getImsGridLayout() {
         //"{summary}\n{items}\n{pager}"
+
 
 
         $data = Html::tag('div', Html::tag(
