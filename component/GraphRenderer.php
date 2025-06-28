@@ -185,7 +185,7 @@ class GraphRenderer
                 $finalData[] = ["category" => $k, "value" => $v];
             }
         }
-        return $finalData;
+        return ["data" => $finalData, "collection" => $collectionName, "company_id" => $this->companyId];
     }
 
     function generateMultiCardData($filters, $display_columns, $collectionName)
