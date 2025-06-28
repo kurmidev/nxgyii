@@ -373,7 +373,7 @@ class CompanyController extends BaseController
         return $this->render('collection-list', [
             'dataProvider' => $dataProvider,
             "columns" => $columns,
-            "title" => substr(Utils::convertToHeaderCase($col),0, -1),
+            "title" => substr(Utils::convertToHeaderCase(trim($col)),0, -1),
         ]);
     }
 
