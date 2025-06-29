@@ -331,16 +331,19 @@ class CompanyController extends BaseController
         ]);
     }
 
-    public function actionDashboardDetail($col,$company_id){
-        
-        $collection = Yii::$app->mongodb->getCollection($col);
-        $conditions = [
-            '$and' => [
-                //['fetched_at' => ['$gte' => date("YmdHi", strtotime("-5 minutes"))]],
-                ['company_id' => $company_id]
-            ]
-        ];
-        $data = $collection->find($conditions)->toArray();
+    public function actionDashboardDetail($col, $company_id)
+    {
+
+        // $collection = Yii::$app->mongodb->getCollection($col);
+        // $conditions = [
+        //     '$and' => [
+        //         //['fetched_at' => ['$gte' => date("YmdHi", strtotime("-5 minutes"))]],
+        //         ['company_id' => $company_id]
+        //     ]
+        // ];
+        // $data = $collection->find($conditions)->toArray();
+
+        $data = (new Query())->from($col)->where(['company_id' => $company_id])->all();
 
         $response = [];
         foreach ($data as $doc) {
@@ -369,12 +372,30 @@ class CompanyController extends BaseController
                 }
             }
         }
+        if (empty($columns)) {
+            $columns = ["Srno"];
+        }
 
         return $this->render('collection-list', [
             'dataProvider' => $dataProvider,
             "columns" => $columns,
-            "title" => substr(Utils::convertToHeaderCase(trim($col)),0, -1),
+            "title" => $this->getTitle($col),
         ]);
+    }
+
+    private function getTitle($input)
+    {
+        $clean = preg_replace('/\d+/', '', $input);
+
+        // Split by underscore and take first part
+        $parts = explode('_', $clean);
+        $word = $parts[0] ?? '';
+
+        // Convert plural to singular (basic rule: remove trailing 's' if present)
+        $word = rtrim($word, 's');
+
+        // Convert to Title Case
+        return ucfirst(strtolower($word));
     }
 
 }
