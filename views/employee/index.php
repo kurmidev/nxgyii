@@ -78,6 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'label' => 'Action',
+                    'attribute' => 'id',
                     'content' => function ($data) {
                             $content = [];
                             if (Utils::isallowed("company-update-employee")) {
