@@ -64,8 +64,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                     'filter' => ArrayHelper::map(Categories::find()->active()->andWhere(['>','parent_id',0])->all(), 'id', 'name')
                 ],
-                
-                'subCategory.name:text:Sub Category',
                 'start_date',
                 [
                     'attribute' => 'status',
@@ -93,6 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'label' => 'Action',
+                    'attribute' => 'id',
                     'content' => function ($data) {
                             $content = [
                                 ["name" => "Reply/View", "url" => \Yii::$app->urlManager->createUrl(['complaint/process-complaint', "id" => $data->id])],
