@@ -6,8 +6,10 @@ use yii\widgets\Pjax;
 use app\component\Constants;
 use app\component\CtGridView;
 use app\component\Utils;
+use app\models\Categories;
 use app\models\Company;
 use app\models\ProductMaster;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\search\CitySearch */
@@ -46,7 +48,23 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                     'filter' => Constants::LABEL_PRIORITY,
                 ],
-                'category.name:text:Category',
+                [
+                    'attribute' => 'category_id',
+                    'label' => 'Category',
+                    'content' => function ($model) {
+                            return $model->category->name;
+                        },
+                    'filter' => ArrayHelper::map(Categories::find()->active()->andWhere(["parent_id"=>0])->all(), 'id', 'name')
+                ],
+                [
+                    'attribute' => 'sub_category_id',
+                    'label' => 'Sub Category',
+                    'content' => function ($model) {
+                            return $model->subCategory->name;
+                        },
+                    'filter' => ArrayHelper::map(Categories::find()->active()->andWhere(['>','parent_id',0])->all(), 'id', 'name')
+                ],
+                
                 'subCategory.name:text:Sub Category',
                 'start_date',
                 [
