@@ -51,7 +51,6 @@ class CompanyQuery extends BaseQuery
                 $user = Yii::$app->user->identity;
                 if (!empty($user)) {
                     $company_id = $user->company_id;
-                    print_R($company_id);
                 }
                 $this->andWhere(['id' => $company_id]);
                 return $this;
