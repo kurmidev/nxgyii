@@ -46,10 +46,23 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                     'filter' => Constants::LABEL_STATUS,
                 ],
-                'actionOn',
-                'actionBy',
+                [
+                    'attribute' => 'added_on',
+                    'label' => 'Action On',
+                    'content' => function ($model) {
+                            return $model->getActionOn();
+                        },
+                ],
+                [
+                    'attribute' => 'added_by',
+                    'label' => 'Action By',
+                    'content' => function ($model) {
+                            return $model->getActionBy();
+                        },
+                ],
                 [
                     'label' => 'Action',
+                    'attribute' => 'id',
                     'content' => function ($data) {
                             $content = [];
                             if (Utils::isallowed("company-update-company")) {
