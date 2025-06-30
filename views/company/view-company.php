@@ -33,7 +33,7 @@ $assignedProduct = Products::find()->active()->andWhere(['id' => $model->getProd
             <?php foreach ($assignedProduct as $product) { ?>
                 <li class="nav-item">
                     <a class="nav-link  <?= $dash == $product->id ? 'active' : '' ?>"
-                        href="<?= Yii::$app->urlManager->createUrl(["company/view-company", "dash" => $product->id, "id" => $model->id]) ?>"><?= $product->name ?></a>
+                        href="<?= Yii::$app->urlManager->createUrl(["company/view-company", "dash" => $product->id, "id" => $model->id]) ?>"><?= ucwords($product->name) ?></a>
                 </li>
             <?php } ?>
 
