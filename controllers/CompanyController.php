@@ -333,17 +333,7 @@ class CompanyController extends BaseController
 
     public function actionDashboardDetail($col, $company_id)
     {
-
-        // $collection = Yii::$app->mongodb->getCollection($col);
-        // $conditions = [
-        //     '$and' => [
-        //         //['fetched_at' => ['$gte' => date("YmdHi", strtotime("-5 minutes"))]],
-        //         ['company_id' => $company_id]
-        //     ]
-        // ];
-        // $data = $collection->find($conditions)->toArray();
-
-        $data = (new Query())->from($col)->where(['company_id' => $company_id])->all();
+        $data = (new Query())->from($col)->where(['company_id' => (int)$company_id])->all();
 
         $response = [];
         foreach ($data as $doc) {

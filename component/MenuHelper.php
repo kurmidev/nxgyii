@@ -79,10 +79,10 @@ class MenuHelper
                 ]
             ]
         ],
-        "CRM" => [
+        "Tickets" => [
             "config" => ["class" => "menu-item-icon icon tx-18 fa  fa-ticket"],
             "items" => [
-                "complaint" => [
+                "tickets" => [
                     ['module' => '', 'controller' => 'complaint', 'action' => 'index', 'label' => 'Complaint', 'is_menu' => true, 'icon' => " ki-delivery-24"],
                     ['module' => '', 'controller' => 'complaint', 'action' => 'add-complaint', 'label' => 'Add New Complaint', 'is_menu' => false, 'icon' => " ki-delivery-24"],
                     ['module' => '', 'controller' => 'complaint', 'action' => 'process-complaint', 'label' => 'Reply Ticket', 'is_menu' => false, 'icon' => " ki-delivery-24"],

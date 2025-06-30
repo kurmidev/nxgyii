@@ -12,10 +12,10 @@ use app\models\ProductMaster;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\search\CitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-$this->title = 'Complaints';
+$this->title = 'Tickets';
 $this->params['links'] = [];
 if (Utils::isallowed("complaint-add-complaint")) {
-    $this->params['links'][] = ['title' => 'Add New Complaints', 'url' => \Yii::$app->urlManager->createUrl('complaint/add-complaint'), 'class' => 'btn btn-primary'];
+    $this->params['links'][] = ['title' => 'Add New Tickets', 'url' => \Yii::$app->urlManager->createUrl('complaint/add-complaint'), 'class' => 'btn btn-primary'];
 }
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -24,7 +24,7 @@ use app\models\TicketComments;
 
                                 <!--begin::Label-->
                                 <span class="fw-semibold text-muted me-6">By: <a href="#"
-                                        class="text-muted text-hover-primary"><?= $model->addedByUser->name ?></a></span>
+                                        class="text-muted text-hover-primary"><?= !empty($model->addedByUser)?$model->addedByUser->name:"" ?></a></span>
                                 <!--end::Label-->
 
                                 <!--begin::Label-->

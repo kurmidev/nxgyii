@@ -26,7 +26,7 @@ use PHPUnit\TextUI\Configuration\Constant;
                         <div class="d-flex align-items-center">
                             <!--begin::Username-->
                             <a href="/good/pages/user-profile/overview.html"
-                                class="text-gray-800 fw-bold text-hover-primary fs-5 me-3"><?= $model->addedByUser->name ?></a>
+                                class="text-gray-800 fw-bold text-hover-primary fs-5 me-3"><?=!empty( $model->addedByUser)? $model->addedByUser->name:"" ?></a>
                             <!--end::Username-->
 
                             <span class="m-0"></span>
@@ -53,7 +53,7 @@ use PHPUnit\TextUI\Configuration\Constant;
             <div class="card-body d-flex justify-content flex-column p-8">
                 <a href="<?=Yii::$app->urlManager->createUrl(["site/download-file","id"=>$model->id])?>" class="text-gray-800 text-hover-primary d-flex flex-column">
                     <div class="symbol symbol-60px mb-5">
-                        <img class="theme-light-show" src="./media/svg/files/<?=Constants::SHOW_MINE_IMAGES[$attachment['extension']]?>" alt="<?=$attachment["name"]?>" />
+                        <img class="theme-light-show" src="./media/svg/files/<?=!empty($attachment['extension'])?Constants::SHOW_MINE_IMAGES[$attachment['extension']]:""?>" alt="<?=!empty($attachment["name"]):$attachment["name"]:""?>" />
                     </div>
                 </a>
             </div>

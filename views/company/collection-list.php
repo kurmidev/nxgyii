@@ -12,9 +12,8 @@ use app\models\ProductMaster;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $this->title = $title;
 
-$this->params['links'] = [
+$this->params['links'][] = ['title' => '← Back', 'url' => "javascript:history.back()", 'class' => 'btn btn-primary'];
 
-];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="card card-flush">
