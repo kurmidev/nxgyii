@@ -11,7 +11,7 @@ $this->title = $title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<?= $this->render('@app/views/layouts/_header') ?>
+<?= $this->render('@app/views/layouts/_contentheader') ?>
 <?= $this->render('@app/views/layouts/_advanceSearch', ['search' => $search, 'model' => $searchModel]) ?>
 
 <?=
