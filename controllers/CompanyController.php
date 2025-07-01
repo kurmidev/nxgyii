@@ -337,10 +337,10 @@ class CompanyController extends BaseController
 
         $unsetColumns = ['_id', 'id', "company_id", "fetched_at"];
         $diplayColumns = [];
-        $colredefined = explode("-",$col);
+        $colredefined = explode("_",str_replace("-","_",$col));
         unset($colredefined[count($colredefined)-1]);
-        $colredefined = implode("-",$colredefined);
-        if (str_contains($colredefined, "users_")) {
+        $colredefined = implode("_",$colredefined);
+        if (str_contains($colredefined, "users")) {
             $diplayColumns = ["firstname", "lastname", "email", "state", "suspended", "password_date", "password_expired", "totp_enabled"];
         }
         if (str_contains($colredefined, "managed_device")) {
