@@ -160,11 +160,11 @@ class ApiDataFetchController extends ConsoleController
 
 
         if (str_contains($resp, '<currentdate>')) {
-            $resp = str_replace('<currentdate>', date("Y-m-d",strtotime('now')), $resp);
+            $resp = str_replace('<currentdate>', date("Y-m-d", strtotime('now')), $resp);
         }
 
         if (str_contains($resp, '<last7daydate>')) {
-            $resp = str_replace('<last7daydate>', date("Y-m-d",strtotime("-7 days")), $resp);
+            $resp = str_replace('<last7daydate>', date("Y-m-d", strtotime("-7 days")), $resp);
         }
 
         if (str_contains($resp, '<currentdateZformat>')) {
@@ -172,7 +172,7 @@ class ApiDataFetchController extends ConsoleController
         }
 
 
-        
+
 
         return $resp;
     }
@@ -306,8 +306,8 @@ class ApiDataFetchController extends ConsoleController
         $remaingCount = $remaingCount == 0 ? $skip * self::DEFAULT_PAGE_SIZE : $remaingCount;
         $endpoint = $url;
         $endpoint .= (str_contains($url, "?") ? "&" : "?") . "skip=" . $skip;
-        $params =  !empty($params)? $this->mergeKeyValue($params, "", $config["extraData"]):[];
-        $data = $this->getData($endpoint, $method, $headers,$params);
+        $params = !empty($params) ? $this->mergeKeyValue($params, "", $config["extraData"]) : [];
+        $data = $this->getData($endpoint, $method, $headers, $params);
         print_r([
             "header" => $headers,
             "url" => $endpoint,
@@ -324,7 +324,7 @@ class ApiDataFetchController extends ConsoleController
         }
         $records = !empty($data["body"]["results"]) ? $data["body"]["results"] :
             (!empty($data['body']['resources']) ? $data['body']['resources'] :
-                (!empty($data['alerts']) ? $data['alerts'] : $data['body']));
+                (!empty($data['body']['alerts']) ? $data['body']['alerts'] : $data['body']));
         if (!empty($records)) {
             unset($records['totalCount']);
             $savedCount = $this->saveToMongoCollection($collectionName, $records, $config);
@@ -346,7 +346,7 @@ class ApiDataFetchController extends ConsoleController
             $fd['fetched_at'] = date("YmdHi");
             $fd["company_id"] = $config['company_id'];
             $collection->insert($fd);
-            $i=count($data);
+            $i = count($data);
         } else {
             foreach ($data as $d) {
                 $fd = array_merge(
