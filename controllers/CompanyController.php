@@ -337,10 +337,13 @@ class CompanyController extends BaseController
 
         $unsetColumns = ['_id', 'id', "company_id", "fetched_at"];
         $diplayColumns = [];
-        if (str_contains($col, "user_")) {
+        $colredefined = explode("-",$col);
+        unset($colredefined[count($colredefined)-1]);
+        $colredefined = implode("-",$colredefined);
+        if (str_contains($colredefined, "users_")) {
             $diplayColumns = ["firstname", "lastname", "email", "state", "suspended", "password_date", "password_expired", "totp_enabled"];
         }
-        if (str_contains($col, "device")) {
+        if (str_contains($colredefined, "devices")) {
             $diplayColumns = ["active", "displayName", "osFamily", "os", "version", "archFamily", "arch", "mdm", "isPolicyBound", "policyStats", "allowMultiFactorAuthentication", "lostMode", "lastContact", "agentVersion"];
         }
 
@@ -349,7 +352,7 @@ class CompanyController extends BaseController
             $res = [];
             foreach ($doc as $k => $val) {
                 if (empty($response)) {
-                    if (!is_array($val) && !in_array($k, ['_id', 'id', "company_id", "fetched_at"])) {
+                    if (!is_array($val) && !in_array($k, $unsetColumns)) {
                         if (!empty($diplayColumns) && in_array($k, $diplayColumns)) {
                             $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
                         } else if (empty($diplayColumns)) {
@@ -357,7 +360,7 @@ class CompanyController extends BaseController
                         }
                     }
                 }
-                if (!is_array($val) && !in_array($k, ['_id', 'id', "company_id", "fetched_at"])) {
+                if (!is_array($val) && !in_array($k, $unsetColumns)) {
                     if (!empty($diplayColumns) && in_array($k, $diplayColumns)) {
                         $res[$k] = $val;
                     } else if (empty($diplayColumns)) {
