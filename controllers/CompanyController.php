@@ -385,7 +385,7 @@ class CompanyController extends BaseController
 
         $filters = Yii::$app->request->get();
         if ($searchModel->load($filters)) {
-            $data = array_filter($data, function ($item) use ($searchModel) {
+            $data = array_filter($response, function ($item) use ($searchModel) {
                 foreach ($searchModel->attributes as $field => $value) {
                     if ($value === '' || !isset($item[$field]))
                         continue;
@@ -395,6 +395,7 @@ class CompanyController extends BaseController
                 }
                 return true;
             });
+            $response = $data;
         }
 
 
