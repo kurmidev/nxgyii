@@ -337,9 +337,9 @@ class CompanyController extends BaseController
 
         $unsetColumns = ['_id', 'id', "company_id", "fetched_at"];
         $diplayColumns = [];
-        $colredefined = explode("_",str_replace("-","_",$col));
-        unset($colredefined[count($colredefined)-1]);
-        $colredefined = implode("_",$colredefined);
+        $colredefined = explode("_", str_replace("-", "_", $col));
+        unset($colredefined[count($colredefined) - 1]);
+        $colredefined = implode("_", $colredefined);
         if (str_contains($colredefined, "users")) {
             $diplayColumns = ["firstname", "lastname", "email", "state", "suspended", "password_date", "password_expired", "totp_enabled"];
         }
@@ -347,16 +347,15 @@ class CompanyController extends BaseController
             $diplayColumns = ["active", "displayName", "osFamily", "os", "version", "archFamily", "arch", "mdm", "isPolicyBound", "policyStats", "allowMultiFactorAuthentication", "lostMode", "lastContact", "agentVersion"];
         }
 
-        $response = $columns = [];
+        $response = $columns = $fields = [];
         foreach ($data as $doc) {
             $res = [];
             foreach ($doc as $k => $val) {
                 if (empty($response)) {
                     if (!is_array($val) && !in_array($k, $unsetColumns)) {
-                        if (!empty($diplayColumns) && in_array($k, $diplayColumns)) {
+                        if (empty($diplayColumns)) {
                             $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
-                        } else if (empty($diplayColumns)) {
-                            $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
+                            $fields[] = $k;
                         }
                     }
                 }
@@ -371,6 +370,34 @@ class CompanyController extends BaseController
             $response[] = $res;
         }
 
+        if (!empty($diplayColumns)) {
+            $columns = [];
+            foreach ($diplayColumns as $col) {
+                $columns[] = "$col:text:" . Utils::convertToHeaderCase($col);
+            }
+            $fields = $diplayColumns;
+        }
+
+        $searchModel = new \yii\base\DynamicModel($fields);
+        foreach ($fields as $field) {
+            $searchModel->addRule($field, 'safe');
+        }
+
+        $filters = Yii::$app->request->get();
+        if ($searchModel->load($filters)) {
+            $data = array_filter($data, function ($item) use ($searchModel) {
+                foreach ($searchModel->attributes as $field => $value) {
+                    if ($value === '' || !isset($item[$field]))
+                        continue;
+                    if (stripos((string) $item[$field], $value) === false) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+        }
+
+
         $dataProvider = new ArrayDataProvider([
             'allModels' => $response,
             'pagination' => [
@@ -384,6 +411,7 @@ class CompanyController extends BaseController
         return $this->render('collection-list', [
             'dataProvider' => $dataProvider,
             "columns" => $columns,
+            'searchModel' => $filters,
             "title" => $this->getTitle($col),
         ]);
     }

@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         CtGridView::widget([
             'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
             'columns' =>$columns
         ]);
     ?>
