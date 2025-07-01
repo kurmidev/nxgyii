@@ -333,14 +333,36 @@ class CompanyController extends BaseController
 
     public function actionDashboardDetail($col, $company_id)
     {
-        $data = (new Query())->from($col)->where(['company_id' => (int)$company_id])->all();
+        $data = (new Query())->from($col)->where(['company_id' => (int) $company_id])->all();
 
-        $response = [];
+        $unsetColumns = ['_id', 'id', "company_id", "fetched_at"];
+        $diplayColumns = [];
+        if (str_contains($col, "user_")) {
+            $diplayColumns = ["firstname", "lastname", "email", "state", "suspended", "password_date", "password_expired", "totp_enabled"];
+        }
+        if (str_contains($col, "device")) {
+            $diplayColumns = ["active", "displayName", "osFamily", "os", "version", "archFamily", "arch", "mdm", "isPolicyBound", "policyStats", "allowMultiFactorAuthentication", "lostMode", "lastContact", "agentVersion"];
+        }
+
+        $response = $columns = [];
         foreach ($data as $doc) {
             $res = [];
             foreach ($doc as $k => $val) {
+                if (empty($response)) {
+                    if (!is_array($val) && !in_array($k, ['_id', 'id', "company_id", "fetched_at"])) {
+                        if (!empty($diplayColumns) && in_array($k, $diplayColumns)) {
+                            $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
+                        } else if (empty($diplayColumns)) {
+                            $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
+                        }
+                    }
+                }
                 if (!is_array($val) && !in_array($k, ['_id', 'id', "company_id", "fetched_at"])) {
-                    $res[$k] = $val;
+                    if (!empty($diplayColumns) && in_array($k, $diplayColumns)) {
+                        $res[$k] = $val;
+                    } else if (empty($diplayColumns)) {
+                        $res[$k] = $val;
+                    }
                 }
             }
             $response[] = $res;
@@ -352,16 +374,6 @@ class CompanyController extends BaseController
                 'pageSize' => 100,
             ]
         ]);
-
-        $data = $dataProvider->getModels();
-        $columns = [];
-        if (!empty($data[0])) {
-            foreach ($data[0] as $key => $value) {
-                if (!is_array($value) && !in_array($key, ['_id', 'id', "company_id", "fetched_at"])) {
-                    $columns[] = "$key:text:" . ucwords($key);
-                }
-            }
-        }
         if (empty($columns)) {
             $columns = ["Srno"];
         }
