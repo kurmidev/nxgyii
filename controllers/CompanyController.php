@@ -372,8 +372,8 @@ class CompanyController extends BaseController
 
         if (!empty($diplayColumns)) {
             $columns = [];
-            foreach ($diplayColumns as $col) {
-                $columns[] = "$col:text:" . Utils::convertToHeaderCase($col);
+            foreach ($diplayColumns as $column) {
+                $columns[] = "$column:text:" . Utils::convertToHeaderCase($column);
             }
             $fields = $diplayColumns;
         }
