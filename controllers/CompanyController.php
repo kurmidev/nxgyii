@@ -343,7 +343,7 @@ class CompanyController extends BaseController
         if (str_contains($colredefined, "users_")) {
             $diplayColumns = ["firstname", "lastname", "email", "state", "suspended", "password_date", "password_expired", "totp_enabled"];
         }
-        if (str_contains($colredefined, "devices")) {
+        if (str_contains($colredefined, "managed_device")) {
             $diplayColumns = ["active", "displayName", "osFamily", "os", "version", "archFamily", "arch", "mdm", "isPolicyBound", "policyStats", "allowMultiFactorAuthentication", "lostMode", "lastContact", "agentVersion"];
         }
 
