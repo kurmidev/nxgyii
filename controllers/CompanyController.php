@@ -411,7 +411,7 @@ class CompanyController extends BaseController
         return $this->render('collection-list', [
             'dataProvider' => $dataProvider,
             "columns" => $columns,
-            'searchModel' => $filters,
+            'searchModel' => $searchModel,
             "title" => $this->getTitle($col),
         ]);
     }
