@@ -51,7 +51,7 @@ class ComponentModel extends \yii\base\Model
 
     public function sanitizedata($attribute, $params)
     {
-        if (!in_array($this->display_type,[Constants::DISPLAY_TYPE_TABLE,Constants::DISPLAY_TYPE_MULPLECARD])) {
+        if (!in_array($this->display_type,[Constants::DISPLAY_TYPE_TABLE,Constants::DISPLAY_TYPE_MULTIPLECARD])) {
             if (empty($this->$attribute['label']) || empty($this->$attribute['values']) || empty($this->$attribute['action'])) {
                 $this->addError($attribute, 'Please fill all the fields');
             }

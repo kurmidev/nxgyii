@@ -62,7 +62,7 @@ if (
 
     echo $row1 . $row2 . $row3;
 
-} else if($model->display_type == Constants::DISPLAY_TYPE_MULPLECARD){
+} else if($model->display_type == Constants::DISPLAY_TYPE_MULTIPLECARD){
 
      $label = Html::tag('div', Html::tag('label', 'Category', ['class' => 'form-label']), ['class' => 'col-lg-6 col-sm-6 col-xs-6']);
 
