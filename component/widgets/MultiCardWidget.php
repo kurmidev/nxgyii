@@ -30,7 +30,7 @@ class MultiCardWidget extends Widget
                     $value['value'],
                     ["class" => "d-flex align-items-center"]
                 ) .
-                Html::tag("div", $value['category'], ["class" => "fw-semibold fs-6"]),
+                Html::tag("div", Utils::convertToHeaderCase($value['category']), ["class" => "fw-semibold fs-6"]),
                 ["class" => "border border-gray-300 border-dashed rounded min-w-200px py-3 px-4 me-6 mb-3"]
             );
         }
