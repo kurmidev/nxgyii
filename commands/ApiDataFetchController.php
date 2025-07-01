@@ -167,6 +167,12 @@ class ApiDataFetchController extends ConsoleController
             $resp = str_replace('<last7daydate>', date("Y-m-d",strtotime("-7 days")), $resp);
         }
 
+        if (str_contains($resp, '<currentdateZformat>')) {
+            $resp = str_replace('<currentdateZformat>', date("Y-m-d\TH:i:s.u\Z"), $resp);
+        }
+
+
+        
 
         return $resp;
     }
@@ -300,8 +306,8 @@ class ApiDataFetchController extends ConsoleController
         $remaingCount = $remaingCount == 0 ? $skip * self::DEFAULT_PAGE_SIZE : $remaingCount;
         $endpoint = $url;
         $endpoint .= (str_contains($url, "?") ? "&" : "?") . "skip=" . $skip;
-
-        $data = $this->getData($endpoint, $method, $headers);
+        $params =  !empty($params)? $this->mergeKeyValue($params, "", $config["extraData"]):[];
+        $data = $this->getData($endpoint, $method, $headers,$params);
         print_r([
             "header" => $headers,
             "url" => $endpoint,
@@ -318,7 +324,7 @@ class ApiDataFetchController extends ConsoleController
         }
         $records = !empty($data["body"]["results"]) ? $data["body"]["results"] :
             (!empty($data['body']['resources']) ? $data['body']['resources'] :
-                (!empty($data['body']) ? $data['body'] : []));
+                (!empty($data['alerts']) ? $data['alerts'] : $data['body']));
         if (!empty($records)) {
             unset($records['totalCount']);
             $savedCount = $this->saveToMongoCollection($collectionName, $records, $config);
