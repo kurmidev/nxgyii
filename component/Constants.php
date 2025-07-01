@@ -117,7 +117,8 @@ class Constants
     const DISPLAY_TYPE_LINE_CHART = 5;
 
     const DISPLAY_TYPE_XY_BUBBLE_CHART = 6;
-    const DISPLAY_TYPE_MULPLECARD = 7;
+    const DISPLAY_TYPE_MULTIPLECARD = 8;
+    const DISPLAY_TYPE_LISTVIEW = 7;
 
     const DISPLAY_LABEL = [
         self::DISPLAY_TYPE_TABLE => "Table",
@@ -126,7 +127,8 @@ class Constants
         self::DISPLAY_TYPE_CARD => "Card",
         self::DISPLAY_TYPE_LINE_CHART => "Inline Chart",
         self::DISPLAY_TYPE_XY_BUBBLE_CHART => "Bubble Chart",
-        self::DISPLAY_TYPE_MULPLECARD => "Multiple Card",
+        self::DISPLAY_TYPE_MULTIPLECARD => "Multiple Card",
+        self::DISPLAY_TYPE_LISTVIEW => "List View",
     ];
 
     const PRODUCT_ID_JUMPCLOUD = 1;

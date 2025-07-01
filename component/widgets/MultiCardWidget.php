@@ -1,7 +1,6 @@
 <?php
 
 namespace app\component\widgets;
-
 use app\component\Utils;
 use Yii;
 use yii\base\Widget;
@@ -15,7 +14,6 @@ class MultiCardWidget extends Widget
     public $collection;
     public $company_id;
 
-
     public function init()
     {
         parent::init();
@@ -23,59 +21,41 @@ class MultiCardWidget extends Widget
 
     public function run()
     {
-
-        $display = [];
-        
-        if (is_array($this->data)) {
-            foreach ($this->data as $key => $value) {
-                $dis = "";
-                foreach ($value['value'] as $k => $v) {
-                    $header = Html::tag(
-                        "div",
-                         Utils::convertToHeaderCase($k),
-                        ["class" => "text-gray-700 fw-semibold fs-6 me-2"]
-                    );
-                    $body = Html::tag(
-                        "div",
-                        Html::a(
-                         Html::tag("span", $v, ["class" => "text-gray-900 fw-bolder fs-6"]),
-                         Yii::$app->urlManager->createUrl(["company/dashboard-detail","col"=>$this->collection,"company_id"=>$this->company_id]),
-                        ),
-                        ["class" => "d-flex align-items-senter"]
-                    );
-
-                    $dis .= Html::tag(
-                        "div",
-                        $header . $body,
-                        ["class" => "d-flex flex-stack"]
-                    ). Html::tag("div", "", ["class" => "separator separator-dashed my-3"]);
-                }
-                $cardBody = Html::tag(
+        $content = [];
+        foreach ($this->data as $key => $value) {
+            $content[] = Html::tag(
+                "div",
+                Html::tag(
                     "div",
-                    $dis,
-                    ["class" => "card-body pt-5"]
-                ) ;
-                $cardHead = Html::tag(
-                    "div",
-                    Html::tag(
-                        "h3",
-                        Html::tag("span", $this->reportName, ["class" => "card-label fw-bold text-gray-900"]),
-                        ["class" => "card-title align-items-start flex-column"]
-                    ),
-                    ["class" => "card-header pt-5"]
-                );
-                $display[] = Html::tag(
-                    "div",
-                    Html::tag(
-                        "div",
-                        $cardHead . $cardBody,
-                        ["class" => "card card-flush h-lg-100"]
-                    ),
-                    ["class" => "col-sm-4 mb-5 mb-xl-10"]
-                );
-            }
+                    $value['value'],
+                    ["class" => "d-flex align-items-center"]
+                ) .
+                Html::tag("div", $value['category'], ["class" => "fw-semibold fs-6"]),
+                ["class" => "border border-gray-300 border-dashed rounded min-w-200px py-3 px-4 me-6 mb-3"]
+            );
         }
-        return implode("", $display);
+
+        $body = Html::tag(
+            "div",
+            Html::a(
+                implode($content),
+                Yii::$app->urlManager->createUrl(["company/dashboard-detail", "col" => $this->collection, "company_id" => $this->company_id, "view" => "tabs"]),
+            ),
+            ["class" => "card-body p-0"]
+        );
+
+
+        $header = Html::tag(
+            "div",
+            Html::tag('h3', $this->reportName, ["class" => "card-title"]),
+            ["class" => "card-header"]
+        );
+
+        return Html::tag(
+            "div",
+            $header . $body,
+            ["class" => "card shadow-sm"]
+        );
     }
 
 }

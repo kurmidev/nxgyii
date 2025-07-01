@@ -70,8 +70,7 @@ class Utils
                 return $number;
             }
         } catch (Exception $ex) {
-            print_r($number);
-            exit;
+            
         }
 
     }

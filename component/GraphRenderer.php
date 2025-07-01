@@ -3,6 +3,7 @@ namespace app\component;
 
 use app\component\widgets\BarChartWidget;
 use app\component\widgets\LineChartWidget;
+use app\component\widgets\ListCardWidget;
 use app\component\widgets\MultiCardWidget;
 use app\component\widgets\PiesChartWidget;
 use app\component\widgets\SingleCardWidget;
@@ -67,16 +68,84 @@ class GraphRenderer
             }
             $display_columns = $item["display_columns"];
             $chartData = "";
-            if ($item->display_type == Constants::DISPLAY_TYPE_MULPLECARD) {
-                $chartData = $this->generateMultiCardData($filters, $display_columns, $collectionName);
+            if ($item->display_type == Constants::DISPLAY_TYPE_LISTVIEW) {
+                $chartData = $this->generateListViewData($filters, $display_columns, $collectionName);
             } else if ($item->display_type == Constants::DISPLAY_TYPE_TABLE) {
                 $chartData = $this->generateTableData($filters, $display_columns, $collectionName);
+            } else if ($item->display_type == Constants::DISPLAY_TYPE_MULTIPLECARD) {
+                $chartData = $this->generateMultiCardData($filters, $display_columns, $collectionName);
             } else {
                 $chartData = $this->generateChartData($filters, $display_columns, $collectionName, $otherfilter);
             }
             $graph[$item->id] = $this->generateGraphViews($chartData, $item->report_name, $item->display_type);
         }
         return $graph;
+    }
+
+    private function generateMultiCardData($filters, $display_columns, $collectionName){
+         $label = $action = $value = null;
+        $query = (new Query())->from($collectionName);
+        if (!empty($filters)) {
+            foreach ($filters as $field => $condition) {
+                $query = $this->generateWhereConditions($query, $field, $condition["attr"], $condition['val']);
+            }
+        }
+        if (!empty($otherfilter)) {
+            $query->andWhere($otherfilter);
+        }
+        if (!empty($display_columns)) {
+            $label = $display_columns['label'];
+            $action = $display_columns['action'];
+            $value = $display_columns['values'];
+            $select = [];
+            if (!empty($label)) {
+                $select = array_merge($select, [$label]);
+            }
+
+            if (!empty($value)) {
+                $select = array_merge($select, is_array($value) ? $value : [$value]);
+            }
+
+            if (!empty($select)) {
+                $query->select($select);
+            }
+        }
+
+        $data = [];
+        $queryData = $query->all();
+        if (!empty($queryData)) {
+            foreach ($queryData as $key => $val) {
+                switch ($action) {
+                    case 'sum':
+                        $data[$val[$label]] = $val[$value] + $data[$val[$label]];
+                        break;
+                    case 'avg':
+                        $data[$val[$label]]['v'] += $val[$value];
+                        $data[$val[$label]]['c'] += 1;
+                        break;
+                    case 'count':
+                        if (!empty($val[$label]) && empty($data[$val[$label]])) {
+                            $data[$val[$label]] = 0;
+                        }
+                        if (!empty($val[$label])) {
+                            $data[$val[$label]] += 1;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        $finalData = [];
+        if (!empty($data)) {
+            foreach ($data as $k => $v) {
+                if ($action == 'avg') {
+                    $finalData[] = ["category" => $k, "value" => $v['v'] / $v['c']];
+                }
+                $finalData[] = ["category" => $k, "value" => $v];
+            }
+        }
+        return ["data" => $finalData, "collection" => $collectionName, "company_id" => $this->companyId];
     }
 
     private function generateWhereConditions($query, $field, $attr, $value)
@@ -188,7 +257,7 @@ class GraphRenderer
         return ["data" => $finalData, "collection" => $collectionName, "company_id" => $this->companyId];
     }
 
-    function generateMultiCardData($filters, $display_columns, $collectionName)
+    function generateListViewData($filters, $display_columns, $collectionName)
     {
         $label = $action = $value = null;
         $query = (new Query())->from($collectionName);
@@ -286,7 +355,7 @@ class GraphRenderer
                 return TableWidget::widget(['dataProvider' => $chartData['dataProvider'], "columns" => $chartData['columns'], 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_CARD:
                 return SingleCardWidget::widget(["data" => $chartData['data'], "collection" => $chartData['collection'], "company_id" => $chartData["company_id"], 'reportName' => $reportName]);
-            case Constants::DISPLAY_TYPE_MULPLECARD:
+            case Constants::DISPLAY_TYPE_MULTIPLECARD:
                 return MultiCardWidget::widget(["data" => $chartData['data'], "collection" => $chartData['collection'], "company_id" => $chartData["company_id"], 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_BAR_CHART:
                 return BarChartWidget::widget(["data" => $chartData['data'], "collection" => $chartData['collection'], "company_id" => $chartData["company_id"], 'reportName' => $reportName]);
@@ -296,6 +365,8 @@ class GraphRenderer
                 return PiesChartWidget::widget(["data" => $chartData['data'], "collection" => $chartData['collection'], "company_id" => $chartData["company_id"], 'reportName' => $reportName]);
             case Constants::DISPLAY_TYPE_XY_BUBBLE_CHART:
                 return XYBubbleChartWidget::widget(["data" => $chartData['data'], "collection" => $chartData['collection'], "company_id" => $chartData["company_id"], 'reportName' => $reportName]);
+            case Constants::DISPLAY_TYPE_LISTVIEW:
+                return ListCardWidget::widget(["data" => $chartData['data'], "collection" => $chartData['collection'], "company_id" => $chartData["company_id"], 'reportName' => $reportName]);
             default:
                 return null;
         }
