@@ -349,13 +349,14 @@ class CompanyController extends BaseController
             (!empty($component->display_columns['status']) ? $component->display_columns['status'] : "");
 
         $response = $columns = $fields = [];
+        $cnt = 0;
         foreach ($data as $doc) {
             if (empty($response[$doc[$groupFiledName]])) {
                 $response[$doc[$groupFiledName]] = [];
             }
 
             foreach ($doc as $k => $val) {
-                if (empty($response)) {
+                if ($cnt<=0) {
                     if (!is_array($val) && !in_array($k, $unsetColumns)) {
                             $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
                             $fields[] = $k;
@@ -365,6 +366,7 @@ class CompanyController extends BaseController
                     $response[$doc[$groupFiledName]][$k] = $val;
                 }
             }
+            $cnt++;
         }
 
         $searchModel = new \yii\base\DynamicModel($fields);
