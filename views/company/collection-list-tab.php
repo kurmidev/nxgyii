@@ -41,6 +41,6 @@ $tabBody = Html::tag("div", implode("", $body), ["class" => "tab-content", "id" 
 ?>
 <div class="card card-flush">
     <?= $this->render('@app/views/layouts/_contentheader', ['title' => $title]) ?>
-    <?= $header ?>
-    <?= $body ?>
+    <?= $tabHead ?>
+    <?= $tabBody ?>
 </div>
