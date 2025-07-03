@@ -331,7 +331,90 @@ class CompanyController extends BaseController
         ]);
     }
 
-    public function actionDashboardDetail($col, $company_id)
+    public function actionDashboardDetail($col, $company_id, $view = null, $comp = null)
+    {
+        if (!empty($view)) {
+            return $this->tabDashboardView($col, $company_id, $comp);
+        } else {
+            return $this->otherDashboardView($col, $company_id);
+        }
+    }
+
+    private function tabDashboardView($col, $company_id, $comp)
+    {
+        $data = (new Query())->from($col)->where(['company_id' => (int) $company_id])->all();
+        $unsetColumns = ['_id', 'id', "company_id", "fetched_at"];
+        $component = ProductsApiCompanyMapping::findOne(['id' => $comp]);
+        $groupFiledName = !empty($component->display_columns['values'][0]) ? $component->display_columns['values'][0] :
+            (!empty($component->display_columns['status']) ? $component->display_columns['status'] : "");
+
+        $response = $columns = $fields = [];
+        foreach ($data as $doc) {
+            $res = [];
+
+            if (empty($response[$doc[$groupFiledName]])) {
+                $response[$doc[$groupFiledName]] = [];
+            }
+
+            foreach ($doc as $k => $val) {
+                if (empty($response)) {
+                    if (!is_array($val) && !in_array($k, $unsetColumns)) {
+                        if (empty($diplayColumns)) {
+                            $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
+                            $fields[] = $k;
+                        }
+                    }
+                }
+                if (!is_array($val) && !in_array($k, $unsetColumns)) {
+                    $response[$doc[$groupFiledName]][$k] = $val;
+                }
+            }
+        }
+
+        $searchModel = new \yii\base\DynamicModel($fields);
+        foreach ($fields as $field) {
+            $searchModel->addRule($field, 'safe');
+        }
+
+        $filters = Yii::$app->request->get();
+        if ($searchModel->load($filters)) {
+            $data = array_filter($response, function ($item) use ($searchModel) {
+                foreach ($searchModel->attributes as $field => $value) {
+                    if ($value === '' || !isset($item[$field]))
+                        continue;
+                    if (stripos((string) $item[$field], $value) === false) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+            $response = $data;
+        }
+
+        $dataProvider = [];
+        foreach ($response as $groupField => $groupData) {
+            $dataProvider[$groupField] = new ArrayDataProvider([
+                'allModels' => $groupData,
+                'pagination' => [
+                    'pageSize' => 100,
+                ]
+            ]);
+        }
+
+        if (empty($columns)) {
+            $columns = ["Srno"];
+        }
+
+        return $this->render('collection-list-tab', [
+            'dataProvider' => $dataProvider,
+            "columns" => $columns,
+            'searchModel' => $searchModel,
+            "title" => $this->getTitle($col),
+        ]);
+
+    }
+
+    private function otherDashboardView($col, $company_id)
     {
         $data = (new Query())->from($col)->where(['company_id' => (int) $company_id])->all();
 

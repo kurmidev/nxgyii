@@ -73,7 +73,7 @@ class GraphRenderer
             } else if ($item->display_type == Constants::DISPLAY_TYPE_TABLE) {
                 $chartData = $this->generateTableData($filters, $display_columns, $collectionName);
             } else if ($item->display_type == Constants::DISPLAY_TYPE_MULTIPLECARD) {
-                $chartData = $this->generateMultiCardData($filters, $display_columns, $collectionName);
+                $chartData = $this->generateMultiCardData($filters, $display_columns, $collectionName,$item->id);
             } else {
                 $chartData = $this->generateChartData($filters, $display_columns, $collectionName, $otherfilter);
             }
@@ -82,7 +82,7 @@ class GraphRenderer
         return $graph;
     }
 
-    private function generateMultiCardData($filters, $display_columns, $collectionName){
+    private function generateMultiCardData($filters, $display_columns, $collectionName,$componentId){
          $label = $action = $value = null;
         $query = (new Query())->from($collectionName);
         if (!empty($filters)) {
@@ -145,7 +145,7 @@ class GraphRenderer
                 $finalData[] = ["category" => $k, "value" => $v];
             }
         }
-        return ["data" => $finalData, "collection" => $collectionName, "company_id" => $this->companyId];
+        return ["data" => $finalData, "collection" => $collectionName, "company_id" => $this->companyId,"componentId"=>$componentId];
     }
 
     private function generateWhereConditions($query, $field, $attr, $value)

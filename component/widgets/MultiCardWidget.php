@@ -14,6 +14,8 @@ class MultiCardWidget extends Widget
     public $collection;
     public $company_id;
 
+    public $componentId;
+
     public function init()
     {
         parent::init();
@@ -22,6 +24,7 @@ class MultiCardWidget extends Widget
     public function run()
     {
         $content = [];
+        
         foreach ($this->data as $key => $value) {
             $content[] = Html::tag(
                 "div",
@@ -39,7 +42,7 @@ class MultiCardWidget extends Widget
             "div",
             Html::a(
                 implode($content),
-                Yii::$app->urlManager->createUrl(["company/dashboard-detail", "col" => $this->collection, "company_id" => $this->company_id, "view" => "tabs"]),
+                Yii::$app->urlManager->createUrl(["company/dashboard-detail", "col" => $this->collection, "company_id" => $this->company_id, "view" => "tabs","comp"=>$this->componentId]),
             ),
             ["class" => "card-body p-0"]
         );
