@@ -363,7 +363,7 @@ class CompanyController extends BaseController
                     }
                 }
                 if (!is_array($val) && !in_array($k, $unsetColumns)) {
-                    $response[$doc[$groupFiledName]][$k] = $val;
+                    $response[$doc[$groupFiledName]][$cnt][$k] = $val;
                 }
             }
             $cnt++;
