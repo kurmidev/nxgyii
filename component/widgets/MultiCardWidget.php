@@ -42,11 +42,10 @@ class MultiCardWidget extends Widget
             "div",
             Html::a(
                 implode($content),
-                Yii::$app->urlManager->createUrl(["company/dashboard-detail", "col" => $this->collection, "company_id" => $this->company_id, "view" => "tabs","comp"=>$this->componentId]),
+                Yii::$app->urlManager->createUrl(["company/dashboard-detail", "col" => $this->collection, "company_id" => $this->company_id, "view" => "tabs"])."&comp=".$this->componentId,
             ),
             ["class" => "card-body p-0"]
         );
-
 
         $header = Html::tag(
             "div",
