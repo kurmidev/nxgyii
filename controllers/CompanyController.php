@@ -350,8 +350,6 @@ class CompanyController extends BaseController
 
         $response = $columns = $fields = [];
         foreach ($data as $doc) {
-            $res = [];
-
             if (empty($response[$doc[$groupFiledName]])) {
                 $response[$doc[$groupFiledName]] = [];
             }
@@ -359,10 +357,8 @@ class CompanyController extends BaseController
             foreach ($doc as $k => $val) {
                 if (empty($response)) {
                     if (!is_array($val) && !in_array($k, $unsetColumns)) {
-                        if (empty($diplayColumns)) {
                             $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
                             $fields[] = $k;
-                        }
                     }
                 }
                 if (!is_array($val) && !in_array($k, $unsetColumns)) {
