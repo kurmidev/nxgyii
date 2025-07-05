@@ -514,7 +514,7 @@ class CompanyController extends BaseController
         return ucfirst(strtolower($word));
     }
 
-    public function actionAlerts($type = "all")
+    public function actionAlerts($status = "all")
     {
         $model = new CustomData();
         list($columns, $fields, $response, $counts) = $model->getAlertsData();
@@ -536,7 +536,7 @@ class CompanyController extends BaseController
             'dataProvider' => $dataProvider,
             "columns" => $columns,
             'searchModel' => $searchModel,
-            "type" => $type,
+            "type" => $status,
             "title" => "Alerts",
             "counts" => $counts
         ]);

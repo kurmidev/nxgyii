@@ -23,20 +23,20 @@ $this->params['breadcrumbs'][] = $this->title;
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link <?= ($type == "ALERT_STATUS_ACKNOWLEDGED" ? "active" : "") ?>"
-                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "type" => "ALERT_STATUS_ACKNOWLEDGED"]) ?>"
+                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "status" => "ALERT_STATUS_ACKNOWLEDGED"]) ?>"
                     role="tab">
                     Acknowledged (<?=$counts["ALERT_STATUS_ACKNOWLEDGED"]?>)
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link <?= ($type == "ALERT_STATUS_RESOLVED" ? "active" : "") ?>" 
-                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "type" => "ALERT_STATUS_RESOLVED"]) ?>">
+                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "status" => "ALERT_STATUS_RESOLVED"]) ?>">
                     Resolved (<?=$counts["ALERT_STATUS_RESOLVED"] + $counts['ALERT_STATUS_AUTO_RESOLVED']?>)
                 </a>
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link <?= ($type == "" ? "active" : "") ?>" 
-                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "type" => ""]) ?>" >
+                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "status" => ""]) ?>" >
                     All (<?=$counts["ALERT_STATUS_RESOLVED"] + $counts['ALERT_STATUS_AUTO_RESOLVED'] + $counts['ALERT_STATUS_OPEN'] + $counts['ALERT_STATUS_ACKNOWLEDGED']?>)
                 </a>
             </li>
