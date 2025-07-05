@@ -77,6 +77,8 @@ abstract class BaseChartWidget extends Widget
                 $initScript
             });
         JS;
+        $view->registerJsFile("https://cdn.amcharts.com/lib/5/index.js");
+        $view->registerJsFile("https://cdn.amcharts.com/lib/5/xy.js");
         $view->registerJs($js);
     }
 }
