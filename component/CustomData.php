@@ -96,7 +96,7 @@ class CustomData
      */
     public function getFilterData($searchModel, $response, $filters)
     {
-        if ($searchModel->load($filters)) {
+        if ($searchModel->load($filters,'')) {
             $data = array_filter($response, function ($item) use ($searchModel) {
                 foreach ($searchModel->attributes as $field => $value) {
                     if ($value === '' || !isset($item[$field]))
