@@ -118,10 +118,11 @@ class CustomData
         $response = [];
         $params = [
             "service" => ["all"],
-            "start_time" => date("Y-m-d\TH:i:s.000\Z",strtotime("-6 hours")),
+            "start_time" => date("Y-m-d\TH:i:s.000\Z",strtotime("-3 hours")),
+            "end_time" => date("Y-m-d\TH:i:s.000\Z"),
             "timezone" => "+0530",
-            "interval_unit" => "m",
-            "interval_value" => "4",
+            "interval_unit" => "h",
+            "interval_value" => "1",
             "q" => ""
         ];
 
