@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link <?= ($type == "" ? "active" : "") ?>" 
-                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "type" => "all"]) ?>" >
+                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "type" => ""]) ?>" >
                     All (<?=$counts["ALERT_STATUS_RESOLVED"] + $counts['ALERT_STATUS_AUTO_RESOLVED'] + $counts['ALERT_STATUS_OPEN'] + $counts['ALERT_STATUS_ACKNOWLEDGED']?>)
                 </a>
             </li>
