@@ -124,13 +124,29 @@ class CustomData
             "interval_value" => "4",
             "q" => ""
         ];
-        $data = $this->getDataFromJumpCloud("/v2/directoryinsights/events/interval", "POST", $params);
-        if (!empty($data)) {
-            foreach ($data as $d) {
-                $response[] = [
-                    "category" => date("H:i", $d['key']),
-                    "value" => $d['doc_count']
-                ];
+
+        $user = User::currentUser();
+        if ($user->company_id > 0) {
+            $model = ProductCompanyMapping::findOne(
+                [
+                    'company_id' => $user->company_id,
+                    "product_id" => Yii::$app->params['services']["JUMPCLOUD"]
+                ]
+            );
+            $token = $model->credentials['token'];
+            $url = "https://api.jumpcloud.com/insights/directory/v1/events/interval";
+            $headers = [
+                'x-api-key' => $token,
+                'Content-Type' => 'application/json',
+            ];
+            $data = $this->getData($url, "POST", $headers, $params);
+            if (!empty($data)) {
+                foreach ($data as $d) {
+                    $response[] = [
+                        "category" => date("H:i", $d['key']),
+                        "value" => $d['doc_count']
+                    ];
+                }
             }
         }
         return $response;
@@ -164,12 +180,12 @@ class CustomData
                 foreach ($doc as $k => $val) {
                     if (empty($response)) {
                         if (!is_array($val) && !in_array($k, $unsetColumns)) {
-                            $columns[] = str_replace("@","",$k).":text:" . Utils::convertToHeaderCase($k);
+                            $columns[] = str_replace("@", "", $k) . ":text:" . Utils::convertToHeaderCase($k);
                             $fields[] = $k;
                         }
                     }
                     if (!is_array($val) && !in_array($k, $unsetColumns)) {
-                        $res[str_replace("@","",$k)] = $val;
+                        $res[str_replace("@", "", $k)] = $val;
                     }
                 }
                 $response[] = $res;
