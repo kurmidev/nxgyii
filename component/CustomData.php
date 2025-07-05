@@ -118,11 +118,11 @@ class CustomData
         $response = [];
         $params = [
             "service" => ["all"],
-            "start_time" => date("Y-m-d\TH:i:s.000\Z",strtotime("-3 hours")),
+            "start_time" => date("Y-m-d\TH:i:s.000\Z",strtotime("-1 hours")),
             "end_time" => date("Y-m-d\TH:i:s.000\Z"),
             "timezone" => "+0530",
-            "interval_unit" => "h",
-            "interval_value" => "1",
+            "interval_unit" => "m",
+            "interval_value" => "4",
             "q" => ""
         ];
 
@@ -143,13 +143,14 @@ class CustomData
             $data = $this->getData($url, "POST", $headers, $params);
             if (!empty($data["body"]["buckets"])) {
                 foreach ($data["body"]["buckets"] as $d) {
-                    $response[] = [
+                    $response[date("H:i", $d['key'])] = [
                         "category" => date("H:i", $d['key']),
                         "value" => $d['doc_count']
                     ];
                 }
             }
         }
+        ksort($response);
         return $response;
     }
 
