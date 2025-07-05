@@ -48,7 +48,7 @@ abstract class BaseChartWidget extends Widget
                     "div",
                     Html::tag(
                         "div",
-                        Html::tag("div", "", ["id" => $this->chartId, "data-kt-line" => 10, "style" => "height: 200px;width:400px;"]),
+                        Html::tag("div", "", ["id" => $this->chartId, "data-kt-line" => 10, "style" => "height: auto;width:auto;"]),
                         ["class" => "d-flex flex-center me-5 pt-2"]
                     ),
                     ["class" => "d-flex flex-center pt-2"]
