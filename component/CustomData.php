@@ -30,7 +30,7 @@ class CustomData
                 'Content-Type' => 'application/json',
             ];
             $data = $this->getData($url, $method, $headers, $params);
-            return !empty($data["body"]["results"]) ? $data["body"]["results"] : [];
+            return !empty($data["body"]["alerts"]) ? $data["body"]["alerts"] : [];
         }
         return [];
     }
