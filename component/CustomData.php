@@ -115,6 +115,7 @@ class CustomData
 
     public function getInsightsGarphData()
     {
+        $response = [];
         $params = [
             "service" => ["all"],
             "start_time" => date("Y-m-d/TH:i:s.000Z"),
@@ -125,7 +126,6 @@ class CustomData
         ];
         $data = $this->getDataFromJumpCloud("/v2/directoryinsights/events/interval", "POST", $params);
         if (!empty($data)) {
-            $response = [];
             foreach($data as $d){
                 $response[] = [
                     "category" => date("H:i",$d['key']),
@@ -133,6 +133,7 @@ class CustomData
                 ];
             }
         }
+        return $response;
     }
 
     public function getInsightData()

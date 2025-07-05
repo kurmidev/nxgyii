@@ -545,7 +545,7 @@ class CompanyController extends BaseController
     public function actionInsights()
     {
         $model = new CustomData();
-        list($columns, $fields, $response, $counts) = $model->getInsightData();
+        list($columns, $fields, $response) = $model->getInsightData();
         $gaphData = $model->getInsightsGarphData();
         $searchModel = $model->getSearchModel($fields);
 
@@ -566,7 +566,6 @@ class CompanyController extends BaseController
             "columns" => $columns,
             'searchModel' => $searchModel,
             "title" => "Insights",
-            "counts" => $counts,
             "gaphData"=>$gaphData
         ]);
     }
