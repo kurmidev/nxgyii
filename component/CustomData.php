@@ -118,7 +118,7 @@ class CustomData
         $response = [];
         $params = [
             "service" => ["all"],
-            "start_time" => date("Y-m-d\TH:i:s.000\Z",strtotime("-7 days")),
+            "start_time" => date("Y-m-d\TH:i:s.000\Z",strtotime("-6 hours")),
             "timezone" => "+0530",
             "interval_unit" => "m",
             "interval_value" => "4",
@@ -140,8 +140,8 @@ class CustomData
                 'Content-Type' => 'application/json',
             ];
             $data = $this->getData($url, "POST", $headers, $params);
-            if (!empty($data["data"]["buckets"])) {
-                foreach ($data["data"]["buckets"] as $d) {
+            if (!empty($data["body"]["buckets"])) {
+                foreach ($data["body"]["buckets"] as $d) {
                     $response[] = [
                         "category" => date("H:i", $d['key']),
                         "value" => $d['doc_count']
