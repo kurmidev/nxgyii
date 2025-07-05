@@ -164,12 +164,12 @@ class CustomData
                 foreach ($doc as $k => $val) {
                     if (empty($response)) {
                         if (!is_array($val) && !in_array($k, $unsetColumns)) {
-                            $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
+                            $columns[] = str_replace("@","",$k).":text:" . Utils::convertToHeaderCase($k);
                             $fields[] = $k;
                         }
                     }
                     if (!is_array($val) && !in_array($k, $unsetColumns)) {
-                        $res[$k] = $val;
+                        $res[str_replace("@","",$k)] = $val;
                     }
                 }
                 $response[] = $res;
