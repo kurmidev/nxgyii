@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\component\CustomData;
 use app\component\GraphRenderer;
 use app\component\Utils;
 use app\models\Company;
@@ -356,10 +357,10 @@ class CompanyController extends BaseController
             }
 
             foreach ($doc as $k => $val) {
-                if ($cnt<=0) {
+                if ($cnt <= 0) {
                     if (!is_array($val) && !in_array($k, $unsetColumns)) {
-                            $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
-                            $fields[] = $k;
+                        $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
+                        $fields[] = $k;
                     }
                 }
                 if (!is_array($val) && !in_array($k, $unsetColumns)) {
@@ -513,4 +514,31 @@ class CompanyController extends BaseController
         return ucfirst(strtolower($word));
     }
 
+    public function actionAlerts($type = "all")
+    {
+        $model = new CustomData();
+        list($columns, $fields, $response, $counts) = $model->getAlertsData();
+        $searchModel = $model->getSearchModel($fields);
+
+        $filters = Yii::$app->request->get();
+        if (!empty($filters)) {
+            $response = $model->getFilterData($searchModel, $response, $filters);
+        }
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $response,
+            'pagination' => [
+                'pageSize' => 100,
+            ]
+        ]);
+
+        return $this->render('alerts', [
+            'dataProvider' => $dataProvider,
+            "columns" => $columns,
+            'searchModel' => $searchModel,
+            "type" => $type,
+            "title" => "Alerts",
+            "counts" => $counts
+        ]);
+    }
 }
