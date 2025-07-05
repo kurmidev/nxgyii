@@ -30,7 +30,8 @@ class CustomData
                 'Content-Type' => 'application/json',
             ];
             $data = $this->getData($url, $method, $headers, $params);
-            return !empty($data["body"]["alerts"]) ? $data["body"]["alerts"] : [];
+            return !empty($data["body"]["alerts"]) ? $data["body"]["alerts"] :
+                (!empty($data['body']['buckets']) ? $data['body']['buckets'] : []);
         }
         return [];
     }
@@ -96,7 +97,7 @@ class CustomData
      */
     public function getFilterData($searchModel, $response, $filters)
     {
-        if ($searchModel->load($filters,'')) {
+        if ($searchModel->load($filters, '')) {
             $data = array_filter($response, function ($item) use ($searchModel) {
                 foreach ($searchModel->attributes as $field => $value) {
                     if ($value === '' || !isset($item[$field]))
@@ -122,7 +123,16 @@ class CustomData
             "interval_value" => "4",
             "q" => ""
         ];
-        return $this->getDataFromJumpCloud("/v2/directoryinsights/events/interval", "POST", $params);
+        $data = $this->getDataFromJumpCloud("/v2/directoryinsights/events/interval", "POST", $params);
+        if (!empty($data)) {
+            $response = [];
+            foreach($data as $d){
+                $response[] = [
+                    "category" => date("H:i",$d['key']),
+                    "value" => $d['doc_count']
+                ];
+            }
+        }
     }
 
     public function getInsightData()
@@ -132,6 +142,7 @@ class CustomData
             "start_time" => date("Y-m-d/TH:i:s.000Z", strtotime("-7 days")),
         ];
         $user = User::currentUser();
+        $unsetColumns = ['_id', 'id', "company_id", "fetched_at"];
         if ($user->company_id > 0) {
             $model = ProductCompanyMapping::findOne(
                 [
@@ -146,6 +157,32 @@ class CustomData
                 'Content-Type' => 'application/json',
             ];
             $data = $this->getData($url, "POST", $headers, $params);
+            $response = $columns = $fields = [];
+            foreach ($data as $doc) {
+                $res = [];
+                foreach ($doc as $k => $val) {
+                    if (empty($response)) {
+                        if (!is_array($val) && !in_array($k, $unsetColumns)) {
+                            if (empty($diplayColumns)) {
+                                $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
+                                $fields[] = $k;
+                            }
+                        }
+                    }
+                    if (!is_array($val) && !in_array($k, $unsetColumns)) {
+                        if (!empty($diplayColumns) && in_array($k, $diplayColumns)) {
+                            $res[$k] = $val;
+                        } else if (empty($diplayColumns)) {
+                            $res[$k] = $val;
+                        }
+                    }
+                }
+                $response[] = $res;
+            }
+            if (empty($columns)) {
+                $columns = ["Srno"];
+            }
+            return [$columns, $fields, $response];
         }
         return [];
     }

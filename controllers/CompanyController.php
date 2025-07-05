@@ -541,4 +541,33 @@ class CompanyController extends BaseController
             "counts" => $counts
         ]);
     }
+
+    public function actionInsights()
+    {
+        $model = new CustomData();
+        list($columns, $fields, $response, $counts) = $model->getInsightData();
+        $gaphData = $model->getInsightsGarphData();
+        $searchModel = $model->getSearchModel($fields);
+
+        $filters = Yii::$app->request->get();
+        if (!empty($filters)) {
+            $response = $model->getFilterData($searchModel, $response, $filters);
+        }
+
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $response,
+            'pagination' => [
+                'pageSize' => 100,
+            ]
+        ]);
+
+        return $this->render('insights', [
+            'dataProvider' => $dataProvider,
+            "columns" => $columns,
+            'searchModel' => $searchModel,
+            "title" => "Insights",
+            "counts" => $counts,
+            "gaphData"=>$gaphData
+        ]);
+    }
 }
