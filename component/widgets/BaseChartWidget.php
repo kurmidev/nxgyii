@@ -55,7 +55,7 @@ abstract class BaseChartWidget extends Widget
                 ) ,
                 ["class" => "card-body pt-2 pb-4 d-flex align-items-center"]
             ),
-            ["class" => "card col-lg-5 col-sm-5 col-xs-5 m-2"]
+            ["class" => "card col-lg-12 col-sm-12 col-xs-12 m-2"]
         );
 
 
