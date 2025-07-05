@@ -126,9 +126,9 @@ class CustomData
         ];
         $data = $this->getDataFromJumpCloud("/v2/directoryinsights/events/interval", "POST", $params);
         if (!empty($data)) {
-            foreach($data as $d){
+            foreach ($data as $d) {
                 $response[] = [
-                    "category" => date("H:i",$d['key']),
+                    "category" => date("H:i", $d['key']),
                     "value" => $d['doc_count']
                 ];
             }
@@ -159,23 +159,17 @@ class CustomData
             ];
             $data = $this->getData($url, "POST", $headers, $params);
             $response = $columns = $fields = [];
-            foreach ($data as $doc) {
+            foreach ($data["body"] as $doc) {
                 $res = [];
                 foreach ($doc as $k => $val) {
                     if (empty($response)) {
                         if (!is_array($val) && !in_array($k, $unsetColumns)) {
-                            if (empty($diplayColumns)) {
-                                $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
-                                $fields[] = $k;
-                            }
+                            $columns[] = "$k:text:" . Utils::convertToHeaderCase($k);
+                            $fields[] = $k;
                         }
                     }
                     if (!is_array($val) && !in_array($k, $unsetColumns)) {
-                        if (!empty($diplayColumns) && in_array($k, $diplayColumns)) {
-                            $res[$k] = $val;
-                        } else if (empty($diplayColumns)) {
-                            $res[$k] = $val;
-                        }
+                        $res[$k] = $val;
                     }
                 }
                 $response[] = $res;
