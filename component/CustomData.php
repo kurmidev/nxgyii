@@ -49,7 +49,7 @@ class CustomData
         $response = $columns = $fields = [];
         foreach ($data as $doc) {
             $res = [];
-            if (!empty($counts[$doc['status']])) {
+            if (isset($counts[$doc['status']])) {
                 $counts[$doc['status']]++;
             }
             foreach ($doc as $k => $val) {
@@ -86,6 +86,14 @@ class CustomData
         return $searchModel;
     }
 
+    /**
+     * Filters response data based on search model attributes
+     *
+     * @param \yii\base\DynamicModel $searchModel Dynamic search model containing filter attributes
+     * @param array $response Original data array to be filtered
+     * @param array $filters Input filters to apply to the search model
+     * @return array Filtered response data matching search criteria
+     */
     public function getFilterData($searchModel, $response, $filters)
     {
         if ($searchModel->load($filters)) {

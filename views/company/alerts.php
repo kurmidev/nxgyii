@@ -16,26 +16,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="rounded border p-10">
         <ul class="nav nav-tabs nav-line-tabs mb-5 fs-6">
             <li class="nav-item" role="presentation">
-                <a class="nav-link <?= ($type == "open" ? "active" : "") ?>" 
-                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "type" => "open"]) ?>">
+                <a class="nav-link <?= ($type == "ALERT_STATUS_OPEN" ? "active" : "") ?>" 
+                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "type" => "ALERT_STATUS_OPEN"]) ?>">
                     Open (<?=$counts["ALERT_STATUS_OPEN"]?>)
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link <?= ($type == "acknowledged" ? "active" : "") ?>"
-                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "type" => "acknowledged"]) ?>"
+                <a class="nav-link <?= ($type == "ALERT_STATUS_ACKNOWLEDGED" ? "active" : "") ?>"
+                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "type" => "ALERT_STATUS_ACKNOWLEDGED"]) ?>"
                     role="tab">
                     Acknowledged (<?=$counts["ALERT_STATUS_ACKNOWLEDGED"]?>)
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link <?= ($type == "resolved" ? "active" : "") ?>" 
-                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "type" => "resolved"]) ?>">
+                <a class="nav-link <?= ($type == "ALERT_STATUS_RESOLVED" ? "active" : "") ?>" 
+                    href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "type" => "ALERT_STATUS_RESOLVED"]) ?>">
                     Resolved (<?=$counts["ALERT_STATUS_RESOLVED"] + $counts['ALERT_STATUS_AUTO_RESOLVED']?>)
                 </a>
             </li>
             <li class="nav-item" role="presentation">
-                <a class="nav-link <?= ($type == "all" ? "active" : "") ?>" 
+                <a class="nav-link <?= ($type == "" ? "active" : "") ?>" 
                     href="<?= Yii::$app->urlManager->createUrl(["company/alerts", "type" => "all"]) ?>" >
                     All (<?=$counts["ALERT_STATUS_RESOLVED"] + $counts['ALERT_STATUS_AUTO_RESOLVED'] + $counts['ALERT_STATUS_OPEN'] + $counts['ALERT_STATUS_ACKNOWLEDGED']?>)
                 </a>
