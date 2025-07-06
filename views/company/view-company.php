@@ -59,13 +59,9 @@ $assignedProduct = Products::find()->active()->andWhere(['id' => $model->getProd
                         <!-- move button to right -->
                         <a class="btn btn-danger fw-semibold" href="https://console.jumpcloud.com/login/admin"
                             target="_blank">JUMPCLOUD</a>
-                    </div>
-                    <div class="d-flex flex-row flex-end gap-5">
                         <!-- move button to right -->
                         <a class="btn btn-danger fw-semibold"
                             href="<?= Yii::$app->urlManager->createUrl(["company/alerts"]) ?>">Alerts</a>
-                    </div>
-                    <div class="d-flex flex-row flex-end gap-5">
                         <!-- move button to right -->
                         <a class="btn btn-danger fw-semibold"
                             href="<?= Yii::$app->urlManager->createUrl(["company/insights"]) ?>">Insights</a>
