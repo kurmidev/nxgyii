@@ -43,22 +43,22 @@ class MenuHelper
                 ],
             ]
         ],
-        'alerts' => [
-            "config" => ["class" => "menu-item-icon icon tx-18 fa fa-wrench"],
-            "items" => [
-                'alerts' => [
-                    ['module' => '', 'controller' => 'company', 'action' => 'alerts', 'label' => 'Alerts', 'is_menu' => true, 'icon' => " ki-abstract-40"],
-                ],
-            ]
-        ],
-        'insights' => [
-            "config" => ["class" => "menu-item-icon icon tx-18 fa fa-wrench"],
-            "items" => [
-                'insights' => [
-                    ['module' => '', 'controller' => 'company', 'action' => 'insights', 'label' => 'Insights', 'is_menu' => true, 'icon' => " ki-folder"],
-                ],
-            ]
-        ],
+        // 'alerts' => [
+        //     "config" => ["class" => "menu-item-icon icon tx-18 fa fa-wrench"],
+        //     "items" => [
+        //         'alerts' => [
+        //             ['module' => '', 'controller' => 'company', 'action' => 'alerts', 'label' => 'Alerts', 'is_menu' => true, 'icon' => " ki-abstract-40"],
+        //         ],
+        //     ]
+        // ],
+        // 'insights' => [
+        //     "config" => ["class" => "menu-item-icon icon tx-18 fa fa-wrench"],
+        //     "items" => [
+        //         'insights' => [
+        //             ['module' => '', 'controller' => 'company', 'action' => 'insights', 'label' => 'Insights', 'is_menu' => true, 'icon' => " ki-folder"],
+        //         ],
+        //     ]
+        // ],
         'designation' => [
             "config" => ["class" => "menu-item-icon icon tx-18 fa fa-wrench"],
             "items" => [

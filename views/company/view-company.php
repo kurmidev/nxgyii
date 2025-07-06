@@ -54,12 +54,23 @@ $assignedProduct = Products::find()->active()->andWhere(['id' => $model->getProd
                     'dataProvider' => $dataProvider
                 ]) ?>
             <?php } else { ?>
-                <?php if ($dash == Constants::PRODUCT_ID_JUMPCLOUD ) { ?>
+                <?php if ($dash == Constants::PRODUCT_ID_JUMPCLOUD) { ?>
                     <div class="d-flex flex-row flex-end gap-5">
                         <!-- move button to right -->
-                        <a class="btn btn-danger fw-semibold" href="https://console.jumpcloud.com/login/admin" target="_blank">JUMPCLOUD</a>
-                        </div>
-                    <?php } ?>
+                        <a class="btn btn-danger fw-semibold" href="https://console.jumpcloud.com/login/admin"
+                            target="_blank">JUMPCLOUD</a>
+                    </div>
+                    <div class="d-flex flex-row flex-end gap-5">
+                        <!-- move button to right -->
+                        <a class="btn btn-danger fw-semibold"
+                            href="<?= Yii::$app->urlManager->createUrl(["company/alerts"]) ?>">Alerts</a>
+                    </div>
+                    <div class="d-flex flex-row flex-end gap-5">
+                        <!-- move button to right -->
+                        <a class="btn btn-danger fw-semibold"
+                            href="<?= Yii::$app->urlManager->createUrl(["company/insights"]) ?>">Insights</a>
+                    </div>
+                <?php } ?>
                 <div id="kt_app_content_container" class="app-container row container-fluid ">
                     <?php foreach ($graph as $graphItem) { ?>
                         <?= $graphItem ?>
