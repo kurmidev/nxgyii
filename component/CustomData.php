@@ -12,6 +12,7 @@ use yii\mongodb\Query;
 class CustomData
 {
     use FetchData;
+    public $company_id;
 
     private function getDataFromJumpCloud($endpoints, $method, $params)
     {
@@ -162,10 +163,11 @@ class CustomData
         ];
         $user = User::currentUser();
         $unsetColumns = ['_id', 'id', "company_id", "fetched_at"];
-        if ($user->company_id > 0) {
+        $company_id = !empty($user->company_id)?$user->company_id:$this->company_id;
+        if ($company_id > 0) {
             $model = ProductCompanyMapping::findOne(
                 [
-                    'company_id' => $user->company_id,
+                    'company_id' => $company_id,
                     "product_id" => Yii::$app->params['services']["JUMPCLOUD"]
                 ]
             );

@@ -542,9 +542,10 @@ class CompanyController extends BaseController
         ]);
     }
 
-    public function actionInsights()
+    public function actionInsights($company_id=0)
     {
         $model = new CustomData();
+        $model->company_id = $company_id;
         list($columns, $fields, $response) = $model->getInsightData();
         $gaphData = $model->getInsightsGarphData();
         $searchModel = $model->getSearchModel($fields);

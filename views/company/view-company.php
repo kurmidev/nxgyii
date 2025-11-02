@@ -64,7 +64,7 @@ $assignedProduct = Products::find()->active()->andWhere(['id' => $model->getProd
                             href="<?= Yii::$app->urlManager->createUrl(["company/alerts"]) ?>">Alerts</a>
                         <!-- move button to right -->
                         <a class="btn btn-danger fw-semibold"
-                            href="<?= Yii::$app->urlManager->createUrl(["company/insights"]) ?>">Insights</a>
+                            href="<?= Yii::$app->urlManager->createUrl(["company/insights","company_id"=>$model->id]) ?>">Insights</a>
                     </div>
                 <?php } ?>
                 <div id="kt_app_content_container" class="app-container row container-fluid ">
