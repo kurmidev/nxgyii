@@ -119,7 +119,7 @@ class CustomData
         $response = [];
         $params = [
             "service" => ["all"],
-            "start_time" => date("Y-m-d\TH:i:s.000\Z",strtotime("-12 hours")),
+            "start_time" => date("Y-m-d\T00:00:00.000\Z",strtotime("-0 hours")),
             "end_time" => date("Y-m-d\TH:i:s.000\Z"),
             "timezone" => "+0530",
             "interval_unit" => "m",
@@ -160,7 +160,7 @@ class CustomData
     {
         $params = [
             "service" => ["all"],
-            "start_time" => date("Y-m-d\TH:i:s.000\Z", strtotime("-7 days")),
+            "start_time" => date("Y-m-d\T00:00:00.000\Z", strtotime("-0 days")),
         ];
         $user = User::currentUser();
         $unsetColumns = ['_id', 'id', "company_id", "fetched_at"];
