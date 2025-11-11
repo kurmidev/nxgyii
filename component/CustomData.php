@@ -119,7 +119,7 @@ class CustomData
         $response = [];
         $params = [
             "service" => ["all"],
-            "start_time" => date("Y-m-d\TH:i:s.000\Z",strtotime("-1 hours")),
+            "start_time" => date("Y-m-d\TH:i:s.000\Z",strtotime("-12 hours")),
             "end_time" => date("Y-m-d\TH:i:s.000\Z"),
             "timezone" => "+0530",
             "interval_unit" => "m",
@@ -128,7 +128,8 @@ class CustomData
         ];
 
         $user = User::currentUser();
-        if ($user->company_id > 0) {
+        $company_id = !empty($user->company_id)?$this->company_id:$user->company_id;    
+        if (!empty($company_id)) {
             $model = ProductCompanyMapping::findOne(
                 [
                     'company_id' => $user->company_id,
@@ -163,8 +164,8 @@ class CustomData
         ];
         $user = User::currentUser();
         $unsetColumns = ['_id', 'id', "company_id", "fetched_at"];
-        $company_id = !empty($user->company_id)?$user->company_id:$this->company_id;
-        if ($company_id > 0) {
+        $company_id = !empty($user->company_id)?$this->company_id:$user->company_id;    
+        if (!empty($company_id)) {
             $model = ProductCompanyMapping::findOne(
                 [
                     'company_id' => $company_id,

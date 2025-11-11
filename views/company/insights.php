@@ -2,6 +2,7 @@
 
 use app\component\CtGridView;
 use app\component\widgets\BarChartWidget;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\search\CitySearch */
@@ -14,7 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="card card-flush">
     <?= $this->render('@app/views/layouts/_contentheader', ['title' => $title]) ?>
-    <?= BarChartWidget::widget(["reportName" => " Event Frequency", "data" => $gaphData]) ?>
+    <?php Pjax::begin(); ?>
+    <?= BarChartWidget::widget(["reportName" => " Event Frequency", "data" => array_values($gaphData)]) ?>
 
     <?=
         CtGridView::widget([
@@ -23,4 +25,5 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => $columns
         ]);
     ?>
+    <?php Pjax::end(); ?>
 </div>

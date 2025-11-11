@@ -58,6 +58,7 @@ class InitController extends ConsoleController
                 $d->name = $dn;
                 $d->parent_id = 0;
                 $d->status = Constants::STATUS_ACTIVE;
+                $d->menu = MenuHelper::$menu;
                 if ($d->validate() && $d->save()) {
                     Designation::updateAll(['id' => $ds], ['id' => $d->id]);
                     $role = [];
