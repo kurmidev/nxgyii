@@ -132,7 +132,7 @@ class CustomData
         if (!empty($company_id)) {
             $model = ProductCompanyMapping::findOne(
                 [
-                    'company_id' => $user->company_id,
+                    'company_id' => $company_id,
                     "product_id" => Yii::$app->params['services']["JUMPCLOUD"]
                 ]
             );
