@@ -23,6 +23,7 @@ use Yii;
  */
 class Designation extends \app\models\BaseModel
 {
+    public $menu;
     /**
      * {@inheritdoc}
      */
