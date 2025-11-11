@@ -128,7 +128,7 @@ class CustomData
         ];
 
         $user = User::currentUser();
-        $company_id = !empty($user->company_id)?$this->company_id:$user->company_id;    
+        $company_id = !empty($this->company_id)?$this->company_id:$user->company_id;    
         if (!empty($company_id)) {
             $model = ProductCompanyMapping::findOne(
                 [
@@ -164,7 +164,7 @@ class CustomData
         ];
         $user = User::currentUser();
         $unsetColumns = ['_id', 'id', "company_id", "fetched_at"];
-        $company_id = !empty($user->company_id)?$this->company_id:$user->company_id;    
+        $company_id = !empty($this->company_id)?$this->company_id:$user->company_id;    
         if (!empty($company_id)) {
             $model = ProductCompanyMapping::findOne(
                 [
