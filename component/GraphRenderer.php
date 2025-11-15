@@ -270,7 +270,7 @@ class GraphRenderer
             }
         }
         if (!empty($display_columns)) {
-            if ($display_columns['label']) {
+            if (isset($display_columns['label'])) {
                 $label = $display_columns['label'];
             }
             $value = !empty($display_columns['value']) ? $display_columns['value'] : [];
