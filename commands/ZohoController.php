@@ -31,10 +31,10 @@ class ZohoController extends ConsoleController
                 'priority' => Constants::LABEL_PRIORITY[$m->priority],
                 'status' => "OPEN",
                 "contact" => [
-                    "firstName" => $m->addedByUser->name,
+                    "firstName" => !empty($m->addedByUser)?($m->addedByUser->name):"",
                     "lastName" => "",
-                    "email" => $m->addedByUser->email,
-                    "phone" => $m->addedByUser->mobile_no,
+                    "email" => !empty($m->addedByUser)?$m->addedByUser->email:"",
+                    "phone" => !empty($m->addedByUser)?$m->addedByUser->mobile_no:""
                 ]
             ];
             $response = $this->zoho->createComplaint($data);
