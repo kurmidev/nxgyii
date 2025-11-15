@@ -113,6 +113,8 @@ class ApiDataFetchController extends ConsoleController
                         }
 
                         $resp[$ds["key"]] = $val;
+                    }else if (!empty($ds['key']) && empty($ds['val'])) {
+                        $resp[$ds["key"]] = "";
                     }
                 }
                 break;
@@ -269,11 +271,20 @@ class ApiDataFetchController extends ConsoleController
         if ($res) {
             $body = !empty($res['body']['results']) ? $res['body']['results'] : $res['body'];
             if(!empty($res['body']['alert_severity_counts']) || !empty($res['body']['system_alert_severity_counts'])){
+                $body = [];
                 foreach($res['body']['alert_severity_counts'] as $key => $value){
-                    $body[$key] = $value;
+                    if(is_array($value)){
+                        foreach($value as $k => $v){
+                            $body[$k] = $v;
+                        }   
+                    }
                 }
                 foreach($res['body']['system_alert_severity_counts'] as $key => $value){
-                    $body["system_".$key] = $value;
+                    if(is_array($value)){
+                        foreach($value as $k => $v){
+                            $body["system_".$k] = $v;
+                        }   
+                    }
                 }
             }
             if (!empty($body)) {
