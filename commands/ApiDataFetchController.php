@@ -268,10 +268,13 @@ class ApiDataFetchController extends ConsoleController
         
         if ($res) {
             $body = !empty($res['body']['results']) ? $res['body']['results'] : $res['body'];
-            if(!empty($res['body']['alert_severity_counts'])){
-                $body = $res['body']['alert_severity_counts'];
-            }else if(!empty($res['body']['system_alert_severity_counts'])){
-
+            if(!empty($res['body']['alert_severity_counts']) || !empty($res['body']['system_alert_severity_counts'])){
+                foreach($res['body']['alert_severity_counts'] as $key => $value){
+                    $body[$key] = $value;
+                }
+                foreach($res['body']['system_alert_severity_counts'] as $key => $value){
+                    $body["system_".$key] = $value;
+                }
             }
             if (!empty($body)) {
                 $this->saveToMongoCollection($collectionName, $body, $config);
