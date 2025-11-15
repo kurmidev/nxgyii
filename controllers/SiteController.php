@@ -53,11 +53,15 @@ class SiteController extends BaseController
         }
     }
 
-    private function clientDashboard(){
+    private function clientDashboard()
+    {
         $response = [];
         $companies = Company::find()->active()->all();
-        foreach($companies as $company){
-            $response[$company->name] = (new GraphRenderer($company->id, null,  true))->render();
+        foreach ($companies as $company) {
+            $comp = (new GraphRenderer($company->id, null, true))->render();
+            if (!empty($comp)) {
+                $response[$company->name] = $comp;
+            }
         }
         return $response;
     }
@@ -268,7 +272,7 @@ LEFT JOIN (
                     "label" => $product->products->name,
                     "count" => 1
                 ];
-            }else{
+            } else {
                 $response[$product->products->name]["count"] += 1;
             }
 
@@ -277,8 +281,8 @@ LEFT JOIN (
                     "Product" => $product->products->name,
                     "Company" => $product->company->name
                 ];
-            }else{
-                $table[$product->products->name]["Company"] .=",". $product->company->name;
+            } else {
+                $table[$product->products->name]["Company"] .= "," . $product->company->name;
             }
         }
         return [
