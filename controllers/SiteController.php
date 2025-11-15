@@ -10,6 +10,7 @@ use app\models\LoginForm;
 use app\models\User;
 use app\component\Constants as C;
 use app\component\Constants;
+use app\component\GraphRenderer;
 use app\models\Categories;
 use app\models\Company;
 use app\models\ProductCompanyMapping;
@@ -45,10 +46,20 @@ class SiteController extends BaseController
             return $this->redirect($url);
         } elseif (in_array($userType, [C::USERTYPE_ADMIN, C::USERTYPE_MSO])) {
             return $this->render('admin-index', [
+                "company_dahboard" => $this->clientDashboard(),
                 "complaint" => $this->getComplaintDashboardData(),
                 "company" => $this->getCompanyDashboardData(),
             ]);
         }
+    }
+
+    private function clientDashboard(){
+        $response = [];
+        $companies = Company::find()->active()->all();
+        foreach($companies as $company){
+            $response[$company->name] = (new GraphRenderer($company->id, null,  true))->render();
+        }
+        return $response;
     }
 
     /**

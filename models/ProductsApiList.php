@@ -120,9 +120,9 @@ class ProductsApiList extends \app\models\BaseModel
     {
         $resp = [];
         foreach ($params as $key => $value) {
-            if (!empty($value['val'])) {
+            // if (!empty($value['val'])) {
                 array_push($resp, $value);
-            }
+            //}
         }
         return $resp;
     }

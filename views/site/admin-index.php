@@ -41,12 +41,25 @@ if (!empty($complaint["compayWise"])) {
 <div id="kt_app_content_container" class="app-container  container-fluid ">
     <div class="row g-5 g-xxl-10">
         <div class="col-xl-12 col-xxl-12 mb-xl-12 mb-xxl-10">
-             <?= PieChartWidget::widget([
+            <!-- <?= PieChartWidget::widget([
                 "title" => "Products",
                 "data" => $company['bar'],
                 "viewObj" => $this,
                 "listData" => $company['table']
-            ]) ?>
+            ]) ?> -->
+
+            <?php if(!empty($company_dahboard)){ ?>
+                <?php foreach($company_dahboard as $name=>$graph){ ?>
+                <h1><?=$name ?>?></h1>
+                <div id="kt_app_content_container" class="app-container row container-fluid ">
+                <?php foreach ($graph as $graphItem) { ?>
+                    <?= $graphItem ?>
+                <?php } ?>
+            </div>        
+                <?php }?>
+           <?php ?> 
+
+            
         </div>
 
         <div class="col-xl-5 col-xxl-5 mb-xl-5 mb-xxl-10">
