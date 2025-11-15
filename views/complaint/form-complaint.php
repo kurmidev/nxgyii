@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $catgory = ArrayHelper::map(Categories::find()->where(['status' => Constants::STATUS_ACTIVE])->andWhere([">", "parent_id", 0])->all(), 'id', 'name');
 
 $user = User::currentUser();
-$company = ArrayHelper::map(Company::find()->active()->all(), 'id', 'name');
+$company = ArrayHelper::map(Company::find()->active()->defaultCondition()->all(), 'id', 'name');
 ?>
 <?= $this->render('@app/views/layouts/_contentheader') ?>
 <?php $form = ActiveForm::begin(['id' => 'form-complaint', 'options' => ['enctype' => 'mutipart/form-data', 'class' => 'row g-3']]); ?>
