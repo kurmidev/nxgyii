@@ -43,7 +43,7 @@ if (!empty($complaint["compayWise"])) {
         <div class="col-xl-12 col-xxl-12 mb-xl-12 mb-xxl-10">
             <?php if (!empty($company_dahboard)) { ?>
                 <?php foreach ($company_dahboard as $name => $graph) { ?>
-                    <h1><?= $name ?>?></h1>
+                    <h3><?= $name ?></h3>
                     <div id="kt_app_content_container" class="app-container row container-fluid ">
                         <?php foreach ($graph as $graphItem) { ?>
                             <?= $graphItem ?>
