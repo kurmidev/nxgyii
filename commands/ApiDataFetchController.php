@@ -257,7 +257,7 @@ class ApiDataFetchController extends ConsoleController
 
         $params = !empty($api['api_body']) ? $this->mergeKeyValue($api['api_body'], "", $config["extraData"]) : [];
         $res = $this->getData($url, $api['api_method'], $header, $params);
-
+        $collectionName = strtolower(preg_replace('/[^a-z0-9_]/i', '_', $api['api_name'] . "_" . $api['id']));
         print_r([
             "header" => $header,
             "url" => $url,
@@ -265,10 +265,16 @@ class ApiDataFetchController extends ConsoleController
             "params" => $params,
             "method" => $api['api_method']
         ]);
-        $collectionName = strtolower(preg_replace('/[^a-z0-9_]/i', '_', $api['api_name'] . "_" . $api['id']));
+        
         if ($res) {
-            if (!empty($res["body"]["results"])) {
-                $this->saveToMongoCollection($collectionName, $res["body"]["results"], $config);
+            $body = !empty($res['body']['results']) ? $res['body']['results'] : $res['body'];
+            if(!empty($res['body']['alert_severity_counts'])){
+                $body = $res['body']['alert_severity_counts'];
+            }else if(!empty($res['body']['system_alert_severity_counts'])){
+
+            }
+            if (!empty($body)) {
+                $this->saveToMongoCollection($collectionName, $body, $config);
             }
         }
     }
